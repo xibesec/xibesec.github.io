@@ -82,7 +82,7 @@ Isso **não** significa virar corporativo, frio ou publicitário. A identidade a
 **Explicitamente indefinido (não inventar)**
 
 - Grade de palestras e horários finais: "em definição". Nenhuma palestra tem horário confirmado, e por isso nenhuma entra em `contents/agenda`.
-- Palestrantes de 2026: quatro nomes anunciados pela organização, em `contents/palestrantes/`, cada um com a própria página em `/palestrantes/<slug>`. A lista **não** está fechada, e nome que a organização não anunciou não entra.
+- Palestrantes de 2026: sete nomes anunciados pela organização, em `contents/palestrantes/`, cada um com a própria página em `/palestrantes/<slug>`. A lista **não** está fechada, e nome que a organização não anunciou não entra.
 - Cotas Platina, Ouro e Prata: disponíveis, nenhum patrocinador confirmado nessas faixas.
 - Apoiadores/comunidades da página oficial: "a anunciar" na landing, embora o Sympla já liste 21 nomes (ver Evidence).
 - Número de desafios e valor da premiação do CTF. O formato já está definido: captura de flags, disputa individual.
