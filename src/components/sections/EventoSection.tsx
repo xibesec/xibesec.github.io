@@ -8,6 +8,7 @@ import type { Edicao, Secao, Settings, Sobre } from "@/lib/cms";
 // Rótulos de interface da seção.
 const EDICOES_LABEL = "Edições";
 const REGISTRO_PENDENTE = "registro em curadoria";
+const PAGINA_LABEL = "Ver a";
 
 // Ordinal da edição, derivado de quantas vieram antes. Nada de "Quarta" fixo:
 // o número muda sozinho quando uma edição entra ou sai do conteúdo.
@@ -29,6 +30,8 @@ const ordinal = (posicao: number) => ORDINAIS[posicao - 1] ?? `${posicao}ª`;
 export type EventoSectionProps = {
   sobre: Sobre;
   edicoes: Edicao[];
+  /** Ano para o endereço da página da edição, quando ela existe. */
+  paginasDeEdicoes: Record<number, string>;
   settings: Settings;
   secao: Secao;
   showEdicoes: boolean;
@@ -69,6 +72,7 @@ function Origem({ sobre }: { sobre: Sobre }) {
 export function EventoSection({
   sobre,
   edicoes,
+  paginasDeEdicoes,
   settings,
   secao,
   showEdicoes,
@@ -103,10 +107,16 @@ export function EventoSection({
       >
         {showEdicoes ? (
           <EdicoesBloco
-            edicoes={edicoes.map(({ ano, tema, foto }) => ({ ano, tema, foto }))}
+            edicoes={edicoes.map(({ ano, tema, foto }) => ({
+              ano,
+              tema,
+              foto,
+              href: paginasDeEdicoes[ano],
+            }))}
             atual={atual}
             edicoesLabel={EDICOES_LABEL}
             registroPendente={REGISTRO_PENDENTE}
+            paginaLabel={PAGINA_LABEL}
           >
             <Origem sobre={sobre} />
           </EdicoesBloco>

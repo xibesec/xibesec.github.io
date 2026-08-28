@@ -8,6 +8,8 @@ export type EditionCardProps = {
   /** Legenda à direita. Ausente a foto, declara a pendência. */
   caption?: string;
   photo?: string;
+  /** Página da edição. Ausente, o título fica em texto. */
+  href?: string;
   id?: string;
   /** Índice na pilha: controla o recuo do sticky e a inclinação. */
   index?: number;
@@ -28,6 +30,7 @@ export function EditionCard({
   title,
   caption = "Registro em curadoria",
   photo,
+  href,
   id,
   index = 0,
   active = false,
@@ -65,7 +68,16 @@ export function EditionCard({
       </div>
 
       <figcaption className="flex items-baseline justify-between gap-4 px-3 pt-3.5 pb-3">
-        <b className="text-cream text-[16px] font-bold">{title}</b>
+        {href ? (
+          <a
+            href={href}
+            className="text-cream ease-brand hover:text-orange focus-visible:text-orange text-[16px] font-bold transition-colors duration-250"
+          >
+            {title}
+          </a>
+        ) : (
+          <b className="text-cream text-[16px] font-bold">{title}</b>
+        )}
         {/* Com a foto no lugar, a legenda de pendência não tem mais o que
             declarar: sobra o ano, que é dado, e vai em menta. */}
         <span

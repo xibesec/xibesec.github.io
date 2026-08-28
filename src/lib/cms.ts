@@ -341,15 +341,25 @@ export function getEdicoes(): Edicao[] {
     .map((row) => ({
       ano: num(row, "ano"),
       tema: str(row, "tema"),
+      local: str(row, "local"),
+      endereco: str(row, "endereco"),
+      startsAt: str(row, "startsAt"),
+      endsAt: str(row, "endsAt"),
       // Número de público existe mas ainda não foi fornecido. Nulo é o estado
       // correto — nunca estimar. Ver PRODUCT.md.
       publico: typeof row.publico === "number" ? row.publico : null,
       resumo: str(row, "resumo"),
       foto: str(row, "foto"),
+      albumUrl: str(row, "albumUrl"),
       status:
         str(row, "status") === "confirmado" ? ("confirmado" as const) : ("a-conferir" as const),
     }))
     .sort((a, b) => a.ano - b.ano);
+}
+
+/** A edição de um ano, para a rota `/2023`. */
+export function getEdicao(ano: number): Edicao | undefined {
+  return getEdicoes().find((edicao) => edicao.ano === ano);
 }
 
 export function getCotas(): Cota[] {

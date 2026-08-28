@@ -26,7 +26,7 @@ import { SiteFooter } from "@/components/sections/SiteFooter";
 
 import { SchemaMarkup, eventSchema, organizationWithSocial, websiteSchema } from "@/lib/schema";
 import { buildShellFs } from "@/lib/shell-fs";
-import { itensDoMenu } from "@/lib/rotas";
+import { itensDoMenu, paginasDeEdicoes } from "@/lib/rotas";
 import { alvoCompra, ancoraViva, externo } from "@/lib/links";
 import { EVENTOS } from "@/lib/analytics";
 import { pageMetadata, site } from "@/lib/site";
@@ -165,6 +165,7 @@ export default function Page() {
           <EventoSection
             sobre={sobre}
             edicoes={edicoes}
+            paginasDeEdicoes={paginasDeEdicoes()}
             settings={settings}
             secao={secao("evento")}
             showEdicoes={sections.edicoes}

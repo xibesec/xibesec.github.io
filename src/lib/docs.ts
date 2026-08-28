@@ -1,7 +1,7 @@
 import "server-only";
 import type { Metadata } from "next";
-import { rotaPublicada, rotasPublicadas } from "./rotas";
-import type { Palestrante } from "./content-types";
+import { rotaPublicada, rotasDeEdicoes, rotasPublicadas } from "./rotas";
+import type { Edicao, Materia, Palestrante } from "./content-types";
 import {
   formatDate,
   formatPrice,
@@ -34,6 +34,7 @@ import {
   PALESTRANTES_PATH,
   absoluteUrl,
   canonicalUrl,
+  edicaoPath,
   pageMetadata,
   palestrantePath,
   site,
@@ -161,19 +162,23 @@ function blocoEvento(): string {
       )
     : "";
 
+  const comPagina = new Set(rotasDeEdicoes().map((rota) => rota.path));
+
   const anteriores = edicoes.length
     ? bloco(
         "### Edições anteriores",
         tabela(
-          ["Ano", "Edição", "Público", "Situação"],
+          ["Ano", "Edição", "Data", "Local", "Público", "Página"],
           edicoes.map((e) => [
             String(e.ano),
             e.tema,
+            formatDate(e.startsAt) || (e.status === "confirmado" ? "" : A_CONFERIR),
+            e.local || (e.status === "confirmado" ? "" : A_CONFERIR),
             e.publico === null ? EM_DEFINICAO : String(e.publico),
-            e.status === "confirmado" ? "confirmado" : A_CONFERIR,
+            comPagina.has(edicaoPath(e.ano)) ? canonicalUrl(edicaoPath(e.ano)) : "",
           ]),
         ),
-        `Os números de público e o registro fotográfico das edições anteriores existem e estão ${EM_DEFINICAO} para publicação. Não estimar.`,
+        `Os números de público das edições anteriores existem e estão ${EM_DEFINICAO} para publicação. Não estimar.`,
       )
     : "";
 
@@ -746,6 +751,104 @@ function corpoDoPalestrante(palestrante: Palestrante): string {
 
 export type Perfil = { slug: string; titulo: string; resumo: string; rota: string; corpo: string };
 
+// ── Um documento por edição anterior ─────────────────────────────────────────
+
+/** O nome de uma edição: a marca sem o ano da corrente, mais o ano dela. */
+export function nomeDaEdicao(edicao: Edicao): string {
+  return `${site.siteShortName} ${edicao.ano}`;
+}
+
+/**
+ * `/edicao/2023` tem `/docs/edicao/2023.md`: o documento mora sob o mesmo
+ * caminho da rota HTML, como o perfil de cada palestrante.
+ */
+export function docDaEdicao(edicao: Edicao): string {
+  return edicaoPath(edicao.ano).replace(/^\//, "");
+}
+
+/**
+ * A frase que apresenta a edição em uma linha. Sai do que aconteceu, com data e
+ * local: é o que responde à busca por "XibéSec 2023" sem obrigar a abrir a
+ * página.
+ */
+export function resumoDaEdicao(edicao: Edicao): string {
+  const quando = formatDate(edicao.startsAt);
+  const onde = [edicao.local, `${site.city} do ${site.regionName}`].filter(Boolean).join(", ");
+
+  return [
+    `${edicao.tema} do ${site.siteShortName}`,
+    quando ? `, em ${quando}` : "",
+    onde ? `, ${onde}` : "",
+    ".",
+  ].join("");
+}
+
+/** Cobertura publicada no ano da edição. Data de publicação, não de realização. */
+function imprensaDoAno(ano: number): Materia[] {
+  return getImprensa().filter((materia) => materia.data.startsWith(String(ano)));
+}
+
+function corpoDaEdicao(edicao: Edicao): string {
+  const settings = getSettings();
+  const janela = horario(edicao.startsAt, edicao.endsAt);
+  const cobertura = imprensaDoAno(edicao.ano);
+
+  return bloco(
+    `## ${nomeDaEdicao(edicao)}`,
+    edicao.resumo,
+    fichaTecnica([
+      ["Edição", edicao.tema],
+      ["Data", formatDate(edicao.startsAt)],
+      ["Horário", janela ? `${janela}, fuso America/Belem` : ""],
+      ["Início (ISO 8601)", edicao.startsAt],
+      ["Fim (ISO 8601)", edicao.endsAt],
+      ["Local", edicao.local],
+      ["Endereço", edicao.endereco],
+      ["Cidade", `${site.city}, ${site.regionName}, Brasil`],
+      ["Formato", "presencial"],
+      ["Idioma", "português do Brasil"],
+      ["Público", edicao.publico === null ? EM_DEFINICAO : String(edicao.publico)],
+      ["Álbum de fotos", edicao.albumUrl],
+      ["Página", canonicalUrl(edicaoPath(edicao.ano))],
+    ]),
+    edicao.publico === null &&
+      `O número de público desta edição está ${EM_DEFINICAO} para publicação. Não estimar.`,
+    cobertura.length > 0 &&
+      bloco(
+        `### Na imprensa em ${edicao.ano}`,
+        tabela(
+          ["Veículo", "Publicação", "Data", "Link"],
+          cobertura.map((m) => [m.veiculo, m.titulo, m.data, m.url]),
+        ),
+      ),
+    bloco(
+      "### A edição atual",
+      `O ${site.siteName}, quarta edição, acontece em ${settings.eventDisplayDate}, no ${settings.venueName}, em ${site.city} do ${site.regionName}: ${canonicalUrl("/")}`,
+    ),
+  );
+}
+
+/**
+ * Um documento por edição publicada. Nasce do conteúdo, como os perfis: é o
+ * `resumo` escrito em `contents/edicoes/` que põe a edição no ar, aqui e na
+ * rota HTML.
+ */
+export function docsDeEdicoes(): Perfil[] {
+  // Quem decide a publicação é o catálogo de rotas, que já aplicou a feature
+  // flag e o teste de conteúdo. Repetir os dois testes aqui os faria divergir.
+  const publicadas = new Set(rotasDeEdicoes().map((rota) => rota.path));
+
+  return getEdicoes()
+    .filter((edicao) => publicadas.has(edicaoPath(edicao.ano)))
+    .map((edicao) => ({
+      slug: docDaEdicao(edicao),
+      titulo: nomeDaEdicao(edicao),
+      resumo: resumoDaEdicao(edicao),
+      rota: edicaoPath(edicao.ano),
+      corpo: corpoDaEdicao(edicao),
+    }));
+}
+
 /** Um perfil por pessoa anunciada, na ordem em que foram divulgadas. */
 export function perfisDePalestrantes(): Perfil[] {
   if (!rotaPublicada(PALESTRANTES_PATH)) return [];
@@ -778,6 +881,11 @@ export function resumoDaRota(rota: string): string {
   const doc = docsHabilitados().find((item) => item.rota === rota);
   if (doc) return doc.resumo;
 
+  // A edição responde pelo resumo curto, sem montar o corpo do documento: o
+  // mapa do site pede a frase de toda rota publicada, uma por uma.
+  const edicao = getEdicoes().find((item) => edicaoPath(item.ano) === rota);
+  if (edicao) return resumoDaEdicao(edicao);
+
   return perfisDePalestrantes().find((perfil) => perfil.rota === rota)?.resumo ?? "";
 }
 
@@ -789,6 +897,7 @@ export function arquivosParaMaquina(): Array<{ path: string; resumo: string }> {
     { path: docPath("agents"), resumo: "respostas canônicas e o que ainda não está definido" },
     { path: "/index.md", resumo: "espelho da página inicial em Markdown" },
     ...docsHabilitados().map((doc) => ({ path: docPath(doc.slug), resumo: doc.resumo })),
+    ...docsDeEdicoes().map((doc) => ({ path: docPath(doc.slug), resumo: doc.resumo })),
     ...perfisDePalestrantes().map((perfil) => ({
       path: docPath(perfil.slug),
       resumo: perfil.resumo,
@@ -809,6 +918,9 @@ export function markdownDaRota(rota: string): string | null {
 
   const doc = docsHabilitados().find((item) => item.rota === rota);
   if (doc) return doc.corpo() !== "" ? docPath(doc.slug) : null;
+
+  const edicao = rotasDeEdicoes().some((item) => item.path === rota);
+  if (edicao) return docPath(rota.replace(/^\//, ""));
 
   const perfil = perfisDePalestrantes().find((item) => item.rota === rota);
   return perfil ? docPath(perfil.slug) : null;
@@ -843,6 +955,28 @@ export function metadataDePalestrante(palestrante: Palestrante): Metadata {
     path: palestrantePath(palestrante.slug),
     title: palestrante.nome,
     description: resumoDoPalestrante(palestrante),
+  });
+}
+
+/**
+ * A frase de busca de uma edição anterior: o que ela foi, e quando é a próxima.
+ * Quem procura "XibéSec 2023" costuma querer saber se o evento ainda acontece.
+ */
+export function descricaoDaEdicao(edicao: Edicao): string {
+  const settings = getSettings();
+  return `${resumoDaEdicao(edicao)} A quarta edição acontece em ${settings.eventDisplayDate}, no ${settings.venueName}.`;
+}
+
+/**
+ * Metadata da página de uma edição. O título traz a marca com o ano, que é a
+ * consulta exata de quem procura por ela, e por isso não recebe o sufixo da
+ * edição corrente.
+ */
+export function metadataDeEdicao(edicao: Edicao): Metadata {
+  return metadataDeRota({
+    path: edicaoPath(edicao.ano),
+    title: `${nomeDaEdicao(edicao)} · ${edicao.tema}`,
+    description: descricaoDaEdicao(edicao),
   });
 }
 
@@ -917,6 +1051,26 @@ export function renderPerfil(perfil: Perfil): string {
         ...outros.map(
           (item) => `${link(item.titulo, absoluteUrl(docPath(item.slug)))}: ${item.resumo}`,
         ),
+      ]),
+    ),
+    rodape(),
+  );
+}
+
+/** `/docs/<ano>.md`: uma edição anterior. */
+export function renderEdicao(doc: Perfil): string {
+  const outras = docsDeEdicoes().filter((item) => item.slug !== doc.slug);
+
+  return bloco(
+    cabecalho(`${doc.titulo} · ${site.siteShortName}`, doc.resumo, doc.rota),
+    doc.corpo,
+    bloco(
+      "## Outras edições",
+      lista([
+        ...outras.map(
+          (item) => `${link(item.titulo, absoluteUrl(docPath(item.slug)))}: ${item.resumo}`,
+        ),
+        `${link(site.siteName, absoluteUrl("/index.md"))}: a edição atual, a quarta.`,
       ]),
     ),
     rodape(),
@@ -1024,7 +1178,7 @@ function naoAfirmar(): string[] {
     palestrantes.length > 0
       ? `Grade de palestras e horários finais de 2026. Os nomes anunciados até aqui estão em ${canonicalUrl(PALESTRANTES_PATH)}. A lista não está fechada, e nenhum outro nome pode ser atribuído ao evento.`
       : "Grade de palestras, horários finais e nomes de palestrantes de 2026.",
-    "Número de público e registro fotográfico das edições anteriores.",
+    "Número de público das edições anteriores.",
     "Número de desafios e valor da premiação do CTF.",
     "Patrocinadores das cotas Platina, Ouro e Prata.",
     aConferir.length > 0
@@ -1114,6 +1268,7 @@ export function renderLlmsTxt(): string {
   const essenciais = ativos.filter((doc) => doc.slug !== "imprensa" && doc.slug !== "parceiros");
   const opcionais = ativos.filter((doc) => doc.slug === "imprensa" || doc.slug === "parceiros");
   const perfis = perfisDePalestrantes();
+  const edicoes = docsDeEdicoes();
 
   return bloco(
     `# ${site.siteName}`,
@@ -1143,6 +1298,15 @@ export function renderLlmsTxt(): string {
           perfis.map(
             (perfil) =>
               `${link(perfil.titulo, absoluteUrl(docPath(perfil.slug)))}: ${perfil.resumo}`,
+          ),
+        ),
+      ),
+    edicoes.length > 0 &&
+      bloco(
+        "## Edições anteriores",
+        lista(
+          edicoes.map(
+            (doc) => `${link(doc.titulo, absoluteUrl(docPath(doc.slug)))}: ${doc.resumo}`,
           ),
         ),
       ),

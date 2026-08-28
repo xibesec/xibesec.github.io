@@ -1,15 +1,18 @@
 import "server-only";
 import {
   credencial,
+  formatDate,
   formatPrice,
   getAgenda,
+  getEdicoes,
   getIngressos,
   getPalestrantes,
   getParceiros,
+  getPatrocinadores,
   getSettings,
   type Settings,
 } from "./cms";
-import { site } from "./site";
+import { edicaoPath, site } from "./site";
 
 /** Diretório é objeto; arquivo é lista de linhas. */
 export type ShellNode = string[] | { [name: string]: ShellNode };
@@ -50,7 +53,9 @@ export function buildShellFs(): ShellNode {
   const ingressos = getIngressos();
   const agenda = getAgenda();
   const parceiros = getParceiros();
+  const patrocinadores = getPatrocinadores();
   const palestrantes = getPalestrantes();
+  const edicoes = getEdicoes();
 
   const inicio = settings.eventStartDate ? hora.format(new Date(settings.eventStartDate)) : "";
   const fim = settings.eventEndDate ? hora.format(new Date(settings.eventEndDate)) : "";
@@ -129,19 +134,30 @@ export function buildShellFs(): ShellNode {
       ],
     },
 
+    // Uma edição, um arquivo, nomeado pelo ano: o mesmo nome do último segmento
+    // da página, e assim o que o shell conta não descola do que o site publica.
     edicoes: {
-      "primeira.txt": [`Primeira edição do XibéSec, em ${site.city}.`, "Registro em curadoria."],
-      "segunda.txt": [`Segunda edição do XibéSec, em ${site.city}.`, "Registro em curadoria."],
-      "terceira.txt": [`Terceira edição do XibéSec, em ${site.city}.`, "Registro em curadoria."],
-      "quarta.txt": [
+      ...Object.fromEntries(
+        edicoes.map((edicao) => [
+          `${edicao.ano}.txt`,
+          [
+            `${edicao.tema}${edicao.startsAt ? `, ${formatDate(edicao.startsAt)}` : ""}.`,
+            ...(edicao.local ? [`${edicao.local}, ${site.city} do ${site.regionName}.`] : []),
+            ...(edicao.publico === null ? ["Público em curadoria."] : []),
+            "",
+            `Página: ${edicaoPath(edicao.ano)}/`,
+          ],
+        ]),
+      ),
+      [`${new Date(settings.eventStartDate).getFullYear()}.txt`]: [
         `Quarta edição. ${settings.eventDisplayDate}${janela ? `, ${janela}` : ""}.`,
         `${settings.venueName}, ${site.city} do ${site.regionName}.`,
         "",
         "Dez horas de programação, duas trilhas e CTF presencial.",
       ],
       ".notas": [
-        "As fotos e os números de público das edições anteriores",
-        "estão em curadoria. Entram aqui quando chegarem.",
+        "Os números de público das edições anteriores estão",
+        "em curadoria. Entram aqui quando chegarem.",
       ],
     },
 
@@ -169,7 +185,7 @@ export function buildShellFs(): ShellNode {
         ),
       ],
       "patrocinio.txt": [
-        "Bronze    BugHunt (confirmado)",
+        ...patrocinadores.map((p) => `${p.cota.padEnd(10)}${p.nome} (confirmado)`),
         "",
         "Demais cotas: falar com a organização.",
         `Contato: ${site.contactEmail}`,

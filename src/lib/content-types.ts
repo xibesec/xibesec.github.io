@@ -147,12 +147,26 @@ export type AgendaItem = {
 export type Edicao = {
   ano: number;
   tema: string;
+  local: string;
+  endereco: string;
+  /** ISO com offset, como na agenda: string livre não ordena nem calcula duração. */
+  startsAt: string;
+  endsAt: string;
   publico: number | null;
   resumo: string;
   /** Registro da edição. Vazio enquanto a organização não entrega. */
   foto: string;
+  albumUrl: string;
   status: "confirmado" | "a-conferir";
 };
+
+/**
+ * A edição tem página própria? Sem resumo escrito, sobram ano e foto, e três
+ * endereços rasos indexados valem menos que nenhum.
+ */
+export function edicaoPublicavel(edicao: Edicao): boolean {
+  return edicao.resumo.trim() !== "";
+}
 
 export type TerminalKind = "cmd" | "ok" | "warn" | "plain";
 

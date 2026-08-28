@@ -511,7 +511,9 @@ const config: StudioConfig = {
     },
 
     // ── Edições anteriores ───────────────────────────────────────────────
-    // `publico` e `fotos` nascem nulos e é assim que devem ficar até o cliente entregar.
+    // `publico` nasce nulo e é assim que deve ficar até o cliente entregar o
+    // número contado. O ano é o endereço da página: `/2023` sai daqui, e é o
+    // `resumo` preenchido que a publica.
     edicoes: {
       mediaDir: "public/images/edicoes",
       schema: {
@@ -521,8 +523,22 @@ const config: StudioConfig = {
           { name: "ano", type: "number", format: "integer", required: true, label: "Ano" },
           { name: "tema", type: "text", label: "Tema" },
           { name: "local", type: "text", label: "Local" },
+          { name: "endereco", type: "text", label: "Endereço" },
+          {
+            name: "startsAt",
+            type: "text",
+            label: "Início (ISO 8601 com fuso)",
+            description: "2023-11-18T09:00:00-03:00. Data solta não ordena nem calcula duração.",
+          },
+          { name: "endsAt", type: "text", label: "Fim (ISO 8601 com fuso)" },
           { name: "publico", type: "number", format: "integer", label: "Público (não estimar)" },
-          { name: "resumo", type: "long-text", rows: 2, label: "Resumo" },
+          {
+            name: "resumo",
+            type: "long-text",
+            rows: 4,
+            label: "Resumo",
+            description: "Um parágrafo por linha em branco. Vazio, a página da edição não publica.",
+          },
           { name: "foto", type: "media", accept: ["image/*"], label: "Foto da edição" },
           { name: "albumUrl", type: "url", label: "Álbum de fotos" },
           {

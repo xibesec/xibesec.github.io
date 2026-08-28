@@ -3,7 +3,7 @@ import { PaginaInterna } from "@/components/layout/PaginaInterna";
 import { EventoSection } from "@/components/sections/EventoSection";
 
 import { metadataDeRota } from "@/lib/docs";
-import { rotaPublicada } from "@/lib/rotas";
+import { paginasDeEdicoes, rotaPublicada } from "@/lib/rotas";
 import { generateBreadcrumbs, webPageSchema } from "@/lib/schema";
 import { canonicalUrl } from "@/lib/site";
 import { SECAO_VAZIA, getEdicoes, getSecoes, getSettings, getSobre } from "@/lib/cms";
@@ -36,6 +36,7 @@ export default function EventoPage() {
       <EventoSection
         sobre={sobre}
         edicoes={getEdicoes()}
+        paginasDeEdicoes={paginasDeEdicoes()}
         settings={settings}
         secao={secao}
         showEdicoes={settings.sections.edicoes}

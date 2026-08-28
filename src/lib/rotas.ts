@@ -1,7 +1,8 @@
 import "server-only";
-import { getPalestrante, getPalestrantes, getSettings } from "./cms";
-import type { NavItem, Palestrante, SectionKey } from "./content-types";
-import { PALESTRANTES_PATH, palestrantePath } from "./site";
+import { getEdicao, getEdicoes, getPalestrante, getPalestrantes, getSettings } from "./cms";
+import { edicaoPublicavel } from "./content-types";
+import type { Edicao, NavItem, Palestrante, SectionKey } from "./content-types";
+import { EDICOES_PATH, PALESTRANTES_PATH, edicaoPath, palestrantePath, site } from "./site";
 
 /**
  * Catálogo das rotas HTML do site. É a fonte única de `sitemap.xml`, da página
@@ -41,6 +42,9 @@ export type Rota = {
   resumo?: string;
 };
 
+/** A rota que abriga a linha do tempo das edições. */
+const EVENTO_PATH = "/evento";
+
 const ROTAS: Rota[] = [
   {
     path: "/",
@@ -53,7 +57,7 @@ const ROTAS: Rota[] = [
     rodape: false,
   },
   {
-    path: "/evento",
+    path: EVENTO_PATH,
     rotulo: "O evento",
     secao: "sobre",
     changeFrequency: "monthly",
@@ -146,6 +150,43 @@ const ROTAS: Rota[] = [
   },
 ];
 
+function rotaDeEdicao(edicao: Edicao): Rota {
+  return {
+    path: edicaoPath(edicao.ano),
+    rotulo: `${site.siteShortName} ${edicao.ano}`,
+    secao: "edicoes",
+    publicaSe: () => edicaoPublicavel(edicao),
+    changeFrequency: "yearly",
+    priority: 0.5,
+    rodape: false,
+  };
+}
+
+/**
+ * Uma edição, uma rota. Nascem do conteúdo pelo mesmo motivo das páginas de
+ * palestrante: preencher o resumo de um ano em `contents/edicoes/` publica a
+ * página, a linha do sitemap e o link no mapa do site, sem tocar em código.
+ *
+ * A feature flag `edicoes` governa as três de uma vez: desligada, a organização
+ * tirou do ar o passado do evento, e não faria sentido a página sobreviver à
+ * linha do tempo que leva até ela.
+ */
+export function rotasDeEdicoes(): Rota[] {
+  if (getSettings().sections.edicoes !== true) return [];
+  return getEdicoes().filter(edicaoPublicavel).map(rotaDeEdicao);
+}
+
+/**
+ * Ano para o endereço da página, com a barra final. É o que a linha do tempo e
+ * o baralho de registros consultam para saber se a edição tem página: a lista
+ * é serializável porque atravessa a fronteira para um componente de cliente.
+ */
+export function paginasDeEdicoes(): Record<number, string> {
+  return Object.fromEntries(
+    rotasDeEdicoes().map((rota) => [Number(rota.path.split("/").pop()), `${rota.path}/`]),
+  );
+}
+
 function rotaDePalestrante(palestrante: Palestrante): Rota {
   return {
     path: palestrantePath(palestrante.slug),
@@ -175,6 +216,12 @@ function encontrarRota(path: string): Rota | undefined {
   const fixa = ROTAS.find((item) => item.path === alvo);
   if (fixa) return fixa;
 
+  const ano = new RegExp(`^${EDICOES_PATH}/(\d{4})$`).exec(alvo);
+  if (ano) {
+    const edicao = getEdicao(Number(ano[1]));
+    return edicao ? rotaDeEdicao(edicao) : undefined;
+  }
+
   const prefixo = `${PALESTRANTES_PATH}/`;
   if (!alvo.startsWith(prefixo)) return undefined;
 
@@ -192,9 +239,20 @@ export function rotaPublicada(path: string): boolean {
 
 /** Cada pessoa entra logo depois do índice, na ordem de leitura do mapa. */
 export function rotasPublicadas(): Rota[] {
-  return ROTAS.filter((rota) => rotaPublicada(rota.path)).flatMap((rota) =>
+  const fixas = ROTAS.filter((rota) => rotaPublicada(rota.path)).flatMap((rota) =>
     rota.path === PALESTRANTES_PATH ? [rota, ...rotasDePalestrantes()] : [rota],
   );
+
+  const edicoes = rotasDeEdicoes();
+  if (edicoes.length === 0) return fixas;
+
+  // Entram atrás da página do evento, que é onde mora a linha do tempo que leva
+  // a elas. Com essa página fora do ar, seguem logo depois da home: a posição é
+  // de leitura, e não pode depender de outra seção estar publicada.
+  const posicao = fixas.findIndex((rota) => rota.path === EVENTO_PATH);
+  const corte = posicao === -1 ? 1 : posicao + 1;
+
+  return [...fixas.slice(0, corte), ...edicoes, ...fixas.slice(corte)];
 }
 
 export function rotasDoRodape(): Rota[] {

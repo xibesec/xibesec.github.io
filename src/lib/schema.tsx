@@ -4,13 +4,16 @@ import {
   PALESTRANTES_PATH,
   absoluteUrl,
   canonicalUrl,
+  edicaoPath,
   palestrantePath,
   site,
   socialLinks,
 } from "./site";
+import { paragrafos } from "./content-types";
 import type {
   AgendaItem,
   Arquetipo,
+  Edicao,
   Ingresso,
   Materia,
   Palestrante,
@@ -24,6 +27,8 @@ const HOME = canonicalUrl("/");
 const ORG_ID = `${HOME}#organization`;
 const WEBSITE_ID = `${HOME}#website`;
 const EVENT_ID = `${HOME}#event`;
+/** A série que reúne todas as edições. Cada ano é um `Event` dentro dela. */
+const SERIES_ID = `${HOME}#series`;
 
 /**
  * `streetAddress` sem repetir cidade e UF — elas já vão em `addressLocality` e
@@ -380,6 +385,81 @@ export function imprensaSchema({
           }
         : undefined,
   });
+}
+
+/**
+ * A página de uma edição que já aconteceu. A entidade é o evento daquele ano,
+ * com data e local próprios, ligado por `superEvent` à série que leva o nome do
+ * XibéSec: é o que separa a edição de 2023 da edição corrente para um buscador,
+ * sem que uma passe por atualização da outra.
+ *
+ * Só entra edição com data: `Event` sem `startDate` não é lido como evento, e
+ * inventar a data para preencher o campo é o oposto do que o conteúdo declara.
+ */
+export function edicaoSchema({
+  edicao,
+  titulo,
+  descricao,
+}: {
+  edicao: Edicao;
+  titulo: string;
+  descricao: string;
+}) {
+  const url = canonicalUrl(edicaoPath(edicao.ano));
+  // A descrição da página chama para a edição corrente; a do evento de 2023 não
+  // pode fazer isso, sob pena de anunciar a data errada no resultado de busca.
+  const abertura = paragrafos(edicao.resumo)[0] ?? descricao;
+
+  const evento = edicao.startsAt
+    ? {
+        "@type": "Event",
+        "@id": `${url}#event`,
+        name: titulo,
+        description: abertura,
+        startDate: edicao.startsAt,
+        ...(edicao.endsAt ? { endDate: edicao.endsAt } : {}),
+        eventStatus: "https://schema.org/EventScheduled",
+        eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+        inLanguage: site.locale,
+        url,
+        ...(edicao.foto ? { image: [absoluteUrl(edicao.foto)] } : {}),
+        ...(edicao.local
+          ? {
+              location: {
+                "@type": "Place",
+                name: edicao.local,
+                address: {
+                  "@type": "PostalAddress",
+                  ...(edicao.endereco ? { streetAddress: streetAddress(edicao.endereco) } : {}),
+                  addressLocality: site.city,
+                  addressRegion: site.region,
+                  addressCountry: site.country,
+                },
+              },
+            }
+          : {}),
+        organizer: { "@id": ORG_ID },
+        superEvent: {
+          "@type": "EventSeries",
+          "@id": SERIES_ID,
+          name: site.siteShortName,
+          url: HOME,
+        },
+      }
+    : undefined;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: titulo,
+    description: descricao,
+    inLanguage: site.locale,
+    isPartOf: { "@id": WEBSITE_ID },
+    publisher: { "@id": ORG_ID },
+    ...(evento ? { about: evento, mainEntity: { "@id": `${url}#event` } } : {}),
+  };
 }
 
 export function generateFaqSchema(items: Array<{ pergunta: string; resposta: string }>) {

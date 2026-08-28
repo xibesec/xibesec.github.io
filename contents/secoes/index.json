@@ -40,6 +40,14 @@
     "notaLinkUrl": "https://www.instagram.com/xibesec/"
   },
   {
+    "chave": "edicao",
+    "eyebrow": "Edição anterior",
+    "eyebrowTom": "dim",
+    "titulo": "XibéSec {ano}",
+    "cta": "Garantir presença na 4ª edição",
+    "nota": "Os números de público e os álbuns de fotos das edições anteriores seguem em curadoria. Entram aqui quando a organização confirmar."
+  },
+  {
     "chave": "ingressos",
     "eyebrow": "Ingressos",
     "eyebrowTom": "orange",

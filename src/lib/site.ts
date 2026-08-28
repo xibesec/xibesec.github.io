@@ -5,6 +5,8 @@ export const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const site = {
   siteName: "XibéSec 2026",
+  /** A marca sem o ano: o que nomeia a série e as edições anteriores. */
+  siteShortName: "XibéSec",
   siteTagline: "Para quem tem fome de segurança",
   /** Categoria do evento, no léxico do `PRODUCT.md`. Entra no `<title>`. */
   siteCategory: "Encontro de cibersegurança",
@@ -83,6 +85,18 @@ export function palestrantePath(slug: string): string {
   return `${PALESTRANTES_PATH}/${slug}`;
 }
 
+/** Prefixo das edições anteriores. */
+export const EDICOES_PATH = "/edicao";
+
+/**
+ * Endereço da página de uma edição anterior. O ano é o slug, sob um prefixo
+ * próprio: um segmento de ano solto na raiz disputaria o endereço com toda rota
+ * do site, e `/edicao/2023` diz o que a página é antes de abrir.
+ */
+export function edicaoPath(ano: number): string {
+  return `${EDICOES_PATH}/${ano}`;
+}
+
 /** Caminho de asset servido de `public/`, com `basePath` aplicado. */
 export function asset(path: string): string {
   return `${basePath}${path.startsWith("/") ? path : `/${path}`}`;
@@ -126,7 +140,7 @@ export function pageMetadata({
   // A marca entra sempre e sem repetir: "XibéSec" é a palavra que se busca, e
   // um título que não a contém não ganha a própria consulta. `absolute` desliga
   // o template do layout, que duplicaria o nome quando o título já o traz.
-  const fullTitle = title.includes(site.siteName) ? title : `${title} · ${site.siteName}`;
+  const fullTitle = title.includes(site.siteShortName) ? title : `${title} · ${site.siteName}`;
   const ogImage = absoluteUrl(image ?? site.ogImage);
   const md = markdown === undefined ? markdownPath(path) : markdown;
 

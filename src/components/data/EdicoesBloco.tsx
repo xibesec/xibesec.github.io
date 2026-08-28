@@ -7,7 +7,7 @@ import { Eyebrow } from "@/components/primitives/SectionHeader";
 import { useDesktop } from "@/lib/use-media";
 import { cn } from "@/lib/utils";
 
-export type EdicaoResumo = { ano: number; tema: string; foto?: string };
+export type EdicaoResumo = { ano: number; tema: string; foto?: string; href?: string };
 
 export type EdicoesBlocoProps = {
   edicoes: EdicaoResumo[];
@@ -15,6 +15,8 @@ export type EdicoesBlocoProps = {
   atual: TimelineEntry;
   edicoesLabel: string;
   registroPendente: string;
+  /** Rótulo do link para a página da edição em foco, no carrossel do celular. */
+  paginaLabel: string;
   /** Texto da origem do nome, renderizado no servidor. */
   children: ReactNode;
 };
@@ -46,6 +48,7 @@ export function EdicoesBloco({
   atual,
   edicoesLabel,
   registroPendente,
+  paginaLabel,
   children,
 }: EdicoesBlocoProps) {
   const desktop = useDesktop();
@@ -217,6 +220,7 @@ export function EdicoesBloco({
                 title={edicao.tema}
                 caption={registroPendente}
                 photo={edicao.foto || undefined}
+                href={edicao.href}
                 index={index}
                 active={index === ativo}
                 data-carta=""
@@ -270,6 +274,18 @@ export function EdicoesBloco({
             })}
           </div>
         )}
+
+        {/* No celular a carta inteira é o botão que troca de registro, e um link
+            dentro dele seria conteúdo interativo aninhado. O caminho para a
+            página da edição fica aqui embaixo, seguindo a carta em foco. */}
+        {!desktop && edicoes[foco]?.href ? (
+          <a
+            href={edicoes[foco].href}
+            className="text-cream-2 ease-brand hover:text-orange focus-visible:text-orange mt-4 inline-block font-mono text-[12px] tracking-[0.14em] uppercase transition-colors duration-250"
+          >
+            {`${paginaLabel} ${edicoes[foco].tema.toLocaleLowerCase("pt-BR")}`}
+          </a>
+        ) : null}
       </div>
     </>
   );

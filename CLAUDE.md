@@ -127,6 +127,22 @@ Quatro decisões:
 
 O JSON-LD é `ProfilePage` com `mainEntity: Person` (`knowsAbout`, `hasCredential`, `sameAs`, `performerIn` apontando para o `@id` do evento) e a palestra como `subjectOf`. O `Person` não declara `performerIn` quando é aninhado no `performer` do próprio evento, o que seria uma referência do evento para ele mesmo. A palestra **não** é `subEvent`: sem horário confirmado ela não tem `startDate`, e `subEvent` sem data é promessa que a grade ainda não sustenta.
 
+### As edições anteriores em `/edicao/<ano>`
+
+Uma página por edição que já aconteceu, alimentada por `contents/edicoes/index.json`. Além de ano, tema e foto, cada registro traz `local`, `endereco`, `startsAt`, `endsAt` e o `resumo` em prosa. O `publico` continua nulo e é assim que fica: número de público não se estima, e a ficha declara "A conferir" com `Tag` em vez de inventar.
+
+Cinco decisões:
+
+- **O ano é o slug, sob prefixo próprio.** `edicaoPath()` devolve `/edicao/2023`, não `/2023`: um segmento de ano na raiz seria um `[ano]` dinâmico disputando o endereço com toda rota do site, e o prefixo diz o que a página é antes de abrir. Endereço publicado não muda depois.
+- **É o `resumo` que publica a página.** `edicaoPublicavel()` testa o texto escrito, e a feature flag `edicoes` governa as três de uma vez. Sem resumo sobram ano e foto, e três endereços rasos indexados valem menos que nenhum.
+- **`rotasDeEdicoes()` expande o catálogo**, logo atrás de `/evento`, que é onde mora a linha do tempo que leva a elas. Com essa página fora do ar, seguem depois da home: a posição é de leitura e não pode depender de outra seção estar publicada. Sitemap, página `/sitemap`, espelho em `/docs/edicao/<ano>.md` e a lista do `llms.txt` saem daí.
+- **O JSON-LD é `WebPage` com `about: Event` do próprio ano**, e não o `#event` da edição corrente: cada ano tem data e local próprios, ligados por `superEvent` a um `EventSeries` com o nome da marca. Sem `startsAt` não sai `Event` nenhum, porque `Event` sem `startDate` não é lido como evento. A descrição do `Event` é o primeiro parágrafo do resumo, nunca a da página, que chama para a edição de 2026 e anunciaria a data errada no resultado de busca.
+- **A cobertura é listada pelo ano de publicação**, com esse rótulo. Uma matéria de março não fala do evento de setembro, e chamá-la de cobertura da edição inventaria um vínculo que a data não sustenta.
+
+O título da página traz a marca com o ano, que é a consulta exata de quem procura por ela, e por isso `pageMetadata()` compara o título com `siteShortName`: título que já diz "XibéSec" não recebe o sufixo da edição corrente.
+
+O caminho a partir da home é o cartão do baralho, cujo título vira link quando a edição tem página. No celular a carta inteira é o botão que troca de registro, e um link ali dentro seria conteúdo interativo aninhado: o acesso fica num link abaixo do trilho, seguindo a carta em foco.
+
 ### O quiz em `/quiz`
 
 Nove perguntas, um arquétipo no fim e uma carta em imagem (1080×1920) para compartilhar. Roda inteira no navegador: nome e foto **não saem do aparelho**, e não há coleta de resposta. A rota existe sempre — o que a esconde do menu é `noMenu: true` em `contents/navegacao`.
@@ -239,7 +255,8 @@ A home está composta e o build publica; ainda **não existem**:
 - script `predev` gerando `.studio/studio.d.ts` (o `prebuild` já existe);
 - `scripts/validate-content.ts` com Zod;
 - `app/programacao/[slug]`, a página de detalhe de cada atividade. Enquanto não existir, `AgendaRow` é renderizado **sem `href`**: card que leva a 404 é pior que card sem link. Criando a página, devolver o `href` na seção e conferir sitemap e espelho em Markdown. A rota de palestrante já existe, e é o modelo a seguir;
-- fotos das edições anteriores, logos das organizações parceiras e da imprensa: os diretórios em `public/images/` existem vazios, e por isso `EditionCard` e `PartnerChip` caem no estado de pendência;
+- números de público e álbuns de fotos das edições anteriores: `publico` e `albumUrl` seguem vazios em `contents/edicoes/`, e a ficha de cada edição declara a pendência;
+- logos das organizações parceiras e da imprensa: os diretórios em `public/images/` existem vazios, e por isso `PartnerChip` cai no estado de pendência;
 - perfis de rede dos palestrantes: `linkedin`, `github`, `twitter` e `site` estão vazios no frontmatter, e sem eles o `Person` do JSON-LD sai sem `sameAs`, que é o campo que amarra a pessoa à identidade dela fora do site.
 
 As demais coleções em `contents/` existem com o schema declarado e **conteúdo vazio, de propósito**. Não preencher sem pedido explícito.

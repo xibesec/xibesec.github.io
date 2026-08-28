@@ -1,8 +1,10 @@
 import {
   docsAtivos,
+  docsDeEdicoes,
   perfisDePalestrantes,
   renderAgents,
   renderDoc,
+  renderEdicao,
   renderPerfil,
 } from "@/lib/docs";
 import { textResponse } from "@/lib/text-route";
@@ -25,6 +27,7 @@ export function generateStaticParams(): Array<{ doc: string[] }> {
   return [
     { doc: [AGENTS] },
     ...docsAtivos().map((doc) => ({ doc: [`${doc.slug}.md`] })),
+    ...docsDeEdicoes().map((doc) => ({ doc: `${doc.slug}.md`.split("/") })),
     ...perfisDePalestrantes().map((perfil) => ({ doc: `${perfil.slug}.md`.split("/") })),
   ];
 }
@@ -39,6 +42,9 @@ export async function GET(_request: Request, ctx: { params: Promise<{ doc: strin
 
   const perfil = perfisDePalestrantes().find((item) => item.slug === slug);
   if (perfil) return textResponse(renderPerfil(perfil), "text/markdown");
+
+  const edicao = docsDeEdicoes().find((item) => item.slug === slug);
+  if (edicao) return textResponse(renderEdicao(edicao), "text/markdown");
 
   const encontrado = docsAtivos().find((item) => item.slug === slug);
   if (!encontrado) return new Response("Not Found", { status: 404 });

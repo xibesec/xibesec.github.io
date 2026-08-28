@@ -8,13 +8,14 @@ const meta = {
   parameters: { layout: "fullscreen" },
   args: {
     edicoes: [
-      { ano: 2023, tema: "Primeira edição" },
-      { ano: 2024, tema: "Segunda edição" },
-      { ano: 2025, tema: "Terceira edição" },
+      { ano: 2023, tema: "Primeira edição", href: "/edicao/2023/" },
+      { ano: 2024, tema: "Segunda edição", href: "/edicao/2024/" },
+      { ano: 2025, tema: "Terceira edição", href: "/edicao/2025/" },
     ],
     atual: { year: 2026, label: "Quarta edição", detail: "19 de setembro", current: true },
     edicoesLabel: "Edições",
     registroPendente: "registro em curadoria",
+    paginaLabel: "Ver a",
     children: (
       <>
         <SectionTitle as="h3" size="md" className="mb-1.5">
