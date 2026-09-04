@@ -378,7 +378,7 @@ function blocoPatrocinio(): string {
 
   const confirmados = patrocinadores.length
     ? tabela(
-        ["Patrocinador", "Cota", "Site"],
+        ["Marca", "Cota", "Site"],
         patrocinadores.map((p) => [
           p.nome,
           cotas.find((c) => c.nome === p.cota)?.label ?? p.cota,
@@ -392,7 +392,7 @@ function blocoPatrocinio(): string {
   return bloco(
     "## Patrocínio",
     "Patrocínio é negociado por cotas, a partir do mídia kit da edição.",
-    "### Patrocinadores confirmados",
+    "### Patrocinadores e apoios confirmados",
     confirmados,
     disponiveis.length > 0 &&
       bloco("### Cotas disponíveis", lista(disponiveis.map((cota) => cota.label))),

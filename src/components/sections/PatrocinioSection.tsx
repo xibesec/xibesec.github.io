@@ -45,7 +45,15 @@ export function PatrocinioSection({ grupos, secao, kit, titleAs }: PatrocinioSec
               {grupo.cota.label}
             </p>
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(190px,1fr))] gap-5">
+            {/* Apoio não divide a grade com quem pagou cota: a coluna `1fr`
+                esticaria a marca até a largura de um patrocinador. */}
+            <div
+              className={
+                grupo.cota.apoio
+                  ? "flex flex-wrap gap-5"
+                  : "grid grid-cols-[repeat(auto-fit,minmax(190px,1fr))] gap-5"
+              }
+            >
               {grupo.patrocinadores.map((patrocinador) => (
                 <SponsorSlot
                   key={patrocinador.slug}
@@ -53,6 +61,7 @@ export function PatrocinioSection({ grupos, secao, kit, titleAs }: PatrocinioSec
                   logo={patrocinador.logo ? asset(patrocinador.logo) : undefined}
                   href={patrocinador.url}
                   tier={grupo.cota.label}
+                  compacto={grupo.cota.apoio}
                 />
               ))}
             </div>

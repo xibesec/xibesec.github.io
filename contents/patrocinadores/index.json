@@ -14,5 +14,13 @@
     "url": "https://www.paloaltonetworks.com/cortex",
     "cota": "bronze",
     "order": 2
+  },
+  {
+    "nome": "LATAM Airlines",
+    "slug": "latam-airlines",
+    "logo": "/images/patrocinadores/latam-airlines.png",
+    "url": "https://www.latamairlines.com/br/pt",
+    "cota": "apoio-aereo",
+    "order": 3
   }
 ]

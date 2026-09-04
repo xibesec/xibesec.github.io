@@ -86,6 +86,9 @@ export interface EdicoesEntry {
   ano: number;
   tema: string;
   local: string;
+  endereco: string;
+  startsAt: Date;
+  endsAt: Date;
   publico: string;
   resumo: string;
   albumUrl: string;
@@ -188,6 +191,7 @@ export interface PalestrantesEntry {
     nome: string;
   }>;
   cidade: string;
+  empresa: string;
 }
 
 /** Data shape for the "parceiros" collection. */

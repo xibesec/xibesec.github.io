@@ -5,6 +5,16 @@
     "beneficios": [],
     "featured": false,
     "disponivel": false,
-    "order": 4
+    "order": 4,
+    "apoio": false
+  },
+  {
+    "nome": "apoio-aereo",
+    "label": "Apoio Cia. Aérea",
+    "beneficios": [],
+    "featured": false,
+    "disponivel": false,
+    "order": 5,
+    "apoio": true
   }
 ]

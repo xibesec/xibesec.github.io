@@ -45,6 +45,11 @@
     "order": 9
   },
   {
+    "pergunta": "Venho de outro estado. Existe desconto em passagem aérea?",
+    "resposta": "Sim. A LATAM é o apoio de companhia aérea do XibéSec 2026 e oferece **20% de desconto** em passagens para {cidade} em datas próximas ao evento, com saída de qualquer lugar do Brasil.\n\nO desconto é solicitado pela agência de viagens oficial do evento, a VP2 Turismo:\n\n- E-mail: atendimento@vp2turismo.com.br\n- Site: https://www.vp2turismo.com.br/\n- Instagram: https://www.instagram.com/vp2turismo/",
+    "order": 10
+  },
+  {
     "pergunta": "De onde vem o nome XibéSec?",
     "resposta": "O nome vem do **xibé**, também chamado de jacuba: bebida tradicional da culinária tupi feita de farinha de mandioca e água, que segue como base da alimentação de muitos povos do Norte.\n\nDaí a assinatura do evento: para quem tem fome de segurança.",
     "order": 11

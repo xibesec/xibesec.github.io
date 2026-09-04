@@ -178,7 +178,14 @@ export type Ctf = {
   linhas: Array<{ kind: TerminalKind; texto: string }>;
 };
 
-export type Cota = { nome: string; label: string; disponivel: boolean; order: number };
+export type Cota = {
+  nome: string;
+  label: string;
+  disponivel: boolean;
+  /** Apoio não é cota vendida, e a vitrine exibe a marca em escala reduzida. */
+  apoio: boolean;
+  order: number;
+};
 
 export type Patrocinador = {
   nome: string;

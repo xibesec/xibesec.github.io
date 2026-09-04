@@ -185,7 +185,7 @@ export function buildShellFs(): ShellNode {
         ),
       ],
       "patrocinio.txt": [
-        ...patrocinadores.map((p) => `${p.cota.padEnd(10)}${p.nome} (confirmado)`),
+        ...patrocinadores.map((p) => `${p.cota.padEnd(13)}${p.nome} (confirmado)`),
         "",
         "Demais cotas: falar com a organização.",
         `Contato: ${site.contactEmail}`,

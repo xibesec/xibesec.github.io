@@ -368,6 +368,7 @@ export function getCotas(): Cota[] {
       nome: str(row, "nome"),
       label: str(row, "label"),
       disponivel: bool(row, "disponivel"),
+      apoio: bool(row, "apoio"),
       order: num(row, "order"),
     }))
     .sort(byOrder);

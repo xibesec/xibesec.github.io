@@ -27,3 +27,14 @@ export const ComLogo: Story = {
 export const SemLogo: Story = { name: "Sem logo em arquivo" };
 
 export const SemLink: Story = { args: { href: undefined } };
+
+/** Apoio da edição, em escala reduzida: a contrapartida não é patrocínio. */
+export const Compacto: Story = {
+  name: "Apoio (compacto)",
+  args: {
+    name: "LATAM Airlines",
+    logo: "/images/patrocinadores/latam-airlines.png",
+    tier: "Apoio Cia. Aérea",
+    compacto: true,
+  },
+};

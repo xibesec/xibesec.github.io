@@ -10,11 +10,14 @@ const trilhas = [
   opt("ctf", "CTF"),
 ];
 
+// Apoio não é cota vendida: entra na mesma lista porque o render agrupa a
+// seção clara por esse campo, e o `label` é que diz ao leitor o que a marca é.
 const cotas = [
   opt("platina", "Platina"),
   opt("ouro", "Ouro"),
   opt("prata", "Prata"),
   opt("bronze", "Bronze"),
+  opt("apoio-aereo", "Apoio Cia. Aérea"),
 ];
 
 const config: StudioConfig = {
@@ -434,6 +437,12 @@ const config: StudioConfig = {
             type: "boolean",
             label: "Disponível",
             description: "A página não anuncia cota vaga sem aval — ver PRODUCT.md.",
+          },
+          {
+            name: "apoio",
+            type: "boolean",
+            label: "Apoio (não é cota vendida)",
+            description: "A marca aparece em escala reduzida: contrapartida não é patrocínio.",
           },
           { name: "order", type: "number", format: "integer", label: "Ordem" },
         ],
