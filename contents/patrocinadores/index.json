@@ -1,11 +1,19 @@
 [
   {
+    "nome": "DISRUPTEC",
+    "slug": "disruptec",
+    "logo": "/images/patrocinadores/disruptec.png",
+    "url": "https://disruptec.com.br/",
+    "cota": "platina",
+    "order": 1
+  },
+  {
     "nome": "BugHunt",
     "slug": "bughunt",
     "logo": "/images/patrocinadores/bughunt.png",
     "url": "https://www.bughunt.com.br/",
     "cota": "bronze",
-    "order": 1
+    "order": 2
   },
   {
     "nome": "Cortex by Palo Alto Networks",
@@ -13,7 +21,7 @@
     "logo": "/images/patrocinadores/cortex-palo-alto.png",
     "url": "https://www.paloaltonetworks.com/cortex",
     "cota": "bronze",
-    "order": 2
+    "order": 3
   },
   {
     "nome": "LATAM Airlines",
@@ -21,6 +29,6 @@
     "logo": "/images/patrocinadores/latam-airlines.png",
     "url": "https://www.latamairlines.com/br/pt",
     "cota": "apoio-aereo",
-    "order": 3
+    "order": 4
   }
 ]

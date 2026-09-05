@@ -1,5 +1,14 @@
 [
   {
+    "nome": "platina",
+    "label": "Patrocinador Platina",
+    "beneficios": [],
+    "featured": false,
+    "disponivel": false,
+    "order": 1,
+    "apoio": false
+  },
+  {
     "nome": "bronze",
     "label": "Patrocinador Bronze",
     "beneficios": [],

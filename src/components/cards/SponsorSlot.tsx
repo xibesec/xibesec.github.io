@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { LinkMedido } from "@/components/analytics/LinkMedido";
 import { EVENTOS } from "@/lib/analytics";
+import type { EscalaDaMarca } from "@/lib/content-types";
 import { cn } from "@/lib/utils";
 
 export type SponsorSlotProps = {
@@ -8,9 +9,28 @@ export type SponsorSlotProps = {
   logo?: string;
   href?: string;
   tier?: string;
-  /** Apoio: marca em escala reduzida, abaixo de quem patrocinou a edição. */
-  compacto?: boolean;
+  /** Tamanho da marca: a cota decide, não o componente. */
+  escala?: EscalaDaMarca;
   className?: string;
+};
+
+/* Classes por extenso: o scanner do Tailwind é estático e não lê template. */
+const MOLDURA: Record<EscalaDaMarca, string> = {
+  destaque: "min-h-[148px] max-w-[520px] p-8",
+  padrao: "min-h-[104px] max-w-[420px] p-6",
+  reduzida: "min-h-[72px] w-[188px] p-4",
+};
+
+const LOGO: Record<EscalaDaMarca, string> = {
+  destaque: "w-[min(260px,62%)]",
+  padrao: "w-[min(200px,58%)]",
+  reduzida: "w-[min(116px,66%)]",
+};
+
+const NOME: Record<EscalaDaMarca, string> = {
+  destaque: "text-[18px] tracking-[0.06em]",
+  padrao: "text-[16px] tracking-[0.06em]",
+  reduzida: "text-[14px] tracking-[0.06em]",
 };
 
 /**
@@ -20,7 +40,14 @@ export type SponsorSlotProps = {
  * A seção não exibe cota vaga: mostrar espaço reservado de patrocínio depende de
  * aval da organização, ver PRODUCT.md.
  */
-export function SponsorSlot({ name, logo, href, tier, compacto, className }: SponsorSlotProps) {
+export function SponsorSlot({
+  name,
+  logo,
+  href,
+  tier,
+  escala = "padrao",
+  className,
+}: SponsorSlotProps) {
   const content = logo ? (
     <Image
       src={logo}
@@ -29,19 +56,17 @@ export function SponsorSlot({ name, logo, href, tier, compacto, className }: Spo
       height={229}
       className={cn(
         "ease-brand h-auto transition-transform duration-300 group-hover:scale-104",
-        compacto ? "w-[min(116px,66%)]" : "w-[min(200px,58%)]",
+        LOGO[escala],
       )}
     />
   ) : (
-    <span className={compacto ? "text-[14px] tracking-[0.06em]" : "text-[16px] tracking-[0.06em]"}>
-      {name}
-    </span>
+    <span className={NOME[escala]}>{name}</span>
   );
 
   const classes = cn(
     "group border-line-2 flex items-center justify-center border text-center",
     "ease-brand transition-colors duration-300 hover:text-orange hover:border-orange",
-    compacto ? "min-h-[72px] w-[188px] p-4" : "min-h-[104px] max-w-[420px] p-6",
+    MOLDURA[escala],
     className,
   );
 

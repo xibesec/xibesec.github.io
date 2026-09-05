@@ -7,7 +7,8 @@ import { KitBanner } from "@/components/primitives/KitBanner";
 import { SponsorSlot } from "@/components/cards/SponsorSlot";
 import { asset } from "@/lib/site";
 import { externo } from "@/lib/links";
-import type { Cota, Patrocinador, Secao } from "@/lib/cms";
+import { escalaDaCota } from "@/lib/cms";
+import type { Cota, EscalaDaMarca, Patrocinador, Secao } from "@/lib/cms";
 
 export type PatrocinioSectionProps = {
   grupos: Array<{ cota: Cota; patrocinadores: Patrocinador[] }>;
@@ -15,6 +16,14 @@ export type PatrocinioSectionProps = {
   kit: Secao;
   /** `h1` na rota dedicada, onde a seção é o assunto da página. */
   titleAs?: "h1" | "h2";
+};
+
+/* Apoio não divide a grade com quem pagou cota: a coluna `1fr` esticaria a
+   marca até a largura de um patrocinador. */
+const GRADE: Record<EscalaDaMarca, string> = {
+  destaque: "grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-5",
+  padrao: "grid grid-cols-[repeat(auto-fit,minmax(190px,1fr))] gap-5",
+  reduzida: "flex flex-wrap gap-5",
 };
 
 /**
@@ -39,34 +48,30 @@ export function PatrocinioSection({ grupos, secao, kit, titleAs }: PatrocinioSec
           />
         </Reveal>
 
-        {grupos.map((grupo) => (
-          <Reveal key={grupo.cota.nome} className="mb-10">
-            <p className="text-cream mb-3.5 font-mono text-[12px] tracking-[0.16em] uppercase">
-              {grupo.cota.label}
-            </p>
+        {grupos.map((grupo) => {
+          const escala = escalaDaCota(grupo.cota);
 
-            {/* Apoio não divide a grade com quem pagou cota: a coluna `1fr`
-                esticaria a marca até a largura de um patrocinador. */}
-            <div
-              className={
-                grupo.cota.apoio
-                  ? "flex flex-wrap gap-5"
-                  : "grid grid-cols-[repeat(auto-fit,minmax(190px,1fr))] gap-5"
-              }
-            >
-              {grupo.patrocinadores.map((patrocinador) => (
-                <SponsorSlot
-                  key={patrocinador.slug}
-                  name={patrocinador.nome}
-                  logo={patrocinador.logo ? asset(patrocinador.logo) : undefined}
-                  href={patrocinador.url}
-                  tier={grupo.cota.label}
-                  compacto={grupo.cota.apoio}
-                />
-              ))}
-            </div>
-          </Reveal>
-        ))}
+          return (
+            <Reveal key={grupo.cota.nome} className="mb-10">
+              <p className="text-cream mb-3.5 font-mono text-[12px] tracking-[0.16em] uppercase">
+                {grupo.cota.label}
+              </p>
+
+              <div className={GRADE[escala]}>
+                {grupo.patrocinadores.map((patrocinador) => (
+                  <SponsorSlot
+                    key={patrocinador.slug}
+                    name={patrocinador.nome}
+                    logo={patrocinador.logo ? asset(patrocinador.logo) : undefined}
+                    href={patrocinador.url}
+                    tier={grupo.cota.label}
+                    escala={escala}
+                  />
+                ))}
+              </div>
+            </Reveal>
+          );
+        })}
 
         <Reveal>
           <KitBanner

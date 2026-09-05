@@ -1173,6 +1173,7 @@ function naoAfirmar(): string[] {
     .map((edicao) => edicao.ano);
 
   const palestrantes = getPalestrantes();
+  const patrocinadores = getPatrocinadores();
 
   return [
     palestrantes.length > 0
@@ -1180,7 +1181,9 @@ function naoAfirmar(): string[] {
       : "Grade de palestras, horários finais e nomes de palestrantes de 2026.",
     "Número de público das edições anteriores.",
     "Número de desafios e valor da premiação do CTF.",
-    "Patrocinadores das cotas Platina, Ouro e Prata.",
+    patrocinadores.length > 0
+      ? `Cotas de patrocínio ainda não anunciadas. As marcas confirmadas até aqui estão em ${canonicalUrl("/patrocinio")}, e nenhuma outra pode ser associada ao evento.`
+      : "Patrocinadores e cotas de patrocínio da edição.",
     aConferir.length > 0
       ? `Datas e locais das edições anteriores — ${aConferir.join(", ")} constam como ${A_CONFERIR}.`
       : "",
