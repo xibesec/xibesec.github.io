@@ -21,10 +21,12 @@ const MOLDURA: Record<EscalaDaMarca, string> = {
   reduzida: "min-h-[72px] w-[188px] p-4",
 };
 
+/* Teto de altura: marca em lockup vertical, como a DATASEC, tem largura e
+   altura parecidas e esticaria a fileira se só a largura mandasse. */
 const LOGO: Record<EscalaDaMarca, string> = {
-  destaque: "w-[min(260px,62%)]",
-  padrao: "w-[min(200px,58%)]",
-  reduzida: "w-[min(116px,66%)]",
+  destaque: "w-[min(260px,62%)] max-h-[104px]",
+  padrao: "w-[min(200px,58%)] max-h-[80px]",
+  reduzida: "w-[min(116px,66%)] max-h-[48px]",
 };
 
 const NOME: Record<EscalaDaMarca, string> = {
@@ -55,7 +57,7 @@ export function SponsorSlot({
       width={800}
       height={229}
       className={cn(
-        "ease-brand h-auto transition-transform duration-300 group-hover:scale-104",
+        "ease-brand h-auto object-contain transition-transform duration-300 group-hover:scale-104",
         LOGO[escala],
       )}
     />

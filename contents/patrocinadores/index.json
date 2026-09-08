@@ -24,11 +24,19 @@
     "order": 3
   },
   {
+    "nome": "DATASEC",
+    "slug": "datasec",
+    "logo": "/images/patrocinadores/datasec.png",
+    "url": "https://www.datasec.com.br/",
+    "cota": "bronze",
+    "order": 4
+  },
+  {
     "nome": "LATAM Airlines",
     "slug": "latam-airlines",
     "logo": "/images/patrocinadores/latam-airlines.png",
     "url": "https://www.latamairlines.com/br/pt",
     "cota": "apoio-aereo",
-    "order": 4
+    "order": 5
   }
 ]
