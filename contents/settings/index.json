@@ -18,7 +18,7 @@
     "ingressos": true,
     "participe": false,
     "patrocinio": true,
-    "parceiros": false,
+    "parceiros": true,
     "local": true,
     "faq": true,
     "imprensa": true

@@ -78,10 +78,10 @@
   },
   {
     "chave": "parceiros",
-    "eyebrow": "Ecossistema de parceiros",
+    "eyebrow": "Apoio",
     "eyebrowTom": "mint",
-    "titulo": "21 organizações parceiras, de todo o Brasil.",
-    "lede": "Conferências, coletivos técnicos, editoras e empresas que integram a rede do XibéSec 2026."
+    "titulo": "Organizações que apoiam a 4ª edição.",
+    "lede": "Coletivos técnicos, conferências e empresas que caminham com o XibéSec 2026."
   },
   {
     "chave": "local",
@@ -119,7 +119,7 @@
     "eyebrow": "xibesh 1.0",
     "eyebrowTom": "mint",
     "titulo": "O terminal do XibéSec.",
-    "lede": "O mesmo shell que roda no rodapé do site, agora em janela cheia. O sistema de arquivos é o evento: data, grade, ingressos, trilhas, local e organizações parceiras, tudo em linha de comando. Roda no seu navegador, e nada do que você digita sai daqui.",
+    "lede": "O mesmo shell que roda no rodapé do site, agora em janela cheia. O sistema de arquivos é o evento: data, grade, ingressos, trilhas, local e quem apoia a edição, tudo em linha de comando. Roda no seu navegador, e nada do que você digita sai daqui.",
     "nota": "Comece por help. Tab completa, ↑ e ↓ repetem o que já foi digitado, Ctrl+L limpa a tela. O que não está no help você descobre olhando.",
     "notaLinkLabel": "",
     "notaLinkUrl": ""

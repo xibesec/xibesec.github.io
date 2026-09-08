@@ -1,128 +1,26 @@
 [
   {
-    "nome": "0xe Hacker Conf.",
-    "slug": "0xe-hacker-conf",
-    "url": "https://www.instagram.com/0xehackerconference/",
-    "order": 1
-  },
-  {
-    "nome": "3D com Tech",
-    "slug": "3d-com-tech",
-    "url": "https://www.instagram.com/3dcomtech/",
-    "order": 2
-  },
-  {
-    "nome": "Alquymia",
-    "slug": "alquymia",
-    "url": "https://alquymia.com.br/",
-    "order": 3
-  },
-  {
-    "nome": "APT Zé da Manga",
-    "slug": "apt-ze-da-manga",
-    "url": "https://www.instagram.com/aptzedamanga/",
-    "order": 4
-  },
-  {
     "nome": "BSides BSB",
     "slug": "bsides-bsb",
     "url": "https://www.instagram.com/bsidesbsb/",
-    "order": 5
+    "order": 1
   },
   {
-    "nome": "BXSec",
-    "slug": "bxsec",
-    "url": "https://www.instagram.com/bxsec/",
-    "order": 6
-  },
-  {
-    "nome": "Chapéu de Palha",
-    "slug": "chapeu-de-palha",
-    "url": "https://www.instagram.com/chapeudepalhahackerclub/",
-    "order": 7
-  },
-  {
-    "nome": "Cyber Security Girls",
-    "slug": "cyber-security-girls",
-    "url": "https://www.instagram.com/cyber_securitygirlsbr/",
-    "order": 8
-  },
-  {
-    "nome": "Garota Cibernética",
-    "slug": "garota-cibernetica",
-    "url": "https://www.instagram.com/garotacibernetica_/",
-    "order": 9
-  },
-  {
-    "nome": "Guia Anônima",
-    "slug": "guia-anonima",
-    "url": "https://guiaanonima.com/",
-    "order": 10
-  },
-  {
-    "nome": "Hack in Cariri",
-    "slug": "hack-in-cariri",
-    "url": "https://www.instagram.com/hackincariri/",
-    "order": 11
-  },
-  {
-    "nome": "Itshow",
-    "slug": "itshow",
-    "url": "https://itshow.com.br/",
-    "order": 12
+    "nome": "CyberNorte",
+    "slug": "cybernorte",
+    "url": "",
+    "order": 2
   },
   {
     "nome": "LATAM Airlines",
     "slug": "latam-airlines",
     "url": "https://www.latamairlines.com/br/pt",
-    "order": 13
+    "order": 3
   },
   {
     "nome": "Mente Binária",
     "slug": "mente-binaria",
     "url": "https://www.mentebinaria.com.br/",
-    "order": 14
-  },
-  {
-    "nome": "Novatec",
-    "slug": "novatec",
-    "url": "https://novatec.com.br/",
-    "order": 15
-  },
-  {
-    "nome": "Pirate Ship",
-    "slug": "pirate-ship",
-    "url": "https://www.instagram.com/pirateship.sh/",
-    "order": 16
-  },
-  {
-    "nome": "Quantum Village BR",
-    "slug": "quantum-village-br",
-    "url": "https://www.instagram.com/quantum.villagebr/",
-    "order": 17
-  },
-  {
-    "nome": "Raul Hacker Club",
-    "slug": "raul-hacker-club",
-    "url": "https://www.instagram.com/raulhackerclub/",
-    "order": 18
-  },
-  {
-    "nome": "Security Is Lifestyle",
-    "slug": "security-is-lifestyle",
-    "url": "https://www.instagram.com/securityisalifestyle/",
-    "order": 19
-  },
-  {
-    "nome": "SOC Brazil",
-    "slug": "soc-brazil",
-    "url": "https://www.instagram.com/socbrazil/",
-    "order": 20
-  },
-  {
-    "nome": "VP2 Turismo",
-    "slug": "vp2-turismo",
-    "url": "https://www.instagram.com/vp2turismo/",
-    "order": 21
+    "order": 4
   }
 ]

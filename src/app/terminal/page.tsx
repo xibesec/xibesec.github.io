@@ -11,7 +11,7 @@ const ROTA = "/terminal";
 const HOME_LABEL = "Início";
 const TITULO = "Terminal";
 const DESCRICAO =
-  "xibesh, o shell do XibéSec 2026: um terminal que roda no navegador e responde sobre data, programação, ingressos, trilhas, local e organizações parceiras da edição.";
+  "xibesh, o shell do XibéSec 2026: um terminal que roda no navegador e responde sobre data, programação, ingressos, trilhas, local e quem apoia a edição.";
 
 export const metadata = metadataDeRota({
   path: ROTA,

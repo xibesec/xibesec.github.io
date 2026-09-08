@@ -176,7 +176,7 @@ export function buildShellFs(): ShellNode {
 
     parceiros: {
       "organizacoes.txt": [
-        `${parceiros.length} organizações parceiras, de todo o Brasil:`,
+        `${parceiros.length} organizações apoiam a 4ª edição:`,
         "",
         ...emColunas(
           parceiros.map((p) => p.nome),

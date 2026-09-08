@@ -405,8 +405,8 @@ function blocoParceiros(): string {
   if (parceiros.length === 0) return "";
 
   return bloco(
-    "## Organizações parceiras",
-    `${parceiros.length} organizações parceiras de todo o Brasil — conferências, coletivos técnicos, editoras e empresas — integram o ecossistema da edição.`,
+    "## Quem apoia a edição",
+    `${parceiros.length} organizações apoiam a 4ª edição: coletivos técnicos, conferências e empresas.`,
     tabela(
       ["Organização", "Site"],
       parceiros.map((p) => [p.nome, p.url]),
@@ -621,8 +621,8 @@ const DOCS: Doc[] = [
   },
   {
     slug: "parceiros",
-    titulo: "Organizações parceiras",
-    resumo: "As organizações que integram o ecossistema da edição.",
+    titulo: "Quem apoia a edição",
+    resumo: "As organizações que apoiam a 4ª edição.",
     secao: "parceiros",
     corpo: blocoParceiros,
   },
@@ -664,7 +664,7 @@ const DOCS: Doc[] = [
     slug: "terminal",
     titulo: "Terminal",
     resumo:
-      "O xibesh em tela cheia: um shell que roda no navegador e responde sobre data, programação, ingressos, trilhas, local e parceiros da edição.",
+      "O xibesh em tela cheia: um shell que roda no navegador e responde sobre data, programação, ingressos, trilhas, local e quem apoia a edição.",
     // Sem feature flag: o shell vive no rodapé de todas as páginas.
     secao: null,
     rota: "/terminal",
@@ -1133,7 +1133,7 @@ function perguntasCanonicas(): Array<[string, string]> {
   perguntas.push(
     [
       "O que está incluso no ingresso?",
-      `A inscrição dá acesso a todas as palestras conforme disponibilidade de lugares, à competição CTF, à área de exposição com patrocinadores e organizações parceiras, e ao certificado de participação. O prazo de emissão do certificado ainda está ${EM_DEFINICAO}.`,
+      `A inscrição dá acesso a todas as palestras conforme disponibilidade de lugares, à competição CTF, à área de exposição com patrocinadores e organizações apoiadoras, e ao certificado de participação. O prazo de emissão do certificado ainda está ${EM_DEFINICAO}.`,
     ],
     [
       "O XibéSec tem CTF?",
@@ -1141,7 +1141,7 @@ function perguntasCanonicas(): Array<[string, string]> {
     ],
     [
       "Quem organiza o XibéSec?",
-      `A realização é da ${site.organizationName} (${site.organizationUrl}), empresa de segurança da informação. O contato oficial é ${site.contactEmail}. A edição conta com ${parceiros.length || "diversas"} organizações parceiras de todo o Brasil.`,
+      `A realização é da ${site.organizationName} (${site.organizationUrl}), empresa de segurança da informação. O contato oficial é ${site.contactEmail}. A edição conta com ${parceiros.length || "diversas"} organizações apoiadoras.`,
     ],
     [
       "Como patrocinar o XibéSec 2026?",
