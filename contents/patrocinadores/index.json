@@ -8,12 +8,20 @@
     "order": 1
   },
   {
+    "nome": "CYLO",
+    "slug": "cylo",
+    "logo": "/images/patrocinadores/cylo.png",
+    "url": "https://cylo.com.br/",
+    "cota": "ouro",
+    "order": 2
+  },
+  {
     "nome": "BugHunt",
     "slug": "bughunt",
     "logo": "/images/patrocinadores/bughunt.png",
     "url": "https://www.bughunt.com.br/",
     "cota": "bronze",
-    "order": 2
+    "order": 3
   },
   {
     "nome": "Cortex by Palo Alto Networks",
@@ -21,7 +29,7 @@
     "logo": "/images/patrocinadores/cortex-palo-alto.png",
     "url": "https://www.paloaltonetworks.com/cortex",
     "cota": "bronze",
-    "order": 3
+    "order": 4
   },
   {
     "nome": "DATASEC",
@@ -29,7 +37,23 @@
     "logo": "/images/patrocinadores/datasec.png",
     "url": "https://www.datasec.com.br/",
     "cota": "bronze",
-    "order": 4
+    "order": 5
+  },
+  {
+    "nome": "SEA Telecom",
+    "slug": "sea-telecom",
+    "logo": "/images/patrocinadores/sea-telecom.png",
+    "url": "https://www.seatelecom.com.br/",
+    "cota": "bronze",
+    "order": 6
+  },
+  {
+    "nome": "Fibralink",
+    "slug": "fibralink",
+    "logo": "/images/patrocinadores/fibralink.png",
+    "url": "https://fibralink.net.br/",
+    "cota": "bronze",
+    "order": 7
   },
   {
     "nome": "LATAM Airlines",
@@ -37,6 +61,6 @@
     "logo": "/images/patrocinadores/latam-airlines.png",
     "url": "https://www.latamairlines.com/br/pt",
     "cota": "apoio-aereo",
-    "order": 5
+    "order": 8
   }
 ]

@@ -9,6 +9,15 @@
     "apoio": false
   },
   {
+    "nome": "ouro",
+    "label": "Patrocinador Ouro",
+    "beneficios": [],
+    "featured": false,
+    "disponivel": false,
+    "order": 2,
+    "apoio": false
+  },
+  {
     "nome": "bronze",
     "label": "Patrocinador Bronze",
     "beneficios": [],

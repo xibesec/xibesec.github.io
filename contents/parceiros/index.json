@@ -8,7 +8,7 @@
   {
     "nome": "CyberNorte",
     "slug": "cybernorte",
-    "url": "",
+    "url": "https://chat.whatsapp.com/GutpknOjoFBK8lCkOX4yAz?s=cl&p=a&mlu=4",
     "order": 2
   },
   {
@@ -22,5 +22,11 @@
     "slug": "mente-binaria",
     "url": "https://www.mentebinaria.com.br/",
     "order": 4
+  },
+  {
+    "nome": "Ströngreen Community",
+    "slug": "strongreen-community",
+    "url": "https://www.strongreen.com/",
+    "order": 5
   }
 ]
