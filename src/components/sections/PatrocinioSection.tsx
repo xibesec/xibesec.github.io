@@ -18,11 +18,17 @@ export type PatrocinioSectionProps = {
   titleAs?: "h1" | "h2";
 };
 
-/* Apoio não divide a grade com quem pagou cota: a coluna `1fr` esticaria a
+/* O piso da coluna é a largura abaixo da qual o logo para de ler, não a
+   hierarquia da cota, que mora na moldura do `SponsorSlot`. Piso baixo demais
+   cabe a cota inteira numa fileira só e encolhe cada marca: com seis marcas
+   bronze, 300px quebra a fileira em duas de três em vez de espremer as seis.
+
+   Apoio não divide a grade com quem pagou cota: a coluna `1fr` esticaria a
    marca até a largura de um patrocinador. */
 const GRADE: Record<EscalaDaMarca, string> = {
-  destaque: "grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-5",
-  padrao: "grid grid-cols-[repeat(auto-fit,minmax(190px,1fr))] gap-5",
+  principal: "grid grid-cols-[repeat(auto-fit,minmax(340px,1fr))] gap-5",
+  destaque: "grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5",
+  padrao: "grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5",
   reduzida: "flex flex-wrap gap-5",
 };
 

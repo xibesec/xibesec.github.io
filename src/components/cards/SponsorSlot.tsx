@@ -16,6 +16,7 @@ export type SponsorSlotProps = {
 
 /* Classes por extenso: o scanner do Tailwind é estático e não lê template. */
 const MOLDURA: Record<EscalaDaMarca, string> = {
+  principal: "min-h-[192px] max-w-[620px] p-10",
   destaque: "min-h-[148px] max-w-[520px] p-8",
   padrao: "min-h-[104px] max-w-[420px] p-6",
   reduzida: "min-h-[72px] w-[188px] p-4",
@@ -24,12 +25,14 @@ const MOLDURA: Record<EscalaDaMarca, string> = {
 /* Teto de altura: marca em lockup vertical, como a DATASEC, tem largura e
    altura parecidas e esticaria a fileira se só a largura mandasse. */
 const LOGO: Record<EscalaDaMarca, string> = {
+  principal: "w-[min(340px,66%)] max-h-[136px]",
   destaque: "w-[min(260px,62%)] max-h-[104px]",
   padrao: "w-[min(200px,58%)] max-h-[80px]",
   reduzida: "w-[min(116px,66%)] max-h-[48px]",
 };
 
 const NOME: Record<EscalaDaMarca, string> = {
+  principal: "text-[20px] tracking-[0.06em]",
   destaque: "text-[18px] tracking-[0.06em]",
   padrao: "text-[16px] tracking-[0.06em]",
   reduzida: "text-[14px] tracking-[0.06em]",

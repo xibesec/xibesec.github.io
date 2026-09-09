@@ -56,11 +56,19 @@
     "order": 7
   },
   {
+    "nome": "Vanelos",
+    "slug": "vanelos",
+    "logo": "/images/patrocinadores/vanelos.png",
+    "url": "https://vanelos.com.br/",
+    "cota": "bronze",
+    "order": 8
+  },
+  {
     "nome": "LATAM Airlines",
     "slug": "latam-airlines",
     "logo": "/images/patrocinadores/latam-airlines.png",
     "url": "https://www.latamairlines.com/br/pt",
     "cota": "apoio-aereo",
-    "order": 8
+    "order": 9
   }
 ]

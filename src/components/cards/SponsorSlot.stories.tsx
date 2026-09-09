@@ -28,13 +28,24 @@ export const SemLogo: Story = { name: "Sem logo em arquivo" };
 
 export const SemLink: Story = { args: { href: undefined } };
 
-/** Cota mais alta da edição: a marca ocupa a maior das três escalas. */
-export const Destaque: Story = {
-  name: "Platina (destaque)",
+/** Cota mais alta da edição: a marca ocupa a maior das quatro escalas. */
+export const Principal: Story = {
+  name: "Platina (principal)",
   args: {
     name: "DISRUPTEC",
     logo: "/images/patrocinadores/disruptec.png",
     tier: "Patrocinador Platina",
+    escala: "principal",
+  },
+};
+
+/** Segunda cota: menor que platina e maior que bronze, sem empate. */
+export const Destaque: Story = {
+  name: "Ouro (destaque)",
+  args: {
+    name: "CYLO",
+    logo: "/images/patrocinadores/cylo.png",
+    tier: "Patrocinador Ouro",
     escala: "destaque",
   },
 };
@@ -50,15 +61,21 @@ export const Reduzida: Story = {
   },
 };
 
-/** As três lado a lado, que é como a hierarquia se verifica. */
-export const AsTresEscalas: Story = {
-  name: "As três escalas",
+/** As quatro lado a lado, que é como a hierarquia se verifica. */
+export const AsQuatroEscalas: Story = {
+  name: "As quatro escalas",
   render: () => (
     <div className="flex flex-wrap items-center gap-5">
       <SponsorSlot
         name="DISRUPTEC"
         logo="/images/patrocinadores/disruptec.png"
         tier="Patrocinador Platina"
+        escala="principal"
+      />
+      <SponsorSlot
+        name="CYLO"
+        logo="/images/patrocinadores/cylo.png"
+        tier="Patrocinador Ouro"
         escala="destaque"
       />
       <SponsorSlot

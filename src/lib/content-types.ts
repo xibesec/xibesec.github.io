@@ -187,15 +187,15 @@ export type Cota = {
   order: number;
 };
 
-export type EscalaDaMarca = "destaque" | "padrao" | "reduzida";
+export type EscalaDaMarca = "principal" | "destaque" | "padrao" | "reduzida";
 
 /**
  * A hierarquia da cota é o tamanho da marca na vitrine: quem comprou a cota
  * mais alta aparece maior, e apoio aparece menor que qualquer patrocinador.
- * Sem isso, três cotas na mesma escala anunciam contrapartidas iguais.
+ * Sem isso, duas cotas na mesma escala anunciam contrapartidas iguais.
  */
 const ESCALA_POR_COTA: Record<string, EscalaDaMarca> = {
-  platina: "destaque",
+  platina: "principal",
   ouro: "destaque",
   prata: "padrao",
   bronze: "padrao",
