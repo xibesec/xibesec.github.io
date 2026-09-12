@@ -144,11 +144,19 @@
     "order": 18
   },
   {
+    "nome": "TV Liberal",
+    "slug": "tv-liberal",
+    "logo": "/images/patrocinadores/tv-liberal.png",
+    "url": "",
+    "cota": "apoio",
+    "order": 19
+  },
+  {
     "nome": "VP2 Turismo",
     "slug": "vp2-turismo",
     "logo": "",
     "url": "https://www.instagram.com/vp2turismo/",
     "cota": "apoio",
-    "order": 19
+    "order": 20
   }
 ]
