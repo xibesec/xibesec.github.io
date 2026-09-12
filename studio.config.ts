@@ -316,8 +316,19 @@ const config: StudioConfig = {
         collection: "agenda",
         label: "Programação",
         fields: [
-          { name: "titulo", type: "text", required: true, label: "Título" },
+          {
+            name: "titulo",
+            type: "text",
+            label: "Título",
+            description: "Vazio na palestra cujo tema a pessoa ainda não enviou.",
+          },
           { name: "slug", type: "text", label: "Slug (vazio = sem página)" },
+          {
+            name: "palestrante",
+            type: "text",
+            label: "Quem apresenta",
+            description: "Nome de quem palestra, ou a composição do painel.",
+          },
           { name: "descricao", type: "long-text", rows: 3, label: "Descrição" },
           { name: "startsAt", type: "date", includeTime: true, required: true, label: "Começa" },
           { name: "endsAt", type: "date", includeTime: true, required: true, label: "Termina" },
@@ -329,6 +340,7 @@ const config: StudioConfig = {
             label: "Tipo",
             options: [
               opt("palestra", "Palestra"),
+              opt("painel", "Painel"),
               opt("keynote", "Keynote"),
               opt("intervalo", "Intervalo"),
               opt("operacional", "Operacional"),

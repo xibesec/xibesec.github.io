@@ -81,7 +81,8 @@ export function eventSchema({
   patrocinadores?: Patrocinador[];
   palestrantes?: Palestrante[];
 }) {
-  const confirmados = agenda.filter((item) => item.status === "confirmado");
+  // Sem título não há `name`, e `Event` sem nome não é lido como atividade.
+  const confirmados = agenda.filter((item) => item.status === "confirmado" && item.titulo);
 
   return {
     "@context": "https://schema.org",
@@ -137,6 +138,9 @@ export function eventSchema({
         eventStatus: "https://schema.org/EventScheduled",
         eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
         location: { "@type": "Place", name: settings.venueName },
+        // Só a palestra de uma pessoa vira `performer`: a composição de um
+        // painel é uma frase, e frase em `Person.name` polui o grafo.
+        ...(item.speakerSlug ? { performer: { "@type": "Person", name: item.palestrante } } : {}),
       })),
     }),
     ...(patrocinadores.length > 0 && {

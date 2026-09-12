@@ -132,9 +132,21 @@ export type Ingresso = {
 
 export type Trilha = "tecnica" | "gerencial" | "geral" | "ctf";
 
+/** Rótulo da trilha na etiqueta da grade e na tabela do espelho em Markdown. */
+export const TRILHA_LABEL: Record<Trilha, string> = {
+  tecnica: "Técnica",
+  gerencial: "Gerencial",
+  geral: "Geral",
+  ctf: "CTF",
+};
+
 export type AgendaItem = {
   titulo: string;
   slug: string;
+  /** Nome de quem palestra, ou a composição do painel. */
+  palestrante: string;
+  /** Preenchido só quando a pessoa tem perfil publicado. */
+  speakerSlug: string;
   descricao: string;
   startsAt: string;
   endsAt: string;
@@ -143,6 +155,60 @@ export type AgendaItem = {
   status: "confirmado" | "em-definicao";
   order: number;
 };
+
+/** As duas salas que correm em paralelo. A ordem é a das colunas da grade. */
+export const TRILHAS_EM_PARALELO = ["tecnica", "gerencial"] as const;
+
+/**
+ * Uma faixa de horário da grade: o que está em cada sala naquele momento, mais
+ * a atividade comum às duas. Credenciamento e pausa ocupam a faixa inteira.
+ */
+export type FaixaDaGrade = {
+  startsAt: string;
+  comum: AgendaItem | null;
+  tecnica: AgendaItem | null;
+  gerencial: AgendaItem | null;
+  /** A única sala ocupada na faixa. Governa o filtro por aba no celular. */
+  unica: "tecnica" | "gerencial" | null;
+};
+
+/**
+ * A agenda linear vira faixas de horário. É o que permite desenhar as duas
+ * salas lado a lado sem repetir a hora, e o que diz, no celular, quais faixas
+ * somem quando a pessoa escolhe uma trilha.
+ */
+export function faixasDaGrade(agenda: AgendaItem[]): FaixaDaGrade[] {
+  const faixas = new Map<string, FaixaDaGrade>();
+
+  for (const item of agenda) {
+    if (!item.startsAt) continue;
+
+    const faixa = faixas.get(item.startsAt) ?? {
+      startsAt: item.startsAt,
+      comum: null,
+      tecnica: null,
+      gerencial: null,
+      unica: null,
+    };
+
+    if (item.trilha === "tecnica" || item.trilha === "gerencial") faixa[item.trilha] = item;
+    else faixa.comum = item;
+
+    faixas.set(item.startsAt, faixa);
+  }
+
+  return [...faixas.values()].map((faixa) => ({
+    ...faixa,
+    unica:
+      faixa.comum || (faixa.tecnica && faixa.gerencial)
+        ? null
+        : faixa.tecnica
+          ? "tecnica"
+          : faixa.gerencial
+            ? "gerencial"
+            : null,
+  }));
+}
 
 export type Edicao = {
   ano: number;

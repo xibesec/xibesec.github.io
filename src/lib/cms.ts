@@ -259,6 +259,8 @@ export function getAgenda(): AgendaItem[] {
       return {
         titulo: str(row, "titulo"),
         slug: str(row, "slug"),
+        palestrante: str(row, "palestrante"),
+        speakerSlug: str(row, "speakerSlug"),
         descricao: str(row, "descricao"),
         startsAt: str(row, "startsAt"),
         endsAt: str(row, "endsAt"),

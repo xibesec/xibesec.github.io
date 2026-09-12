@@ -123,7 +123,7 @@ Quatro decisões:
 - **A rota não é governada pela seção da home.** `settings.sections.palestrantes` liga a vitrine da página inicial; a página existe enquanto houver registro em `contents/palestrantes/`, pelo `publicaSe` da entrada em `rotas.ts`. É o que permite anunciar nomes em página própria antes de abrir a seção na home, que é o estado atual.
 - **O slug do frontmatter é a URL.** `/palestrantes/<slug>` é indexado; trocar o slug depois quebra endereço publicado e o espelho em Markdown que ele anuncia. O prefixo numérico do arquivo governa só a ordem no CMS.
 - **Uma rota por pessoa nasce do conteúdo.** `rotasDePalestrantes()` expande o catálogo, e com isso o sitemap, a página `/sitemap`, o documento que a espelha e o item do menu saem de graça. `itensDoMenu()` esconde qualquer item que aponte para rota não publicada.
-- **Sem foto, e sem espaço reservado para uma.** A coleção não tem campo de retrato. Nada de `PendingSlot`, monograma, ilustração ou banco de imagem: moldura vazia ocupa a fileira sem dizer nada, e campo de mídia sem consumidor no render é convite a preencher o que não aparece. O layout é consequência disso, não adaptação: a lista é de **linhas largas** (`SpeakerRow`, na grade de 1px do `AgendaList`), porque cartão em grade `auto-fit` existe para emoldurar retrato quadrado e, sem ele, espreme o título da palestra em três linhas. No perfil, o nome ocupa a largura inteira e só abaixo dele a página se divide, com a ficha numa faixa de 300px. Coluna larga guardando ficha de quatro linhas é o desenho de quem tirou a foto e não refez a página.
+- **Sem foto, e sem espaço reservado para uma.** A coleção não tem campo de retrato. Nada de `PendingSlot`, monograma, ilustração ou banco de imagem: moldura vazia ocupa a fileira sem dizer nada, e campo de mídia sem consumidor no render é convite a preencher o que não aparece. O layout é consequência disso, não adaptação: a lista é de **linhas largas** (`SpeakerRow`, na mesma malha de 1px da grade), porque cartão em grade `auto-fit` existe para emoldurar retrato quadrado e, sem ele, espreme o título da palestra em três linhas. No perfil, o nome ocupa a largura inteira e só abaixo dele a página se divide, com a ficha numa faixa de 300px. Coluna larga guardando ficha de quatro linhas é o desenho de quem tirou a foto e não refez a página.
 
 O JSON-LD é `ProfilePage` com `mainEntity: Person` (`knowsAbout`, `hasCredential`, `sameAs`, `performerIn` apontando para o `@id` do evento) e a palestra como `subjectOf`. O `Person` não declara `performerIn` quando é aninhado no `performer` do próprio evento, o que seria uma referência do evento para ele mesmo. A palestra **não** é `subEvent`: sem horário confirmado ela não tem `startDate`, e `subEvent` sem data é promessa que a grade ainda não sustenta.
 
@@ -230,8 +230,8 @@ src/components/
 │                 Tag, Note, Greca, Reveal, SkipLink, PendingSlot, HighlightPanel, KitBanner
 ├── cards/        TicketCard, SpeakerRow (+ SpeakerList), CallCard, EditionCard, SponsorSlot,
 │                 PartnerChip, LinkButton
-├── data/         Countdown, FactStrip, AgendaRow (+ AgendaList), TimelineList,
-│                 Terminal, IncludedList
+├── data/         Countdown, FactStrip, AgendaGrade (+ AgendaFaixa, AgendaCell),
+│                 TimelineList, Terminal, IncludedList
 └── layout/       NavBar, Brand, Footer, Dock, BioHeader (+ SocialRow)
 ```
 
@@ -254,7 +254,7 @@ A home está composta e o build publica; ainda **não existem**:
 - `error.tsx`, `loading.tsx` e `not-found.tsx` seguem como placeholders vazios do scaffold — o `not-found` não tem nem navegação nem link de volta;
 - script `predev` gerando `.studio/studio.d.ts` (o `prebuild` já existe);
 - `scripts/validate-content.ts` com Zod;
-- `app/programacao/[slug]`, a página de detalhe de cada atividade. Enquanto não existir, `AgendaRow` é renderizado **sem `href`**: card que leva a 404 é pior que card sem link. Criando a página, devolver o `href` na seção e conferir sitemap e espelho em Markdown. A rota de palestrante já existe, e é o modelo a seguir;
+- `app/programacao/[slug]`, a página de detalhe de cada atividade. Enquanto não existir, `AgendaCell` é renderizada **sem link para a atividade**: só o nome de quem palestra aponta para o perfil. Card que leva a 404 é pior que card sem link. Criando a página, devolver o `href` na seção e conferir sitemap e espelho em Markdown. A rota de palestrante já existe, e é o modelo a seguir;
 - números de público e álbuns de fotos das edições anteriores: `publico` e `albumUrl` seguem vazios em `contents/edicoes/`, e a ficha de cada edição declara a pendência;
 - logos das organizações parceiras e da imprensa: os diretórios em `public/images/` existem vazios, e por isso `PartnerChip` cai no estado de pendência;
 - perfis de rede dos palestrantes: `linkedin`, `github`, `twitter` e `site` estão vazios no frontmatter, e sem eles o `Person` do JSON-LD sai sem `sameAs`, que é o campo que amarra a pessoa à identidade dela fora do site.
