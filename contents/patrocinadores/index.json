@@ -112,12 +112,20 @@
     "order": 14
   },
   {
+    "nome": "OWASP Belém",
+    "slug": "owasp-belem",
+    "logo": "/images/patrocinadores/owasp-belem.png",
+    "url": "",
+    "cota": "apoio",
+    "order": 15
+  },
+  {
     "nome": "Quantum Village BR",
     "slug": "quantum-village-br",
     "logo": "",
     "url": "",
     "cota": "apoio",
-    "order": 15
+    "order": 16
   },
   {
     "nome": "SOC Brazil",
@@ -125,7 +133,7 @@
     "logo": "",
     "url": "https://socbrazil.com/",
     "cota": "apoio",
-    "order": 16
+    "order": 17
   },
   {
     "nome": "Ströngreen Community",
@@ -133,7 +141,7 @@
     "logo": "",
     "url": "https://www.strongreen.com/",
     "cota": "apoio",
-    "order": 17
+    "order": 18
   },
   {
     "nome": "Sympla",
@@ -141,7 +149,7 @@
     "logo": "/images/patrocinadores/sympla.png",
     "url": "https://www.sympla.com.br/",
     "cota": "apoio",
-    "order": 18
+    "order": 19
   },
   {
     "nome": "TV Liberal",
@@ -149,7 +157,7 @@
     "logo": "/images/patrocinadores/tv-liberal.png",
     "url": "",
     "cota": "apoio",
-    "order": 19
+    "order": 20
   },
   {
     "nome": "VP2 Turismo",
@@ -157,6 +165,6 @@
     "logo": "",
     "url": "https://www.instagram.com/vp2turismo/",
     "cota": "apoio",
-    "order": 20
+    "order": 21
   }
 ]
