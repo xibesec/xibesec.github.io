@@ -19,7 +19,7 @@ const MOLDURA: Record<EscalaDaMarca, string> = {
   principal: "min-h-[192px] max-w-[620px] p-10",
   destaque: "min-h-[148px] max-w-[520px] p-8",
   padrao: "min-h-[104px] max-w-[420px] p-6",
-  reduzida: "min-h-[72px] w-[188px] p-4",
+  reduzida: "min-h-[72px] p-4",
 };
 
 /* Teto de altura: marca em lockup vertical, como a DATASEC, tem largura e
