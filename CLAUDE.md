@@ -59,15 +59,21 @@ Todo o conteúdo mora em `contents/`, fora de `src/`, para que alguém da organi
 
 Formato por natureza do dado:
 
-| Natureza                                          | Formato                                                                        |
-| ------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Singleton (`settings`, `sobre`, `ctf`)            | `index.json` com objeto                                                        |
-| Lista (`agenda`, `ingressos`, `parceiros`, …)     | `index.json` com array, ou `NN-slug.json` por registro quando a ordem importar |
-| Texto longo (`palestrantes`, `codigo-de-conduta`) | `.mdx` com frontmatter                                                         |
+| Natureza                                           | Formato                                                                        |
+| -------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Singleton (`settings`, `sobre`, `ctf`)             | `index.json` com objeto                                                        |
+| Lista (`agenda`, `ingressos`, `patrocinadores`, …) | `index.json` com array, ou `NN-slug.json` por registro quando a ordem importar |
+| Texto longo (`palestrantes`, `codigo-de-conduta`)  | `.mdx` com frontmatter                                                         |
 
 ### Feature flags de seção
 
 `contents/settings/index.json` tem um bloco `sections` com um booleano por seção. A home faz `{settings.sections.palestrantes && <SecaoPalestrantes />}`. É o que permite publicar a landing com o que já está pronto e ir ligando o resto conforme a organização entrega, **sem tocar em código**. A mesma chave governa o JSON-LD e o espelho em Markdown: seção desligada não vira `subEvent` no schema nem arquivo em `/docs/`.
+
+### Apoio é cota, não seção à parte
+
+Quem apoia a edição mora em `contents/patrocinadores/` com `cota: "apoio"`, na mesma coleção de quem comprou cota. Não há seção `#parceiros`, nem coleção `parceiros`, nem chip de organização: a vitrine de `#patrocinio` agrupa por cota, e a de apoio entra por último, com `apoio: true` na cota levando `escalaDaCota()` a `reduzida`. Duas listas para a mesma pergunta ("quem está com o evento") divergiam a cada marca nova, e uma delas não alimentava nem o `sponsor` do JSON-LD nem a tabela de `/docs/patrocinio.md`.
+
+`SponsorSlot` sem `logo` escreve o nome dentro da moldura, então marca sem arquivo entra na fileira sem moldura vazia e sem espaço reservado. `getApoiadores()` é quem lê essa cota fora da seção, e alimenta o `cat parceiros/organizacoes.txt` do shell e a resposta sobre quem apoia em `/docs/agents.md`.
 
 ### Fonte única de URL e SEO
 
@@ -229,7 +235,7 @@ src/components/
 ├── primitives/   Button, Container, Section, SectionHeader (+ Eyebrow, SectionTitle),
 │                 Tag, Note, Greca, Reveal, SkipLink, PendingSlot, HighlightPanel, KitBanner
 ├── cards/        TicketCard, SpeakerRow (+ SpeakerList), CallCard, EditionCard, SponsorSlot,
-│                 PartnerChip, LinkButton
+│                 LinkButton
 ├── data/         Countdown, FactStrip, AgendaGrade (+ AgendaFaixa, AgendaCell),
 │                 TimelineList, Terminal, IncludedList
 └── layout/       NavBar, Brand, Footer, Dock, BioHeader (+ SocialRow)
@@ -238,7 +244,7 @@ src/components/
 Regras que valem para todos:
 
 - **Sem copy embutida.** Todo texto visível entra por prop. Os valores nas stories são exemplos de bancada, não conteúdo do site.
-- **Estado de pendência é parte do componente**, não um caso à parte: `SpeakerRow` sem `name` declara "A confirmar"; `EditionCard` sem `photo` cai no `PendingSlot`; `PartnerChip` sem `href` renderiza sem link.
+- **Estado de pendência é parte do componente**, não um caso à parte: `SpeakerRow` sem `name` declara "A confirmar"; `EditionCard` sem `photo` cai no `PendingSlot`; `SponsorSlot` sem `logo` escreve o nome na moldura, e sem `url` renderiza sem link.
 - Componente com estado de navegador (`NavBar`, `Dock`, `Countdown`, `Greca`, `Reveal`) leva `"use client"`; o resto é server component.
 - `Countdown` usa `useSyncExternalStore` com relógio compartilhado, não `setState` dentro de efeito — a regra `react-hooks/set-state-in-effect` do ESLint 9 barra o segundo, e o snapshot precisa ser estável entre ticks para não re-renderizar em laço.
 - `Reveal` escreve a classe direto no nó via ref. Sem JavaScript o conteúdo aparece inteiro, como manda o `DESIGN.md`.
@@ -256,7 +262,7 @@ A home está composta e o build publica; ainda **não existem**:
 - `scripts/validate-content.ts` com Zod;
 - `app/programacao/[slug]`, a página de detalhe de cada atividade. Enquanto não existir, `AgendaCell` é renderizada **sem link para a atividade**: só o nome de quem palestra aponta para o perfil. Card que leva a 404 é pior que card sem link. Criando a página, devolver o `href` na seção e conferir sitemap e espelho em Markdown. A rota de palestrante já existe, e é o modelo a seguir;
 - números de público e álbuns de fotos das edições anteriores: `publico` e `albumUrl` seguem vazios em `contents/edicoes/`, e a ficha de cada edição declara a pendência;
-- logos das organizações parceiras e da imprensa: os diretórios em `public/images/` existem vazios, e por isso `PartnerChip` cai no estado de pendência;
+- logos da imprensa e de boa parte das organizações apoiadoras: `public/images/imprensa/` está vazio, e em `public/images/patrocinadores/` faltam CyberNorte, ITshow, Quantum Village BR, SOC Brazil, Ströngreen, Sympla e VP2 Turismo, que por isso saem com o nome escrito na moldura;
 - perfis de rede dos palestrantes: `linkedin`, `github`, `twitter` e `site` estão vazios no frontmatter, e sem eles o `Person` do JSON-LD sai sem `sameAs`, que é o campo que amarra a pessoa à identidade dela fora do site.
 
 As demais coleções em `contents/` existem com o schema declarado e **conteúdo vazio, de propósito**. Não preencher sem pedido explícito.

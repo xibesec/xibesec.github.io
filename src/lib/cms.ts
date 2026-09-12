@@ -19,7 +19,6 @@ import type {
   NavItem,
   Organizacao,
   Palestrante,
-  Parceiro,
   Patrocinador,
   Pergunta,
   Pesos,
@@ -85,7 +84,6 @@ const SECTION_KEYS: SectionKey[] = [
   "ingressos",
   "participe",
   "patrocinio",
-  "parceiros",
   "local",
   "imprensa",
   "faq",
@@ -389,6 +387,14 @@ export function getPatrocinadores(): Patrocinador[] {
     .sort(byOrder);
 }
 
+/** Marcas na cota de apoio, que não é cota vendida. */
+export function getApoiadores(): Patrocinador[] {
+  const apoio = getCotas()
+    .filter((cota) => cota.apoio)
+    .map((cota) => cota.nome);
+  return getPatrocinadores().filter((item) => apoio.includes(item.cota));
+}
+
 /** Patrocinadores confirmados, agrupados pela cota — na ordem das cotas. */
 export function getPatrocinadoresPorCota(): Array<{ cota: Cota; patrocinadores: Patrocinador[] }> {
   const patrocinadores = getPatrocinadores();
@@ -430,18 +436,6 @@ export function getImprensa(): Materia[] {
       };
     })
     .filter((materia) => materia.url && materia.veiculo)
-    .sort(byOrder);
-}
-
-export function getParceiros(): Parceiro[] {
-  return rows("parceiros")
-    .map((row) => ({
-      nome: str(row, "nome"),
-      slug: str(row, "slug"),
-      // Handle deduzido do nome: sem confirmação, o chip renderiza sem link.
-      url: str(row, "url"),
-      order: num(row, "order"),
-    }))
     .sort(byOrder);
 }
 

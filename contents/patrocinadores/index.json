@@ -64,11 +64,91 @@
     "order": 8
   },
   {
+    "nome": "BSides BSB",
+    "slug": "bsides-bsb",
+    "logo": "/images/patrocinadores/bsides-bsb.png",
+    "url": "https://www.instagram.com/bsidesbsb/",
+    "cota": "apoio",
+    "order": 9
+  },
+  {
+    "nome": "CyberNorte",
+    "slug": "cybernorte",
+    "logo": "",
+    "url": "https://chat.whatsapp.com/GutpknOjoFBK8lCkOX4yAz?s=cl&p=a&mlu=4",
+    "cota": "apoio",
+    "order": 10
+  },
+  {
+    "nome": "CyberSecurity Girls",
+    "slug": "cybersecurity-girls",
+    "logo": "/images/patrocinadores/cybersecurity-girls.png",
+    "url": "https://www.instagram.com/cyber_securitygirlsbr/",
+    "cota": "apoio",
+    "order": 11
+  },
+  {
+    "nome": "ITshow",
+    "slug": "itshow",
+    "logo": "",
+    "url": "https://itshow.com.br/",
+    "cota": "apoio",
+    "order": 12
+  },
+  {
     "nome": "LATAM Airlines",
     "slug": "latam-airlines",
     "logo": "/images/patrocinadores/latam-airlines.png",
     "url": "https://www.latamairlines.com/br/pt",
-    "cota": "apoio-aereo",
-    "order": 9
+    "cota": "apoio",
+    "order": 13
+  },
+  {
+    "nome": "Mente Binária",
+    "slug": "mente-binaria",
+    "logo": "/images/patrocinadores/mente-binaria.png",
+    "url": "https://www.mentebinaria.com.br/",
+    "cota": "apoio",
+    "order": 14
+  },
+  {
+    "nome": "Quantum Village BR",
+    "slug": "quantum-village-br",
+    "logo": "",
+    "url": "",
+    "cota": "apoio",
+    "order": 15
+  },
+  {
+    "nome": "SOC Brazil",
+    "slug": "soc-brazil",
+    "logo": "",
+    "url": "https://socbrazil.com/",
+    "cota": "apoio",
+    "order": 16
+  },
+  {
+    "nome": "Ströngreen Community",
+    "slug": "strongreen-community",
+    "logo": "",
+    "url": "https://www.strongreen.com/",
+    "cota": "apoio",
+    "order": 17
+  },
+  {
+    "nome": "Sympla",
+    "slug": "sympla",
+    "logo": "",
+    "url": "https://www.sympla.com.br/",
+    "cota": "apoio",
+    "order": 18
+  },
+  {
+    "nome": "VP2 Turismo",
+    "slug": "vp2-turismo",
+    "logo": "",
+    "url": "https://www.instagram.com/vp2turismo/",
+    "cota": "apoio",
+    "order": 19
   }
 ]

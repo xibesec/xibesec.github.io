@@ -27,8 +27,8 @@
     "apoio": false
   },
   {
-    "nome": "apoio-aereo",
-    "label": "Apoio Cia. Aérea",
+    "nome": "apoio",
+    "label": "Apoio",
     "beneficios": [],
     "featured": false,
     "disponivel": false,

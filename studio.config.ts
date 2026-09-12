@@ -17,7 +17,7 @@ const cotas = [
   opt("ouro", "Ouro"),
   opt("prata", "Prata"),
   opt("bronze", "Bronze"),
-  opt("apoio-aereo", "Apoio Cia. Aérea"),
+  opt("apoio", "Apoio"),
 ];
 
 const config: StudioConfig = {
@@ -65,7 +65,6 @@ const config: StudioConfig = {
               { name: "ingressos", type: "boolean", label: "Ingressos" },
               { name: "participe", type: "boolean", label: "Participe" },
               { name: "patrocinio", type: "boolean", label: "Patrocínio" },
-              { name: "parceiros", type: "boolean", label: "Parceiros" },
               { name: "local", type: "boolean", label: "Local" },
               { name: "faq", type: "boolean", label: "Dúvidas" },
             ],
@@ -509,23 +508,6 @@ const config: StudioConfig = {
           },
           { name: "trecho", type: "long-text", rows: 2, label: "Trecho citado" },
           { name: "logo", type: "media", accept: ["image/*"], label: "Logo do veículo" },
-          { name: "order", type: "number", format: "integer", label: "Ordem" },
-        ],
-      },
-    },
-
-    // ── Organizações parceiras ───────────────────────────────────────────
-    // `url` e `logo` opcionais de propósito: handles ainda não confirmados.
-    parceiros: {
-      mediaDir: "public/images/parceiros",
-      schema: {
-        collection: "parceiros",
-        label: "Organizações parceiras",
-        fields: [
-          { name: "nome", type: "text", required: true, label: "Nome" },
-          { name: "slug", type: "slug", from: "nome", required: true },
-          { name: "url", type: "url", label: "Link (confirmar antes de publicar)" },
-          { name: "logo", type: "media", accept: ["image/*"], label: "Logo" },
           { name: "order", type: "number", format: "integer", label: "Ordem" },
         ],
       },

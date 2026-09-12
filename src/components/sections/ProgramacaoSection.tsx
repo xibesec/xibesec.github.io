@@ -40,6 +40,7 @@ export function ProgramacaoSection({ agenda, palestrantes, secao }: ProgramacaoS
       title={item.titulo}
       speaker={item.palestrante}
       speakerHref={comPerfil.has(item.speakerSlug) ? palestrantePath(item.speakerSlug) : undefined}
+      tipo={item.tipo}
       status={item.status}
     >
       {item.descricao}
