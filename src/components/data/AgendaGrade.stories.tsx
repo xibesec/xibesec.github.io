@@ -50,13 +50,13 @@ export const Grade: Story = {
         <AgendaCell
           trilha="gerencial"
           trilhaLabel="Gerencial"
-          title="Fraudes digitais entre prevenção, inteligência e resposta"
+          tipo="painel"
           status="em-definicao"
         />
       </AgendaFaixa>
 
       <AgendaFaixa startsAt="2026-09-19T14:10:00-03:00">
-        <AgendaCell trilha="tecnica" trilhaLabel="Técnica" speaker="Jeffson Celeiro Sousa" />
+        <AgendaCell trilha="tecnica" trilhaLabel="Técnica" status="em-definicao" />
         <AgendaCell
           trilha="gerencial"
           trilhaLabel="Gerencial"
@@ -80,16 +80,11 @@ export const EmDefinicao: Story = {
   render: (args) => (
     <AgendaGrade {...args}>
       <AgendaFaixa startsAt="2026-09-19T14:10:00-03:00">
-        <AgendaCell
-          trilha="tecnica"
-          trilhaLabel="Técnica"
-          speaker="Jeffson Celeiro Sousa"
-          status="em-definicao"
-        />
+        <AgendaCell trilha="tecnica" trilhaLabel="Técnica" status="em-definicao" />
         <AgendaCell
           trilha="gerencial"
           trilhaLabel="Gerencial"
-          title="Fraudes digitais entre prevenção, inteligência e resposta"
+          tipo="painel"
           status="em-definicao"
         />
       </AgendaFaixa>

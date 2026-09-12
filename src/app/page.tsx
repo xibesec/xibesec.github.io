@@ -19,7 +19,6 @@ import { IngressosSection } from "@/components/sections/IngressosSection";
 import { ParticipeSection } from "@/components/sections/ParticipeSection";
 import { PatrocinioSection } from "@/components/sections/PatrocinioSection";
 import { ImprensaSection } from "@/components/sections/ImprensaSection";
-import { ParceirosSection } from "@/components/sections/ParceirosSection";
 import { LocalSection } from "@/components/sections/LocalSection";
 import { Fechamento } from "@/components/sections/Fechamento";
 import { SiteFooter } from "@/components/sections/SiteFooter";
@@ -48,7 +47,6 @@ import {
   getIngressos,
   getNavegacao,
   getPalestrantes,
-  getParceiros,
   getPatrocinadores,
   getPatrocinadoresPorCota,
   getSecoes,
@@ -104,7 +102,6 @@ export default function Page() {
   const chamadas = getChamadas();
   const imprensa = getImprensa();
   const gruposPatrocinio = getPatrocinadoresPorCota();
-  const parceiros = getParceiros();
   const equipe = getEquipe();
 
   const cheapest = lowestPrice(ingressos);
@@ -189,7 +186,11 @@ export default function Page() {
         ) : null}
 
         {sections.agenda ? (
-          <ProgramacaoSection agenda={agenda} secao={secao("programacao")} />
+          <ProgramacaoSection
+            agenda={agenda}
+            palestrantes={palestrantes}
+            secao={secao("programacao")}
+          />
         ) : null}
 
         {sections.ctf ? <CtfSection ctf={ctf} secao={secao("ctf")} cta={compra} /> : null}
@@ -231,10 +232,6 @@ export default function Page() {
         ) : null}
 
         <Greca tone="green" />
-
-        {sections.parceiros ? (
-          <ParceirosSection parceiros={parceiros} secao={secao("parceiros")} />
-        ) : null}
 
         {sections.local ? <LocalSection settings={settings} secao={secao("local")} /> : null}
 

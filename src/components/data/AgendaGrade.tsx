@@ -159,9 +159,9 @@ export function AgendaCell({
   title,
   speaker,
   speakerHref,
+  tipo,
   children,
   status = "confirmado",
-  titlePlaceholder = "Palestra em definição",
 }: AgendaCellProps) {
   return (
     // O `col-span-2` precisa voltar a 1 na coluna única: numa grade de uma
@@ -178,7 +178,7 @@ export function AgendaCell({
           title ? null : "text-cream-3",
         )}
       >
-        {title || titlePlaceholder}
+        {title || SEM_TITULO[tipo ?? ""] || SEM_TITULO.palestra}
       </h3>
 
       {speaker ? (

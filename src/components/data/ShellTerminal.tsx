@@ -79,7 +79,6 @@ const SECOES: Record<string, string> = {
   programacao: "#programacao",
   ingressos: "#ingressos",
   local: "#local",
-  parceiros: "#parceiros",
   ctf: "#ctf",
   palestrantes: "#palestrantes",
   participe: "#participe",
@@ -114,7 +113,7 @@ const AJUDA: Record<string, string[]> = {
     "Rola a página até a seção correspondente.",
     "",
     "Seções: evento, programacao, ctf, palestrantes, ingressos,",
-    "        participe, patrocinio, local, parceiros",
+    "        participe, patrocinio, local",
   ],
   sudo: [
     "Uso: sudo COMANDO",

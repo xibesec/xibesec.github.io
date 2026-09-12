@@ -129,6 +129,22 @@
 }
 
 @layer utilities {
+  /* Abas da grade, onde as duas salas não cabem lado a lado. São `radio` mais
+     `:has()`, e não estado de cliente: a programação é conteúdo puro, e com
+     JavaScript desligado ela precisa continuar inteira na tela. O grupo de
+     rádio ainda dá navegação por seta no teclado, de graça.
+
+     Some a célula da outra trilha, e some a faixa inteira quando aquela sala
+     era a única ocupada no horário — senão sobra a hora sozinha na coluna. */
+  @media (width <= 900px) {
+    .grade:has(#grade-gerencial:checked) [data-trilha="tecnica"],
+    .grade:has(#grade-gerencial:checked) [data-unica="tecnica"],
+    .grade:has(#grade-tecnica:checked) [data-trilha="gerencial"],
+    .grade:has(#grade-tecnica:checked) [data-unica="gerencial"] {
+      display: none;
+    }
+  }
+
   /* Ícone do botão desenhado por máscara, para herdar currentColor. */
   .btn-ico::after {
     content: "";

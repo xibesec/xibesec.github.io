@@ -8,9 +8,9 @@
     "chave": "programacao",
     "eyebrow": "Programação",
     "eyebrowTom": "orange",
-    "titulo": "Um dia inteiro de conteúdo.",
-    "lede": "Ainda estamos fechando a grade oficial de 2026. É assim que um dia de XibéSec costuma se estruturar:",
-    "nota": "Confirmamos horários e atrações finais em breve. Acompanhe o {link}.",
+    "titulo": "A grade do dia, em duas trilhas.",
+    "lede": "Técnica e gerencial acontecem em salas separadas, ao mesmo tempo. Credenciamento, abertura, pausas e encerramento são comuns às duas.",
+    "nota": "Mudanças de última hora saem primeiro no {link}.",
     "notaLinkLabel": "@xibesec no Instagram",
     "notaLinkUrl": "https://www.instagram.com/xibesec/"
   },
@@ -35,7 +35,7 @@
     "eyebrow": "Palestrante confirmado",
     "eyebrowTom": "orange",
     "cta": "Garantir ingresso",
-    "nota": "A grade completa da edição segue em definição. Os próximos anúncios saem no {link}.",
+    "nota": "A grade do dia está publicada na home. Os próximos anúncios saem no {link}.",
     "notaLinkLabel": "@xibesec no Instagram",
     "notaLinkUrl": "https://www.instagram.com/xibesec/"
   },
@@ -75,13 +75,6 @@
     "eyebrowTom": "orange",
     "titulo": "Quem fortalece o Norte da segurança.",
     "lede": "Empresas e instituições que patrocinam e apoiam o XibéSec 2026 e ajudam o ecossistema brasileiro de cibersegurança a crescer fora do eixo Rio-São Paulo."
-  },
-  {
-    "chave": "parceiros",
-    "eyebrow": "Apoio",
-    "eyebrowTom": "mint",
-    "titulo": "Organizações que apoiam a 4ª edição.",
-    "lede": "Coletivos técnicos, conferências e empresas que caminham com o XibéSec 2026."
   },
   {
     "chave": "local",
