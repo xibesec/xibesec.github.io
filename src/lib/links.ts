@@ -59,7 +59,6 @@ const SECAO_DA_ANCORA: Record<string, SectionKey> = {
   "#participe": "participe",
   "#imprensa": "imprensa",
   "#patrocinio": "patrocinio",
-  "#parceiros": "parceiros",
   "#local": "local",
 };
 

@@ -25,7 +25,6 @@ export type SectionKey =
   | "ingressos"
   | "participe"
   | "patrocinio"
-  | "parceiros"
   | "local"
   | "imprensa"
   | "faq";
@@ -295,8 +294,6 @@ export type Materia = {
   logo: string;
   order: number;
 };
-
-export type Parceiro = { nome: string; slug: string; url: string; order: number };
 
 export type Duvida = { pergunta: string; resposta: string; order: number };
 

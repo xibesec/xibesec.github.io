@@ -1,6 +1,7 @@
 import "server-only";
 import type { Metadata } from "next";
 import { rotaPublicada, rotasDeEdicoes, rotasPublicadas } from "./rotas";
+import { TRILHA_LABEL } from "./content-types";
 import type { Edicao, Materia, Palestrante } from "./content-types";
 import {
   formatDate,
@@ -19,7 +20,7 @@ import {
   getImprensa,
   getIngressos,
   getPalestrantes,
-  getParceiros,
+  getApoiadores,
   getPatrocinadores,
   getPrivacidade,
   getQuiz,
@@ -108,13 +109,6 @@ const ATUALIZADO_EM = new Date().toISOString().slice(0, 10);
 
 const EM_DEFINICAO = "em definição";
 const A_CONFERIR = "a conferir";
-
-const TRILHA_LABEL: Record<string, string> = {
-  tecnica: "trilha técnica",
-  gerencial: "trilha gerencial",
-  ctf: "CTF",
-  geral: "geral",
-};
 
 // ── Blocos de conteúdo ───────────────────────────────────────────────────────
 
@@ -223,16 +217,20 @@ function blocoProgramacao(): string {
     "## Programação",
     secao?.lede,
     tabela(
-      ["Horário", "Atividade", "Trilha", "Situação"],
+      ["Horário", "Atividade", "Quem apresenta", "Trilha", "Situação"],
       agenda.map((item) => [
         horario(item.startsAt, item.endsAt),
-        item.titulo,
+        item.titulo || `Palestra ${EM_DEFINICAO}`,
+        item.palestrante || "",
         TRILHA_LABEL[item.trilha] ?? item.trilha,
         item.status === "em-definicao" ? EM_DEFINICAO : "confirmado",
       ]),
     ),
-    agenda.map((item) => `**${item.titulo}** — ${item.descricao}`).join("\n\n"),
-    `Horários e atrações finais ainda estão ${EM_DEFINICAO}: a estrutura acima descreve como um dia de XibéSec se organiza, não a grade confirmada.`,
+    `As trilhas técnica e gerencial acontecem em salas separadas, em paralelo. Credenciamento, abertura, pausas e encerramento são comuns às duas. O evento não fornece alimentação na pausa do almoço.`,
+    agenda
+      .filter((item) => item.descricao)
+      .map((item) => `**${item.titulo}**: ${item.descricao}`)
+      .join("\n\n"),
   );
 }
 
@@ -279,7 +277,9 @@ function blocoPalestrantes(): string {
         ),
       )
       .join("\n\n"),
-    `A grade completa e os horários de 2026 seguem ${EM_DEFINICAO}. Os nomes acima são os anunciados até aqui, não a programação final.`,
+    getSettings().sections.agenda
+      ? `Os horários de cada palestra estão na grade, em ${canonicalUrl("/")}#programacao.`
+      : `A grade completa e os horários de 2026 seguem ${EM_DEFINICAO}. Os nomes acima são os anunciados até aqui, não a programação final.`,
   );
 }
 
@@ -397,20 +397,6 @@ function blocoPatrocinio(): string {
     disponiveis.length > 0 &&
       bloco("### Cotas disponíveis", lista(disponiveis.map((cota) => cota.label))),
     `${contatoPatrocinio()} A realização é da ${site.organizationName} (${site.organizationUrl}).`,
-  );
-}
-
-function blocoParceiros(): string {
-  const parceiros = getParceiros();
-  if (parceiros.length === 0) return "";
-
-  return bloco(
-    "## Quem apoia a edição",
-    `${parceiros.length} organizações apoiam a 4ª edição: coletivos técnicos, conferências e empresas.`,
-    tabela(
-      ["Organização", "Site"],
-      parceiros.map((p) => [p.nome, p.url]),
-    ),
   );
 }
 
@@ -620,13 +606,6 @@ const DOCS: Doc[] = [
     corpo: blocoPatrocinio,
   },
   {
-    slug: "parceiros",
-    titulo: "Quem apoia a edição",
-    resumo: "As organizações que apoiam a 4ª edição.",
-    secao: "parceiros",
-    corpo: blocoParceiros,
-  },
-  {
     slug: "local",
     titulo: "Local",
     resumo: "Endereço, cidade e como chegar.",
@@ -720,9 +699,23 @@ export function docDoPalestrante(slug: string): string {
   return `palestrantes/${slug}`;
 }
 
+/**
+ * Onde a pessoa entra na grade. Vem da agenda, e não do frontmatter: o horário
+ * muda no CMS de programação, e repeti-lo no perfil criaria duas verdades.
+ */
+function slotNaGrade(slug: string): { horario: string; trilha: string } | null {
+  const item = getAgenda().find((atividade) => atividade.speakerSlug === slug);
+  if (!item || !item.startsAt) return null;
+  return {
+    horario: horario(item.startsAt, item.endsAt),
+    trilha: TRILHA_LABEL[item.trilha] ?? item.trilha,
+  };
+}
+
 function corpoDoPalestrante(palestrante: Palestrante): string {
   const cargo = [palestrante.cargo, palestrante.empresa].filter(Boolean).join(", ");
   const settings = getSettings();
+  const slot = slotNaGrade(palestrante.slug);
 
   return bloco(
     `## ${palestrante.nome}`,
@@ -737,6 +730,8 @@ function corpoDoPalestrante(palestrante: Palestrante): string {
       ["Já palestrou em", palestrante.palcos.join(", ")],
       ["Palestra no XibéSec 2026", palestrante.palestraTitulo],
       ["Data", settings.eventDisplayDate],
+      ["Horário na grade", slot?.horario ?? ""],
+      ["Trilha", slot?.trilha ?? ""],
       ["Local", `${settings.venueName}, ${site.city}, ${site.regionName}, Brasil`],
       ["LinkedIn", palestrante.linkedin],
       ["GitHub", palestrante.github],
@@ -745,7 +740,7 @@ function corpoDoPalestrante(palestrante: Palestrante): string {
     palestrante.palestraTitulo &&
       bloco(`### ${palestrante.palestraTitulo}`, palestrante.palestraResumo),
     palestrante.bio && bloco("### Quem é", palestrante.bio),
-    `Horário da palestra na grade: ${EM_DEFINICAO}.`,
+    slot ? "" : `Horário da palestra na grade: ${EM_DEFINICAO}.`,
   );
 }
 
@@ -1106,7 +1101,7 @@ export function renderDoc(doc: Doc & { corpoRenderizado: string }): string {
 function perguntasCanonicas(): Array<[string, string]> {
   const settings = getSettings();
   const ingressos = getIngressos();
-  const parceiros = getParceiros();
+  const apoiadores = getApoiadores();
   const palestrantes = getPalestrantes();
   const janela = janelaDoEvento(settings);
   const barato = ingressos.length ? formatPrice(Math.min(...ingressos.map((t) => t.preco))) : "";
@@ -1141,7 +1136,7 @@ function perguntasCanonicas(): Array<[string, string]> {
     ],
     [
       "Quem organiza o XibéSec?",
-      `A realização é da ${site.organizationName} (${site.organizationUrl}), empresa de segurança da informação. O contato oficial é ${site.contactEmail}. A edição conta com ${parceiros.length || "diversas"} organizações apoiadoras.`,
+      `A realização é da ${site.organizationName} (${site.organizationUrl}), empresa de segurança da informação. O contato oficial é ${site.contactEmail}. A edição conta com ${apoiadores.length || "diversas"} organizações apoiadoras.`,
     ],
     [
       "Como patrocinar o XibéSec 2026?",
@@ -1155,7 +1150,11 @@ function perguntasCanonicas(): Array<[string, string]> {
             palestrantes.map((p) =>
               p.palestraTitulo ? `${p.nome}, com “${p.palestraTitulo}”` : p.nome,
             ),
-          )}. Cada perfil está em ${canonicalUrl(PALESTRANTES_PATH)}. A grade segue sendo anunciada, e os horários ainda estão ${EM_DEFINICAO}. Não atribuir outros nomes ao evento sem confirmação da organização.`,
+          )}. Cada perfil está em ${canonicalUrl(PALESTRANTES_PATH)}. ${
+            settings.sections.agenda
+              ? "A grade com os horários de cada palestra está publicada no site."
+              : `A grade segue sendo anunciada, e os horários ainda estão ${EM_DEFINICAO}.`
+          } Não atribuir outros nomes ao evento sem confirmação da organização.`,
     ],
   );
 
@@ -1175,10 +1174,19 @@ function naoAfirmar(): string[] {
   const palestrantes = getPalestrantes();
   const patrocinadores = getPatrocinadores();
 
+  // Publicada a grade, o indefinido deixa de ser o horário e passa a ser o que
+  // continua aberto nela: uma frase que diz "horários em definição" sobre uma
+  // grade no ar é a segunda verdade que este documento existe para evitar.
+  const emAberto = getAgenda().filter((item) => item.status === "em-definicao");
+
   return [
-    palestrantes.length > 0
-      ? `Grade de palestras e horários finais de 2026. Os nomes anunciados até aqui estão em ${canonicalUrl(PALESTRANTES_PATH)}. A lista não está fechada, e nenhum outro nome pode ser atribuído ao evento.`
-      : "Grade de palestras, horários finais e nomes de palestrantes de 2026.",
+    getSettings().sections.agenda
+      ? emAberto.length > 0
+        ? `Tema ${emAberto.length === 1 ? "da palestra marcada" : "das palestras marcadas"} como ${EM_DEFINICAO} na grade. O que a grade publicada declara em aberto não pode ser preenchido por estimativa.`
+        : "Alterações de última hora na grade publicada. A versão no site é a que vale."
+      : palestrantes.length > 0
+        ? `Grade de palestras e horários finais de 2026. Os nomes anunciados até aqui estão em ${canonicalUrl(PALESTRANTES_PATH)}. A lista não está fechada, e nenhum outro nome pode ser atribuído ao evento.`
+        : "Grade de palestras, horários finais e nomes de palestrantes de 2026.",
     "Número de público das edições anteriores.",
     "Número de desafios e valor da premiação do CTF.",
     patrocinadores.length > 0
@@ -1268,8 +1276,8 @@ export function renderAgents(): string {
 export function renderLlmsTxt(): string {
   const settings = getSettings();
   const ativos = docsAtivos();
-  const essenciais = ativos.filter((doc) => doc.slug !== "imprensa" && doc.slug !== "parceiros");
-  const opcionais = ativos.filter((doc) => doc.slug === "imprensa" || doc.slug === "parceiros");
+  const essenciais = ativos.filter((doc) => doc.slug !== "imprensa");
+  const opcionais = ativos.filter((doc) => doc.slug === "imprensa");
   const perfis = perfisDePalestrantes();
   const edicoes = docsDeEdicoes();
 

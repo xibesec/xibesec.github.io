@@ -7,7 +7,7 @@ import {
   getEdicoes,
   getIngressos,
   getPalestrantes,
-  getParceiros,
+  getApoiadores,
   getPatrocinadores,
   getSettings,
   type Settings,
@@ -52,7 +52,7 @@ export function buildShellFs(): ShellNode {
   const settings: Settings = getSettings();
   const ingressos = getIngressos();
   const agenda = getAgenda();
-  const parceiros = getParceiros();
+  const apoiadores = getApoiadores();
   const patrocinadores = getPatrocinadores();
   const palestrantes = getPalestrantes();
   const edicoes = getEdicoes();
@@ -76,7 +76,8 @@ export function buildShellFs(): ShellNode {
     "programacao.txt": agenda.length
       ? agenda.map(
           (item) =>
-            `${hora.format(new Date(item.startsAt))}  ${item.titulo.toLowerCase()}` +
+            `${hora.format(new Date(item.startsAt))}  ` +
+            (item.titulo || item.palestrante).toLowerCase() +
             (item.status === "em-definicao" ? " (em definição)" : ""),
         )
       : ["Grade em definição."],
@@ -176,16 +177,18 @@ export function buildShellFs(): ShellNode {
 
     parceiros: {
       "organizacoes.txt": [
-        `${parceiros.length} organizações apoiam a 4ª edição:`,
+        `${apoiadores.length} organizações apoiam a 4ª edição:`,
         "",
         ...emColunas(
-          parceiros.map((p) => p.nome),
+          apoiadores.map((p) => p.nome),
           3,
           22,
         ),
       ],
       "patrocinio.txt": [
-        ...patrocinadores.map((p) => `${p.cota.padEnd(13)}${p.nome} (confirmado)`),
+        ...patrocinadores
+          .filter((p) => p.cota !== "apoio")
+          .map((p) => `${p.cota.padEnd(13)}${p.nome} (confirmado)`),
         "",
         "Demais cotas: falar com a organização.",
         `Contato: ${site.contactEmail}`,
