@@ -71,7 +71,7 @@ Formato por natureza do dado:
 
 ### Apoio é cota, não seção à parte
 
-Quem apoia a edição mora em `contents/patrocinadores/` com `cota: "apoio"`, na mesma coleção de quem comprou cota. Não há seção `#parceiros`, nem coleção `parceiros`, nem chip de organização: a vitrine de `#patrocinio` agrupa por cota, e a de apoio entra por último, com `apoio: true` na cota levando `escalaDaCota()` a `reduzida`. Duas listas para a mesma pergunta ("quem está com o evento") divergiam a cada marca nova, e uma delas não alimentava nem o `sponsor` do JSON-LD nem a tabela de `/docs/patrocinio.md`.
+Quem apoia a edição mora em `contents/patrocinadores/` com `cota: "apoio"`, na mesma coleção de quem comprou cota. Não há seção `#parceiros`, nem coleção `parceiros`, nem chip de organização: a vitrine de `#patrocinio` agrupa por cota, e a de apoio entra por último, depois do painel que convida a patrocinar, porque o convite se dirige a quem compra cota. O `apoio: true` da cota leva `escalaDaCota()` a `reduzida`, que ocupa meia coluna da mesma grade, em pares dentro de uma célula: a marca fica menor que a de quem pagou sem soltar do alinhamento das colunas de cima. Duas listas para a mesma pergunta ("quem está com o evento") divergiam a cada marca nova, e uma delas não alimentava nem o `sponsor` do JSON-LD nem a tabela de `/docs/patrocinio.md`.
 
 `SponsorSlot` sem `logo` escreve o nome dentro da moldura, então marca sem arquivo entra na fileira sem moldura vazia e sem espaço reservado. `getApoiadores()` é quem lê essa cota fora da seção, e alimenta o `cat parceiros/organizacoes.txt` do shell e a resposta sobre quem apoia em `/docs/agents.md`.
 
