@@ -80,12 +80,20 @@
     "order": 10
   },
   {
+    "nome": "Techlead",
+    "slug": "techlead",
+    "logo": "/images/patrocinadores/techlead.png",
+    "url": "https://www.techlead.com.br/",
+    "cota": "bronze",
+    "order": 11
+  },
+  {
     "nome": "0xe Hacker Conf.",
     "slug": "0xe-hacker-conf",
     "logo": "/images/patrocinadores/0xe-hacker-conf.png",
     "url": "https://www.instagram.com/0xehackerconference/",
     "cota": "apoio",
-    "order": 11
+    "order": 12
   },
   {
     "nome": "3D com Tech",
@@ -93,7 +101,7 @@
     "logo": "/images/patrocinadores/3d-com-tech.png",
     "url": "https://www.instagram.com/3dcomtech/",
     "cota": "apoio",
-    "order": 12
+    "order": 13
   },
   {
     "nome": "Alquymia",
@@ -101,7 +109,7 @@
     "logo": "/images/patrocinadores/alquymia.png",
     "url": "https://alquymia.com.br/",
     "cota": "apoio",
-    "order": 13
+    "order": 14
   },
   {
     "nome": "AWS User Group Belém",
@@ -109,7 +117,7 @@
     "logo": "/images/patrocinadores/aws-user-group-belem.png",
     "url": "",
     "cota": "apoio",
-    "order": 14
+    "order": 15
   },
   {
     "nome": "BELJOGOS",
@@ -117,7 +125,7 @@
     "logo": "/images/patrocinadores/beljogos.png",
     "url": "https://www.instagram.com/beljogos/",
     "cota": "apoio",
-    "order": 15
+    "order": 16
   },
   {
     "nome": "BSides BSB",
@@ -125,7 +133,7 @@
     "logo": "/images/patrocinadores/bsides-bsb.png",
     "url": "https://www.instagram.com/bsidesbsb/",
     "cota": "apoio",
-    "order": 16
+    "order": 17
   },
   {
     "nome": "BXSec",
@@ -133,7 +141,7 @@
     "logo": "/images/patrocinadores/bxsec.png",
     "url": "https://www.instagram.com/bxsec/",
     "cota": "apoio",
-    "order": 17
+    "order": 18
   },
   {
     "nome": "Chapéu de Palha",
@@ -141,7 +149,7 @@
     "logo": "",
     "url": "https://www.instagram.com/chapeudepalhahackerclub/",
     "cota": "apoio",
-    "order": 18
+    "order": 19
   },
   {
     "nome": "Cibernauta",
@@ -149,7 +157,7 @@
     "logo": "/images/patrocinadores/cibernauta.png",
     "url": "https://www.instagram.com/ocibernauta_/",
     "cota": "apoio",
-    "order": 19
+    "order": 20
   },
   {
     "nome": "Cyber Security Girls",
@@ -157,7 +165,7 @@
     "logo": "/images/patrocinadores/cybersecurity-girls.png",
     "url": "https://www.instagram.com/cyber_securitygirlsbr/",
     "cota": "apoio",
-    "order": 20
+    "order": 21
   },
   {
     "nome": "CyberNorte",
@@ -165,7 +173,7 @@
     "logo": "/images/patrocinadores/cybernorte.png",
     "url": "https://www.instagram.com/cyber.norte/",
     "cota": "apoio",
-    "order": 21
+    "order": 22
   },
   {
     "nome": "DevsNorte",
@@ -173,7 +181,7 @@
     "logo": "/images/patrocinadores/devsnorte.png",
     "url": "",
     "cota": "apoio",
-    "order": 22
+    "order": 23
   },
   {
     "nome": "Garota Cibernética",
@@ -181,7 +189,7 @@
     "logo": "/images/patrocinadores/garota-cibernetica.png",
     "url": "https://www.instagram.com/garotacibernetica_/",
     "cota": "apoio",
-    "order": 23
+    "order": 24
   },
   {
     "nome": "GDG Belém",
@@ -189,7 +197,7 @@
     "logo": "/images/patrocinadores/gdg-belem.png",
     "url": "",
     "cota": "apoio",
-    "order": 24
+    "order": 25
   },
   {
     "nome": "Guia Anônima",
@@ -197,7 +205,7 @@
     "logo": "/images/patrocinadores/guia-anonima.png",
     "url": "https://guiaanonima.com/",
     "cota": "apoio",
-    "order": 25
+    "order": 26
   },
   {
     "nome": "Hack Buenos Aires 27%",
@@ -205,7 +213,7 @@
     "logo": "/images/patrocinadores/hack-buenos-aires.png",
     "url": "https://www.instagram.com/hackbuenosaires/",
     "cota": "apoio",
-    "order": 26
+    "order": 27
   },
   {
     "nome": "Hack in Cariri",
@@ -213,7 +221,7 @@
     "logo": "/images/patrocinadores/hack-in-cariri.png",
     "url": "https://app.hackincariri.com.br/",
     "cota": "apoio",
-    "order": 27
+    "order": 28
   },
   {
     "nome": "ITshow",
@@ -221,7 +229,7 @@
     "logo": "/images/patrocinadores/itshow.png",
     "url": "https://itshow.com.br/",
     "cota": "apoio",
-    "order": 28
+    "order": 29
   },
   {
     "nome": "LATAM Airlines",
@@ -229,7 +237,7 @@
     "logo": "/images/patrocinadores/latam-airlines.png",
     "url": "https://www.latamairlines.com/br/pt",
     "cota": "apoio",
-    "order": 29
+    "order": 30
   },
   {
     "nome": "Mente Binária",
@@ -237,7 +245,7 @@
     "logo": "/images/patrocinadores/mente-binaria.png",
     "url": "https://www.mentebinaria.com.br/",
     "cota": "apoio",
-    "order": 30
+    "order": 31
   },
   {
     "nome": "Norte4j",
@@ -245,7 +253,7 @@
     "logo": "/images/patrocinadores/norte4j.png",
     "url": "",
     "cota": "apoio",
-    "order": 31
+    "order": 32
   },
   {
     "nome": "Novatec",
@@ -253,7 +261,7 @@
     "logo": "/images/patrocinadores/novatec.png",
     "url": "https://novatec.com.br/",
     "cota": "apoio",
-    "order": 32
+    "order": 33
   },
   {
     "nome": "OWASP Belém",
@@ -261,7 +269,7 @@
     "logo": "/images/patrocinadores/owasp-belem.png",
     "url": "https://www.instagram.com/owasp_belem/",
     "cota": "apoio",
-    "order": 33
+    "order": 34
   },
   {
     "nome": "PHP Belém",
@@ -269,7 +277,7 @@
     "logo": "/images/patrocinadores/php-belem.png",
     "url": "https://www.instagram.com/php_belem/",
     "cota": "apoio",
-    "order": 34
+    "order": 35
   },
   {
     "nome": "Quantum Village BR",
@@ -277,7 +285,7 @@
     "logo": "/images/patrocinadores/quantum-village-br.png",
     "url": "https://www.instagram.com/quantum.villagebr/",
     "cota": "apoio",
-    "order": 35
+    "order": 36
   },
   {
     "nome": "Radio Point",
@@ -285,7 +293,7 @@
     "logo": "",
     "url": "",
     "cota": "apoio",
-    "order": 36
+    "order": 37
   },
   {
     "nome": "Raul Hacker Club",
@@ -293,7 +301,7 @@
     "logo": "/images/patrocinadores/raul-hacker-club.png",
     "url": "https://www.instagram.com/raulhackerclub/",
     "cota": "apoio",
-    "order": 37
+    "order": 38
   },
   {
     "nome": "Security Is Lifestyle",
@@ -301,7 +309,7 @@
     "logo": "/images/patrocinadores/security-is-lifestyle.png",
     "url": "https://www.instagram.com/securityisalifestyle/",
     "cota": "apoio",
-    "order": 38
+    "order": 39
   },
   {
     "nome": "SOC Brazil",
@@ -309,7 +317,7 @@
     "logo": "/images/patrocinadores/soc-brazil.png",
     "url": "https://socbrazil.com/",
     "cota": "apoio",
-    "order": 39
+    "order": 40
   },
   {
     "nome": "Ströngreen",
@@ -317,7 +325,7 @@
     "logo": "/images/patrocinadores/strongreen-community.png",
     "url": "https://www.strongreen.com/",
     "cota": "apoio",
-    "order": 40
+    "order": 41
   },
   {
     "nome": "Sympla",
@@ -325,7 +333,7 @@
     "logo": "/images/patrocinadores/sympla.png",
     "url": "https://www.sympla.com.br/",
     "cota": "apoio",
-    "order": 41
+    "order": 42
   },
   {
     "nome": "TI Pará",
@@ -333,7 +341,7 @@
     "logo": "/images/patrocinadores/ti-para.png",
     "url": "",
     "cota": "apoio",
-    "order": 42
+    "order": 43
   },
   {
     "nome": "TV Liberal",
@@ -341,7 +349,7 @@
     "logo": "/images/patrocinadores/tv-liberal.png",
     "url": "",
     "cota": "apoio",
-    "order": 43
+    "order": 44
   },
   {
     "nome": "VP2 Turismo",
@@ -349,6 +357,6 @@
     "logo": "/images/patrocinadores/vp2-turismo.png",
     "url": "https://www.instagram.com/vp2turismo/",
     "cota": "apoio",
-    "order": 44
+    "order": 45
   }
 ]
