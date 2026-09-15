@@ -130,16 +130,16 @@
     "order": 10
   },
   {
-    "titulo": "",
+    "titulo": "Identidade soberana (SSI): devolvendo o controle dos dados ao usuário",
     "slug": "",
-    "palestrante": "",
-    "speakerSlug": "",
+    "palestrante": "Jeffson Sousa",
+    "speakerSlug": "jeffson-sousa",
     "descricao": "",
     "startsAt": "2026-09-19T14:10:00-03:00",
     "endsAt": "2026-09-19T14:55:00-03:00",
     "trilha": "tecnica",
     "tipo": "palestra",
-    "status": "em-definicao",
+    "status": "confirmado",
     "order": 11
   },
   {
