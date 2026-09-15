@@ -262,7 +262,7 @@ A home está composta e o build publica; ainda **não existem**:
 - `scripts/validate-content.ts` com Zod;
 - `app/programacao/[slug]`, a página de detalhe de cada atividade. Enquanto não existir, `AgendaCell` é renderizada **sem link para a atividade**: só o nome de quem palestra aponta para o perfil. Card que leva a 404 é pior que card sem link. Criando a página, devolver o `href` na seção e conferir sitemap e espelho em Markdown. A rota de palestrante já existe, e é o modelo a seguir;
 - números de público e álbuns de fotos das edições anteriores: `publico` e `albumUrl` seguem vazios em `contents/edicoes/`, e a ficha de cada edição declara a pendência;
-- logos da imprensa e de boa parte das organizações apoiadoras: `public/images/imprensa/` está vazio, e em `public/images/patrocinadores/` faltam CyberNorte, ITshow, Quantum Village BR, SOC Brazil, Ströngreen, Sympla e VP2 Turismo, que por isso saem com o nome escrito na moldura;
+- logos da imprensa, de Chapéu de Palha e de Radio Point: `public/images/imprensa/` está vazio, e essas duas apoiadoras saem com o nome escrito na moldura. Faltam também os endereços de AWS User Group Belém, DevsNorte, GDG Belém, Norte4j, Radio Point, TI Pará e TV Liberal, que por isso renderizam sem link;
 - perfis de rede dos palestrantes: `linkedin`, `github`, `twitter` e `site` estão vazios no frontmatter, e sem eles o `Person` do JSON-LD sai sem `sameAs`, que é o campo que amarra a pessoa à identidade dela fora do site.
 
 As demais coleções em `contents/` existem com o schema declarado e **conteúdo vazio, de propósito**. Não preencher sem pedido explícito.
