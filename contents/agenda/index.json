@@ -39,6 +39,19 @@
     "order": 3
   },
   {
+    "titulo": "Modelagem de ameaças: como incluir IA no processo de elaboração de ameaças",
+    "slug": "",
+    "palestrante": "Lucas Saldanha",
+    "speakerSlug": "lucas-saldanha",
+    "descricao": "",
+    "startsAt": "2026-09-19T09:45:00-03:00",
+    "endsAt": "2026-09-19T10:30:00-03:00",
+    "trilha": "gerencial",
+    "tipo": "palestra",
+    "status": "confirmado",
+    "order": 4
+  },
+  {
     "titulo": "Algoritmos não são neutros: racismo, IA e responsabilidade jurídica",
     "slug": "",
     "palestrante": "Lorena Pantoja",
@@ -49,12 +62,12 @@
     "trilha": "tecnica",
     "tipo": "palestra",
     "status": "confirmado",
-    "order": 4
+    "order": 5
   },
   {
     "titulo": "Fraudes digitais entre prevenção, inteligência e resposta",
     "slug": "",
-    "palestrante": "Mediação de Anchises Moraes, com Abel Rodrigues, Alex Azevedo e Vanessa Lee.",
+    "palestrante": "Mediação de Anchises Moraes, com Abel Rodrigues, Alex Azevedo e Vanessa Lee Araujo Pitton Albanese.",
     "speakerSlug": "",
     "descricao": "",
     "startsAt": "2026-09-19T10:30:00-03:00",
@@ -62,20 +75,20 @@
     "trilha": "gerencial",
     "tipo": "painel",
     "status": "confirmado",
-    "order": 5
+    "order": 6
   },
   {
-    "titulo": "Ataque digital à soberania nacional: domínios públicos como vetores de ataque",
+    "titulo": "Integrando Segurança no S-SDLC com uma Pipeline Open Source",
     "slug": "",
-    "palestrante": "Inácio Gorayeb",
-    "speakerSlug": "inacio-gorayeb",
+    "palestrante": "Lucas Meira",
+    "speakerSlug": "lucas-meira",
     "descricao": "",
     "startsAt": "2026-09-19T11:15:00-03:00",
     "endsAt": "2026-09-19T12:00:00-03:00",
     "trilha": "tecnica",
     "tipo": "palestra",
     "status": "confirmado",
-    "order": 6
+    "order": 7
   },
   {
     "titulo": "29 minutos: o ataque que não parece ataque",
@@ -88,7 +101,7 @@
     "trilha": "gerencial",
     "tipo": "palestra",
     "status": "confirmado",
-    "order": 7
+    "order": 8
   },
   {
     "titulo": "As 10 formas de quebrar uma IA em produção",
@@ -101,7 +114,7 @@
     "trilha": "tecnica",
     "tipo": "palestra",
     "status": "confirmado",
-    "order": 8
+    "order": 9
   },
   {
     "titulo": "Cibersegurança e resiliência em infraestruturas críticas",
@@ -114,7 +127,7 @@
     "trilha": "gerencial",
     "tipo": "painel",
     "status": "confirmado",
-    "order": 9
+    "order": 10
   },
   {
     "titulo": "Pausa para o almoço",
@@ -127,7 +140,7 @@
     "trilha": "geral",
     "tipo": "intervalo",
     "status": "confirmado",
-    "order": 10
+    "order": 11
   },
   {
     "titulo": "Identidade soberana (SSI): devolvendo o controle dos dados ao usuário",
@@ -140,7 +153,7 @@
     "trilha": "tecnica",
     "tipo": "palestra",
     "status": "confirmado",
-    "order": 11
+    "order": 12
   },
   {
     "titulo": "IA e cibersegurança: entre estratégia, risco e decisão",
@@ -153,7 +166,7 @@
     "trilha": "gerencial",
     "tipo": "painel",
     "status": "confirmado",
-    "order": 12
+    "order": 13
   },
   {
     "titulo": "EXPOSED: quando a cibersegurança falha, a violência contra a mulher começa",
@@ -166,7 +179,7 @@
     "trilha": "tecnica",
     "tipo": "palestra",
     "status": "confirmado",
-    "order": 13
+    "order": 14
   },
   {
     "titulo": "Recuperação de mensagens e mídias de visualização única do WhatsApp",
@@ -179,7 +192,7 @@
     "trilha": "gerencial",
     "tipo": "palestra",
     "status": "confirmado",
-    "order": 14
+    "order": 15
   },
   {
     "titulo": "Pausa",
@@ -192,7 +205,7 @@
     "trilha": "geral",
     "tipo": "intervalo",
     "status": "confirmado",
-    "order": 15
+    "order": 16
   },
   {
     "titulo": "Sua digital não é sua senha: biometria do seu app mobile pode ser hackeada",
@@ -205,12 +218,12 @@
     "trilha": "tecnica",
     "tipo": "palestra",
     "status": "confirmado",
-    "order": 16
+    "order": 17
   },
   {
-    "titulo": "Resposta a incidentes",
+    "titulo": "Resposta a incidentes: quando o incidente vira crise",
     "slug": "",
-    "palestrante": "Mediação de Danielle Costa, com Edivaldo Gaspar, Paulo Lourinho e Rodrigo Arruda.",
+    "palestrante": "Mediação de Danielle Costa, com Edivaldo Gaspar, Paulo Lourinho e Rodrigo Bandeira Arruda.",
     "speakerSlug": "",
     "descricao": "",
     "startsAt": "2026-09-19T16:00:00-03:00",
@@ -218,7 +231,7 @@
     "trilha": "gerencial",
     "tipo": "painel",
     "status": "confirmado",
-    "order": 17
+    "order": 18
   },
   {
     "titulo": "Cibersegurança em comunidades tradicionais: da infraestrutura aos dados, confluência de experiências de proteção comunitária",
@@ -231,7 +244,7 @@
     "trilha": "tecnica",
     "tipo": "palestra",
     "status": "confirmado",
-    "order": 18
+    "order": 19
   },
   {
     "titulo": "Automatizando ataques hackers com IA",
@@ -244,7 +257,7 @@
     "trilha": "gerencial",
     "tipo": "palestra",
     "status": "confirmado",
-    "order": 19
+    "order": 20
   },
   {
     "titulo": "Old dogs old tricks!",
@@ -257,19 +270,32 @@
     "trilha": "tecnica",
     "tipo": "palestra",
     "status": "confirmado",
-    "order": 20
+    "order": 21
+  },
+  {
+    "titulo": "Ataque digital à soberania nacional: domínios públicos como vetores de ataque",
+    "slug": "",
+    "palestrante": "Inácio Gorayeb",
+    "speakerSlug": "inacio-gorayeb",
+    "descricao": "",
+    "startsAt": "2026-09-19T17:30:00-03:00",
+    "endsAt": "2026-09-19T18:10:00-03:00",
+    "trilha": "gerencial",
+    "tipo": "palestra",
+    "status": "confirmado",
+    "order": 22
   },
   {
     "titulo": "Encerramento e sorteios",
     "slug": "",
     "palestrante": "",
     "speakerSlug": "",
-    "descricao": "Agradecimentos, sorteios e o convite para a próxima edição.",
+    "descricao": "Agradecimentos, sorteios e o convite para a próxima edição, na sala da trilha técnica.",
     "startsAt": "2026-09-19T18:10:00-03:00",
     "endsAt": "2026-09-19T19:00:00-03:00",
     "trilha": "geral",
     "tipo": "operacional",
     "status": "confirmado",
-    "order": 21
+    "order": 23
   }
 ]
