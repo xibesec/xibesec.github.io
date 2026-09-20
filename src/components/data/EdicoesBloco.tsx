@@ -13,6 +13,8 @@ export type EdicoesBlocoProps = {
   edicoes: EdicaoResumo[];
   /** A edição corrente, que fecha a linha do tempo sem carta no baralho. */
   atual: TimelineEntry;
+  /** A próxima edição, anunciada sem carta e sem link: ainda não tem registro. */
+  proxima?: TimelineEntry;
   edicoesLabel: string;
   registroPendente: string;
   /** Rótulo do link para a página da edição em foco, no carrossel do celular. */
@@ -46,6 +48,7 @@ const NAV_FALLBACK = 66;
 export function EdicoesBloco({
   edicoes,
   atual,
+  proxima,
   edicoesLabel,
   registroPendente,
   paginaLabel,
@@ -192,6 +195,7 @@ export function EdicoesBloco({
       active: index === emVista,
     })),
     atual,
+    ...(proxima ? [proxima] : []),
   ];
 
   return (

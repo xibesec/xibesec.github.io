@@ -50,6 +50,12 @@ const config: StudioConfig = {
           { name: "ticketsUrl", type: "url", required: true, label: "Link de venda (Sympla)" },
           { name: "volunteersDeadline", type: "date", label: "Prazo de voluntários" },
           { name: "cfpDeadline", type: "date", label: "Prazo do CFP" },
+          { name: "nextEditionDate", type: "date", label: "Data da próxima edição" },
+          {
+            name: "nextEditionDisplayDate",
+            type: "text",
+            label: "Data da próxima edição, por extenso",
+          },
           {
             name: "sections",
             type: "object",

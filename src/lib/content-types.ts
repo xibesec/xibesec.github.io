@@ -12,6 +12,8 @@ export type Settings = {
   ticketsUrl: string;
   volunteersDeadline: string;
   cfpDeadline: string;
+  nextEditionDate: string;
+  nextEditionDisplayDate: string;
   sections: Record<SectionKey, boolean>;
 };
 

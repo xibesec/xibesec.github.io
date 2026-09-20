@@ -16,6 +16,8 @@ export type Slug      = Brand<string, 'Slug'>;
 export interface AgendaEntry {
   titulo: string;
   slug: string;
+  palestrante: string;
+  speakerSlug: string;
   descricao: string;
   startsAt: Date;
   endsAt: Date;
@@ -57,6 +59,7 @@ export interface CotasEntry {
   featured: boolean;
   disponivel: boolean;
   order: number;
+  apoio: boolean;
 }
 
 /** Data shape for the "ctf" collection. */
@@ -194,20 +197,12 @@ export interface PalestrantesEntry {
   empresa: string;
 }
 
-/** Data shape for the "parceiros" collection. */
-export interface ParceirosEntry {
-  nome: string;
-  slug: string;
-  url: HttpUrl;
-  order: number;
-}
-
 /** Data shape for the "patrocinadores" collection. */
 export interface PatrocinadoresEntry {
   nome: string;
   slug: string;
   logo: string;
-  url: HttpUrl;
+  url: string;
   cota: string;
   order: number;
 }
@@ -352,6 +347,8 @@ export interface SettingsEntry {
   ticketsUrl: HttpUrl;
   volunteersDeadline: ISODate;
   cfpDeadline: string;
+  nextEditionDate: ISODate;
+  nextEditionDisplayDate: string;
   sections: {
     fatos: boolean;
     sobre: boolean;
@@ -362,7 +359,6 @@ export interface SettingsEntry {
     ingressos: boolean;
     participe: boolean;
     patrocinio: boolean;
-    parceiros: boolean;
     local: boolean;
     faq: boolean;
     imprensa: boolean;
@@ -398,7 +394,6 @@ declare module 'nextjs-studio' {
     "links": LinksEntry;
     "navegacao": NavegacaoEntry;
     "palestrantes": PalestrantesEntry;
-    "parceiros": ParceirosEntry;
     "patrocinadores": PatrocinadoresEntry;
     "privacidade": PrivacidadeEntry;
     "quiz": QuizEntry;
@@ -426,7 +421,6 @@ declare module 'nextjs-studio/server' {
     "links": LinksEntry;
     "navegacao": NavegacaoEntry;
     "palestrantes": PalestrantesEntry;
-    "parceiros": ParceirosEntry;
     "patrocinadores": PatrocinadoresEntry;
     "privacidade": PrivacidadeEntry;
     "quiz": QuizEntry;

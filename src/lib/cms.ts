@@ -107,6 +107,8 @@ export function getSettings(): Settings {
     ticketsUrl: str(row, "ticketsUrl"),
     volunteersDeadline: str(row, "volunteersDeadline"),
     cfpDeadline: str(row, "cfpDeadline"),
+    nextEditionDate: str(row, "nextEditionDate"),
+    nextEditionDisplayDate: str(row, "nextEditionDisplayDate"),
     sections,
   };
 }

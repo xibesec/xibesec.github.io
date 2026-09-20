@@ -12,6 +12,11 @@ import type { Hero as HeroContent, Settings } from "@/lib/cms";
 const MASCOTE_ALT =
   "Mascote do XibéSec: personagem ciber-amazônico de máscara respiratória, com braçadeiras em grafismo marajoara, segurando um dispositivo conectado por cabo.";
 
+// Rótulos de interface: com o evento encerrado, a ficha do hero passa a
+// anunciar a próxima edição, ainda sem local nem horário definidos.
+const PROXIMA_EDICAO_LABEL = "Próxima edição";
+const LOCAL_A_DEFINIR = "Local a definir";
+
 export type HeroProps = {
   hero: HeroContent;
   settings: Settings;
@@ -27,9 +32,6 @@ export type HeroProps = {
  * o texto atravessaria a parte clara da mata.
  */
 export function Hero({ hero, settings, ctaPrimario, ctaSecundarioHref }: HeroProps) {
-  // "Av. Pedro Álvares Cabral, 9031. Marambaia, Belém/PA" → "Belém/PA"
-  const cidade = settings.venueAddress.split(",").slice(-1)[0]?.trim() ?? "";
-
   return (
     <section id="topo" className="border-line relative overflow-hidden border-b">
       {/* `isolate` prende o blend da névoa a esta pilha: sem contexto próprio
@@ -89,7 +91,14 @@ export function Hero({ hero, settings, ctaPrimario, ctaSecundarioHref }: HeroPro
           </p>
 
           <div className="mb-9 flex flex-wrap gap-3.5 max-[720px]:mb-5 [&>a]:max-[720px]:flex-auto">
-            <BotaoMedido medirComo={EVENTOS.ingressoClicado} local="hero" {...ctaPrimario} arrow>
+            <BotaoMedido
+              medirComo={
+                settings.sections.ingressos ? EVENTOS.ingressoClicado : EVENTOS.redeSocialClicada
+              }
+              local="hero"
+              {...ctaPrimario}
+              arrow
+            >
               {hero.ctaPrimario}
             </BotaoMedido>
             {hero.ctaSecundario && ctaSecundarioHref ? (
@@ -101,15 +110,13 @@ export function Hero({ hero, settings, ctaPrimario, ctaSecundarioHref }: HeroPro
 
           <p className="text-cream-3 flex flex-wrap gap-x-7 gap-y-2.5 font-mono text-[13px]">
             <span>
-              <time dateTime={settings.eventStartDate}>{settings.eventDisplayDate}</time>
-              {hero.horario ? ` · ${hero.horario}` : null}
+              {PROXIMA_EDICAO_LABEL}{" "}
+              <time dateTime={settings.nextEditionDate}>{settings.nextEditionDisplayDate}</time>
             </span>
             <span aria-hidden="true" className="text-cream/25">
               /
             </span>
-            <span>
-              {settings.venueName} · {cidade}
-            </span>
+            <span>{LOCAL_A_DEFINIR}</span>
           </p>
         </div>
 

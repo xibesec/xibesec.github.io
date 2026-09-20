@@ -8,6 +8,8 @@
   "ticketsUrl": "https://www.sympla.com.br/evento/xibesec-2026/3470128",
   "volunteersDeadline": "2026-08-20",
   "cfpDeadline": "",
+  "nextEditionDate": "2027-09-18",
+  "nextEditionDisplayDate": "18 de setembro de 2027",
   "sections": {
     "fatos": true,
     "sobre": true,
@@ -15,7 +17,7 @@
     "agenda": true,
     "ctf": true,
     "palestrantes": false,
-    "ingressos": true,
+    "ingressos": false,
     "participe": false,
     "patrocinio": true,
     "local": true,

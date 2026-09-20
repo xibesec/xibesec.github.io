@@ -3,15 +3,14 @@ import { Container } from "@/components/primitives/Container";
 import { Eyebrow } from "@/components/primitives/SectionHeader";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Button } from "@/components/primitives/Button";
-import { asset } from "@/lib/site";
-import type { Secao, Settings } from "@/lib/cms";
+import { asset, site } from "@/lib/site";
+import type { Secao } from "@/lib/cms";
 
 export type FechamentoProps = {
-  settings: Settings;
   secao: Secao;
 };
 
-export function Fechamento({ settings, secao }: FechamentoProps) {
+export function Fechamento({ secao }: FechamentoProps) {
   return (
     <section className="bg-ink-deep border-line overflow-hidden border-t">
       <Container className="grid grid-cols-[1.2fr_.8fr] items-end gap-[clamp(24px,4vw,48px)] pt-[clamp(52px,6.5vw,88px)] max-[860px]:grid-cols-1">
@@ -28,7 +27,7 @@ export function Fechamento({ settings, secao }: FechamentoProps) {
             {secao.lede}
           </p>
 
-          <Button size="lg" href={settings.ticketsUrl} target="_blank" rel="noopener">
+          <Button size="lg" href={site.social.instagram} target="_blank" rel="noopener">
             {secao.cta}
           </Button>
         </Reveal>

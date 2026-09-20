@@ -12,7 +12,7 @@ import { getEquipe, getNavegacao, getSettings } from "@/lib/cms";
 
 // Rótulos de navegação: interface, não conteúdo editorial.
 const SKIP = "Pular para o conteúdo";
-const NAV_CTA = "Ingressos";
+const NAV_CTA = "Seguir no Instagram";
 
 export type PaginaInternaProps = {
   children: ReactNode;

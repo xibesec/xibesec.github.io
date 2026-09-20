@@ -9,6 +9,7 @@ import type { Edicao, Secao, Settings, Sobre } from "@/lib/cms";
 const EDICOES_LABEL = "Edições";
 const REGISTRO_PENDENTE = "registro em curadoria";
 const PAGINA_LABEL = "Ver a";
+const EM_BREVE = "Em breve";
 
 // Ordinal da edição, derivado de quantas vieram antes. Nada de "Quarta" fixo:
 // o número muda sozinho quando uma edição entra ou sai do conteúdo.
@@ -87,6 +88,16 @@ export function EventoSection({
     current: true,
   };
 
+  // Sem `href`: ainda não existe registro para essa edição, então a linha não
+  // vira área de clique nem ganha carta no baralho.
+  const proxima = settings.nextEditionDate
+    ? {
+        year: new Date(settings.nextEditionDate).getFullYear(),
+        label: `${ordinal(edicoes.length + 2)} edição`,
+        detail: EM_BREVE,
+      }
+    : undefined;
+
   return (
     <Section id="evento" variant="panel">
       <Container>
@@ -114,6 +125,7 @@ export function EventoSection({
               href: paginasDeEdicoes[ano],
             }))}
             atual={atual}
+            proxima={proxima}
             edicoesLabel={EDICOES_LABEL}
             registroPendente={REGISTRO_PENDENTE}
             paginaLabel={PAGINA_LABEL}

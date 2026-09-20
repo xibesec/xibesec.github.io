@@ -2,6 +2,7 @@
 // arquivo resolve é a pergunta seguinte: para onde o botão aponta quando a
 // seção que ele buscava não está publicada.
 
+import { site } from "./site";
 import type { SectionKey, Settings } from "./content-types";
 
 /** Atributos de um destino, prontos para espalhar em `<a>` ou `Button`. */
@@ -24,11 +25,13 @@ export const ANCORA_INGRESSOS = "#ingressos";
  * presença", "Quero participar"): rola até a tabela de preços, onde cada lote
  * leva ao Sympla.
  *
- * Com a seção de ingressos desligada a âncora não existe na página, e o clique
- * ficaria parado onde está — então o destino passa a ser o próprio checkout.
+ * Com a seção de ingressos desligada não há tabela de preços na página, e o
+ * clique ficaria parado onde está. Para esta edição a seção não está desligada
+ * por estar em preparação: a venda encerrou porque o evento já aconteceu, então
+ * o destino passa a ser o Instagram, onde a organização anuncia a próxima.
  */
 export function alvoCompra(settings: Settings): LinkAlvo {
-  return settings.sections.ingressos ? { href: ANCORA_INGRESSOS } : externo(settings.ticketsUrl);
+  return settings.sections.ingressos ? { href: ANCORA_INGRESSOS } : externo(site.social.instagram);
 }
 
 /**
@@ -38,7 +41,7 @@ export function alvoCompra(settings: Settings): LinkAlvo {
 export function alvoCompraDeOutraRota(settings: Settings): LinkAlvo {
   return settings.sections.ingressos
     ? { href: `/${ANCORA_INGRESSOS}` }
-    : externo(settings.ticketsUrl);
+    : externo(site.social.instagram);
 }
 
 /** Âncora vista de outra rota: sem a home na frente, o clique não sai do lugar. */

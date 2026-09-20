@@ -24,6 +24,7 @@ try{if(localStorage.getItem('${CHAVE_OPTOUT}')==='1')window['${CHAVE_DESLIGA_GA}
 /** Nome digitado à mão no componente vira uma linha separada no painel. */
 export const EVENTOS = {
   ingressoClicado: "ingresso_clicado",
+  redeSocialClicada: "rede_social_clicada",
   patrocinadorClicado: "patrocinador_clicado",
   shellAberto: "shell_aberto",
   shellComando: "shell_comando",

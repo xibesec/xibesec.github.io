@@ -18,7 +18,7 @@
     "chave": "ctf",
     "eyebrow": "Capture the flag",
     "eyebrowTom": "mint",
-    "cta": "Quero participar"
+    "cta": "Seguir no Instagram"
   },
   {
     "chave": "palestrantes",
@@ -34,7 +34,7 @@
     "chave": "palestrante",
     "eyebrow": "Palestrante confirmado",
     "eyebrowTom": "orange",
-    "cta": "Garantir ingresso",
+    "cta": "Seguir no Instagram",
     "nota": "A grade do dia está publicada na home. Os próximos anúncios saem no {link}.",
     "notaLinkLabel": "@xibesec no Instagram",
     "notaLinkUrl": "https://www.instagram.com/xibesec/"
@@ -44,7 +44,7 @@
     "eyebrow": "Edição anterior",
     "eyebrowTom": "dim",
     "titulo": "XibéSec {ano}",
-    "cta": "Garantir presença na 4ª edição",
+    "cta": "Seguir no Instagram",
     "nota": "Os números de público e os álbuns de fotos das edições anteriores seguem em curadoria. Entram aqui quando a organização confirmar."
   },
   {
@@ -94,11 +94,11 @@
   },
   {
     "chave": "fechamento",
-    "eyebrow": "19.09.2026 · Belém · Pará",
+    "eyebrow": "Próxima edição · 18 de setembro de 2027",
     "eyebrowTom": "mint",
-    "titulo": "Nos vemos em setembro.",
-    "lede": "Lote 4 aberto até 18 de setembro, com meia-entrada e ingresso social. Dez horas de programação, duas trilhas e o CTF inclusos no ingresso.",
-    "cta": "Comprar ingresso no Sympla"
+    "titulo": "Até a próxima edição.",
+    "lede": "A 4ª edição do XibéSec foi realizada em 19 de setembro de 2026, em Belém do Pará. A próxima acontece em 18 de setembro de 2027. Siga a organização no Instagram para acompanhar os próximos passos.",
+    "cta": "Seguir no Instagram"
   },
   {
     "chave": "patrocinio-kit",

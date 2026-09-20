@@ -57,9 +57,9 @@ import {
 
 // Rótulos de navegação: interface, não conteúdo editorial.
 const SKIP = "Pular para o conteúdo";
-// O rótulo promete o checkout: o botão da barra fixa vai ao Sympla. O do dock
-// diz "Ingressos" e é navegação — leva à tabela de preços.
-const NAV_CTA = "Comprar ingresso";
+// A venda encerrou com o fim do evento: o botão da barra fixa não promete mais
+// checkout, e leva ao Instagram, onde a organização anuncia a próxima edição.
+const NAV_CTA = "Seguir no Instagram";
 const DOCK_CTA = "Ingressos";
 const FATOS_ARIA = "O XibéSec 2026 em números";
 
@@ -83,9 +83,9 @@ export default function Page() {
     return { ...registro, notaLinkUrl: "" };
   };
 
-  // Destino de compra. O rótulo é que decide: quem promete checkout vai ao
-  // Sympla, quem convida a participar rola até a tabela de preços.
-  const checkout = externo(settings.ticketsUrl);
+  // A venda encerrou com o evento: todo CTA que antes prometia checkout agora
+  // leva ao Instagram, de onde sai o anúncio da próxima edição.
+  const instagram = externo(site.social.instagram);
   const compra = alvoCompra(settings);
 
   const hero = getHero();
@@ -115,7 +115,7 @@ export default function Page() {
     organizationWithSocial,
     eventSchema({
       settings,
-      ingressos,
+      ingressos: sections.ingressos ? ingressos : [],
       agenda: sections.agenda ? agenda : [],
       patrocinadores: sections.patrocinio ? getPatrocinadores() : [],
       // Quem apresenta é publicado em `/palestrantes`, e não pela vitrine da
@@ -133,7 +133,12 @@ export default function Page() {
       <NavBar
         items={itensDoMenu(navegacao)}
         action={
-          <BotaoMedido medirComo={EVENTOS.ingressoClicado} local="navbar" size="sm" {...checkout}>
+          <BotaoMedido
+            medirComo={EVENTOS.redeSocialClicada}
+            local="navbar"
+            size="sm"
+            {...instagram}
+          >
             {NAV_CTA}
           </BotaoMedido>
         }
@@ -235,7 +240,7 @@ export default function Page() {
 
         {sections.local ? <LocalSection settings={settings} secao={secao("local")} /> : null}
 
-        <Fechamento settings={settings} secao={secao("fechamento")} />
+        <Fechamento secao={secao("fechamento")} />
       </main>
 
       <SiteFooter settings={settings} equipe={equipe} shellFs={buildShellFs()} />

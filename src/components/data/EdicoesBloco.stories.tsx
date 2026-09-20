@@ -13,6 +13,7 @@ const meta = {
       { ano: 2025, tema: "Terceira edição", href: "/edicao/2025/" },
     ],
     atual: { year: 2026, label: "Quarta edição", detail: "19 de setembro", current: true },
+    proxima: { year: 2027, label: "Quinta edição", detail: "Em breve" },
     edicoesLabel: "Edições",
     registroPendente: "registro em curadoria",
     paginaLabel: "Ver a",
