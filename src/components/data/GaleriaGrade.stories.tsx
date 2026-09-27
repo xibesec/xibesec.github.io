@@ -21,7 +21,7 @@ const AMOSTRA: Array<[string, number, number]> = [
 const itens: GaleriaItem[] = AMOSTRA.map(([id, largura, altura], i) => {
   const foto: Foto = {
     slug: id,
-    arquivo: `/images/galeria/2026/${id}.webp`,
+    arquivo: `/images/galeria/2026/${id}.jpg`,
     miniatura: `/images/galeria/2026/miniaturas/${id}.webp`,
     largura,
     altura,

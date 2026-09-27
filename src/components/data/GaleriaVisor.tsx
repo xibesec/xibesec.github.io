@@ -179,7 +179,7 @@ export function GaleriaVisor({ children, rotulos, className }: GaleriaVisorProps
               <div className="flex items-center gap-5">
                 <a
                   href={aberta.src}
-                  download={`${aberta.slug}.webp`}
+                  download={aberta.src.split("/").pop()}
                   className="text-cream-2 hover:text-mint focus-visible:text-mint ease-brand font-mono text-[12px] tracking-[0.16em] uppercase transition-colors duration-250"
                 >
                   {rotulos.baixar}

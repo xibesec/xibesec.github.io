@@ -517,7 +517,7 @@ function blocoGaleria(): string {
       ["Crédito", site.siteShortName],
       [
         "Arquivos",
-        "WebP em até 2048 px no lado maior, com crédito e endereço do site gravados em EXIF e XMP",
+        "JPEG em até 2048 px no lado maior, com crédito e endereço do site gravados em EXIF e XMP",
       ],
     ]),
     "### Fotos por hora",

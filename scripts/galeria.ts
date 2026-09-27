@@ -4,13 +4,13 @@
  *   yarn galeria <pasta> [<pasta> ...] [--forcar]
  *
  * Lê JPEG e CR3 (inclusive CR3 com extensão .jpg, como sai do Google Drive),
- * descarta duplicatas, escreve a foto ampliada e a miniatura em WebP sob
+ * descarta duplicatas, escreve a foto ampliada em JPEG e a miniatura em WebP sob
  * `public/images/galeria/<ano>/` e regrava `contents/galeria/index.json`.
  *
  * Rodar de novo com mais pastas é seguro: o nome de cada arquivo sai do horário
  * e do conteúdo da foto, e não da posição na lista, então endereço publicado não
  * muda. `alt`, `destaque` e `capa` escritos à mão no JSON são preservados. Sem
- * `--forcar`, WebP que já existe não é recodificado.
+ * `--forcar`, arquivo que já existe não é recodificado.
  */
 
 import { createHash } from "node:crypto";
@@ -422,33 +422,35 @@ async function main() {
       : "";
     const { exif, xmp } = metadados(foto, capturadaEm, ano);
 
-    const destino = join(saida, `${slug}.webp`);
+    // A ampliada é a que se baixa, e vai em JPEG: WebP ainda é recusado no
+    // upload de boa parte das redes. Com mozjpeg ela sai do mesmo peso do WebP.
+    // A miniatura ninguém baixa, e segue no formato mais leve.
+    const destino = join(saida, `${slug}.jpg`);
     const destinoMini = join(saidaMini, `${slug}.webp`);
 
     // Os pixels passam crus de um sharp para outro porque o `withExif` herda a
     // IFD1 do original: no iPhone são 7 KB de miniatura JPEG dentro de cada foto.
-    const escrever = async (img: Sharp, arquivo: string, quality: number) => {
+    const escrever = async (img: Sharp, arquivo: string, formato: (saida: Sharp) => Sharp) => {
       const { data, info } = await img.raw().toBuffer({ resolveWithObject: true });
       const { width, height, channels } = info;
-      return sharp(data, { raw: { width, height, channels } })
+      const saida = sharp(data, { raw: { width, height, channels } })
         .withIccProfile("srgb")
         .withExif(exif)
-        .withXmp(xmp)
-        .webp({ quality, effort: 6, smartSubsample: true })
-        .toFile(arquivo);
+        .withXmp(xmp);
+      return formato(saida).toFile(arquivo);
     };
 
     if (forcar || !existsSync(destino))
       await escrever(
         orientada(foto).resize(AMPLIADA, AMPLIADA, { fit: "inside", withoutEnlargement: true }),
         destino,
-        82,
+        (img) => img.jpeg({ quality: 82, mozjpeg: true }),
       );
     if (forcar || !existsSync(destinoMini))
       await escrever(
         orientada(foto).resize({ height: MINIATURA_ALTURA, withoutEnlargement: true }),
         destinoMini,
-        74,
+        (img) => img.webp({ quality: 74, effort: 6, smartSubsample: true }),
       );
 
     const meta = await sharp(destino).metadata();
@@ -457,7 +459,7 @@ async function main() {
 
     return {
       id: slug,
-      arquivo: `${publico}/${slug}.webp`,
+      arquivo: `${publico}/${slug}.jpg`,
       miniatura: `${publico}/miniaturas/${slug}.webp`,
       largura: meta.width ?? 0,
       altura: meta.height ?? 0,
@@ -470,10 +472,15 @@ async function main() {
   });
 
   // Foto que saiu da seleção não deixa arquivo órfão publicado.
-  const vivos = new Set(fotos.map((foto) => `${foto.id}.webp`));
-  for (const pasta of [saida, saidaMini])
+  // A prévia de link mora na mesma pasta e é regravada logo abaixo.
+  const vivas = new Set([...fotos.map((foto) => `${foto.id}.jpg`), "og.jpg"]);
+  const vivasMini = new Set(fotos.map((foto) => `${foto.id}.webp`));
+  for (const [pasta, vivos] of [
+    [saida, vivas],
+    [saidaMini, vivasMini],
+  ] as const)
     for (const nome of readdirSync(pasta))
-      if (extname(nome) === ".webp" && !vivos.has(nome)) rmSync(join(pasta, nome));
+      if ([".jpg", ".webp"].includes(extname(nome)) && !vivos.has(nome)) rmSync(join(pasta, nome));
 
   mkdirSync(join(RAIZ, "contents/galeria"), { recursive: true });
   writeFileSync(CONTEUDO, `${JSON.stringify(fotos, null, 2)}\n`);
@@ -484,6 +491,9 @@ async function main() {
   if (capa) {
     await sharp(join(RAIZ, "public", capa.arquivo))
       .resize(site.ogImageWidth, site.ogImageHeight, { fit: "cover", position: "attention" })
+      // Herda o crédito da capa, que já sai limpo do passo acima.
+      .keepExif()
+      .keepXmp()
       .jpeg({ quality: 82, mozjpeg: true })
       .toFile(join(saida, "og.jpg"));
   }

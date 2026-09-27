@@ -184,7 +184,7 @@ O `open <seção>` do shell agora cai na home quando a âncora não existe na p�
 
 ### A galeria em `/galeria`
 
-As fotos da edição de 2026, contadas pelas horas do dia. `contents/galeria/index.json` é **escrito pelo `yarn galeria`**, não à mão: o script lê as pastas entregues pela organização e grava os WebP em `public/images/galeria/<ano>/`.
+As fotos da edição de 2026, contadas pelas horas do dia. `contents/galeria/index.json` é **escrito pelo `yarn galeria`**, não à mão: o script lê as pastas entregues pela organização e grava as fotos em `public/images/galeria/<ano>/`: a ampliada em JPEG, que é a que se baixa e a que as redes aceitam no upload, e a miniatura em WebP. Com mozjpeg o JPEG sai do mesmo peso que o WebP teria.
 
 ```bash
 yarn galeria <pasta> [<pasta> ...] [--forcar]
@@ -196,7 +196,7 @@ O que o script faz, e por quê:
 - **Descarta duplicata** por SHA-1 (cópia exata), por hash perceptual sem data (reenvio de WhatsApp, fica a de maior resolução) e por rajada, com distância até 60 bits e até 15 segundos entre as duas (fica a mais nítida). Os limites saíram de conferir os pares no olho: acima deles aparecem fotos distintas de uma mesma cena.
 - **Recupera o horário de foto reeditada** pela numeração da câmera: exportação feita no dia seguinte perde a data original, e `IMG_8687` fica entre `IMG_8686` e `IMG_8688`.
 - **Grava crédito e site no arquivo**, em EXIF (ASCII, como manda o padrão) e XMP (com acento). O EXIF parte do zero: GPS, modelo e número de série da câmera não saem.
-- **Nome estável**: `xibesec-2026-<hhmmss>-<sha>` não muda quando entra foto nova, e endereço publicado não quebra. `alt`, `destaque` e `capa` escritos no JSON são preservados; sem `--forcar`, WebP que já existe não é recodificado.
+- **Nome estável**: `xibesec-2026-<hhmmss>-<sha>` não muda quando entra foto nova, e endereço publicado não quebra. `alt`, `destaque` e `capa` escritos no JSON são preservados; sem `--forcar`, arquivo que já existe não é recodificado.
 - `IGNORAR`, no topo do script, lista por SHA-1 o que veio no pacote e não é foto do evento.
 - **Foto sem horário fica de fora.** A galeria é contada pelas horas do dia, e as que chegaram assim eram reenvios de WhatsApp em baixa resolução: a organização decidiu não publicar.
 
