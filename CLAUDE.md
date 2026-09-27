@@ -182,6 +182,35 @@ A rota tem documento próprio em `/docs/terminal.md`, e é de lá que sai també
 
 O `open <seção>` do shell agora cai na home quando a âncora não existe na página em que ele está — vale para o rodapé de toda rota interna, onde antes o comando respondia "abrindo" e não saía do lugar.
 
+### A galeria em `/galeria`
+
+As fotos da edição de 2026, contadas pelas horas do dia. `contents/galeria/index.json` é **escrito pelo `yarn galeria`**, não à mão: o script lê as pastas entregues pela organização e grava os WebP em `public/images/galeria/<ano>/`.
+
+```bash
+yarn galeria <pasta> [<pasta> ...] [--forcar]
+```
+
+O que o script faz, e por quê:
+
+- **Lê CR3 com extensão `.jpg`.** É como o pacote do Google Drive entrega o RAW da Canon. Do CR3 sai o JPEG de resolução total que a câmera já revelou, não uma revelação do RAW.
+- **Descarta duplicata** por SHA-1 (cópia exata), por hash perceptual sem data (reenvio de WhatsApp, fica a de maior resolução) e por rajada, com distância até 60 bits e até 15 segundos entre as duas (fica a mais nítida). Os limites saíram de conferir os pares no olho: acima deles aparecem fotos distintas de uma mesma cena.
+- **Recupera o horário de foto reeditada** pela numeração da câmera: exportação feita no dia seguinte perde a data original, e `IMG_8687` fica entre `IMG_8686` e `IMG_8688`.
+- **Grava crédito e site no arquivo**, em EXIF (ASCII, como manda o padrão) e XMP (com acento). O EXIF parte do zero: GPS, modelo e número de série da câmera não saem.
+- **Nome estável**: `xibesec-2026-<hhmmss>-<sha>` não muda quando entra foto nova, e endereço publicado não quebra. `alt`, `destaque` e `capa` escritos no JSON são preservados; sem `--forcar`, WebP que já existe não é recodificado.
+- `IGNORAR`, no topo do script, lista por SHA-1 o que veio no pacote e não é foto do evento.
+- **Foto sem horário fica de fora.** A galeria é contada pelas horas do dia, e as que chegaram assim eram reenvios de WhatsApp em baixa resolução: a organização decidiu não publicar.
+
+Seis decisões do lado do site:
+
+- **O campo é `id`, não `slug`.** O nextjs-studio indexa item de lista pelo campo `slug`, e o watcher do dev, ao recarregar o arquivo, remove só as entradas nomeadas pelo arquivo: cada rodada do script somaria a lista nova à antiga até reiniciar o `yarn dev`. O domínio continua chamando de `slug`, e a tradução mora em `getFotos()`.
+- **A hora do fim do evento não abre grupo.** `fotosPorHora()` recebe `eventEndDate` e junta a foto das 19h00 ao grupo das 18h: é a mesma cena do encerramento, e sozinha ela seria um grupo de uma foto. O visor continua mostrando o horário real.
+- **Nenhum texto cita o total de fotos.** O número muda a cada rodada do script, e a copy de `contents/secoes` não usa token de contagem; só o `numberOfItems` do JSON-LD o declara.
+- **A grade é justificada em CSS puro** (`GaleriaGrade`): proporção no `flex-grow`, teto de 1,35× na altura da fileira e `min-w-0`, sem o qual o flex transfere o teto pela proporção e trava uma largura mínima em cada foto.
+- **O estado do visor é o hash da URL** (`GaleriaVisor`, em `<dialog>` nativo). A faixa da home leva a `/galeria/#<id>` sem JavaScript próprio, o link de uma foto pode ser compartilhado e o voltar do celular fecha o visor. Sem JavaScript, cada miniatura é link para o arquivo ampliado. Trocar o hash devolve o foco ao `<body>`, e o visor o traz de volta ao diálogo a cada troca.
+- **A rota nasce do conteúdo**, como a de palestrantes: `publicaSe` testa se há foto. A faixa da home e o botão "Ver as fotos" do hero seguem a rota, e o item "Fotos" do menu some com ela.
+
+O JSON-LD é `ImageGallery` com um `ImageObject` enxuto por foto. Crédito e direitos ficam no nível da galeria, porque já estão no XMP de cada arquivo, e repeti-los em centenas de itens somava 100 KB ao HTML. A prévia de link é `og.jpg`, recortada da foto marcada como `capa`.
+
 ## Git
 
 **Nunca trocar de branch sem pedido explícito.** `git checkout`, `git switch` e qualquer coisa que mova o `HEAD` só acontecem quando a pessoa pede, com essas palavras. Trocar de branch por conta própria — para "organizar", para deixar o trabalho no lugar certo, para o commit sair da branch que parece a correta — muda o chão embaixo de quem está trabalhando: o editor recarrega, o servidor de dev perde o `dist/`, e mudança não commitada vai junto para uma branch que não era a esperada.
@@ -237,7 +266,7 @@ src/components/
 ├── cards/        TicketCard, SpeakerRow (+ SpeakerList), CallCard, EditionCard, SponsorSlot,
 │                 LinkButton
 ├── data/         Countdown, FactStrip, AgendaGrade (+ AgendaFaixa, AgendaCell),
-│                 TimelineList, Terminal, IncludedList
+│                 TimelineList, Terminal, IncludedList, GaleriaGrade, GaleriaVisor
 └── layout/       NavBar, Brand, Footer, Dock, BioHeader (+ SocialRow)
 ```
 

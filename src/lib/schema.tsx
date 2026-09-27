@@ -1,6 +1,7 @@
 // JSON-LD (schema.org). Gerado a partir de `site.ts` + `contents/` — nunca
 // escrito como string fixa, senão volta a divergir do conteúdo publicado.
 import {
+  GALERIA_PATH,
   PALESTRANTES_PATH,
   absoluteUrl,
   canonicalUrl,
@@ -14,6 +15,7 @@ import type {
   AgendaItem,
   Arquetipo,
   Edicao,
+  Foto,
   Ingresso,
   Materia,
   Palestrante,
@@ -463,6 +465,55 @@ export function edicaoSchema({
     isPartOf: { "@id": WEBSITE_ID },
     publisher: { "@id": ORG_ID },
     ...(evento ? { about: evento, mainEntity: { "@id": `${url}#event` } } : {}),
+  };
+}
+
+/**
+ * A galeria da edição. Crédito e direitos ficam na galeria e não se repetem em
+ * cada `ImageObject`: já estão gravados em XMP dentro de cada arquivo, que é de
+ * onde o Google Imagens lê a linha "Crédito", e repetidos aqui seriam 100 KB de
+ * HTML para dizer a mesma frase centenas de vezes.
+ *
+ * Quem assina é a marca do evento, como no próprio arquivo, e não a empresa
+ * organizadora do `#organization`.
+ */
+export function galeriaSchema({
+  titulo,
+  descricao,
+  fotos,
+}: {
+  titulo: string;
+  descricao: string;
+  fotos: Foto[];
+}) {
+  const url = canonicalUrl(GALERIA_PATH);
+  const autor = { "@type": "Organization", name: site.siteShortName, url: HOME };
+  const ano = fotos.find((foto) => foto.capturadaEm)?.capturadaEm.slice(0, 4);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    "@id": `${url}#webpage`,
+    url,
+    name: titulo,
+    description: descricao,
+    inLanguage: site.locale,
+    isPartOf: { "@id": WEBSITE_ID },
+    about: { "@id": EVENT_ID },
+    publisher: { "@id": ORG_ID },
+    creator: autor,
+    copyrightHolder: autor,
+    ...(ano ? { copyrightYear: Number(ano) } : {}),
+    creditText: site.siteShortName,
+    numberOfItems: fotos.length,
+    associatedMedia: fotos.map((foto) => ({
+      "@type": "ImageObject",
+      contentUrl: absoluteUrl(foto.arquivo),
+      width: foto.largura,
+      height: foto.altura,
+      ...(foto.capturadaEm ? { dateCreated: foto.capturadaEm } : {}),
+      ...(foto.alt ? { caption: foto.alt } : {}),
+    })),
   };
 }
 

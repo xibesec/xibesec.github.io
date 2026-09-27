@@ -11,6 +11,7 @@ import { Dock } from "@/components/layout/Dock";
 
 import { Hero } from "@/components/sections/Hero";
 import { CountdownBar } from "@/components/sections/CountdownBar";
+import { FotosSection } from "@/components/sections/FotosSection";
 import { EventoSection } from "@/components/sections/EventoSection";
 import { ProgramacaoSection } from "@/components/sections/ProgramacaoSection";
 import { CtfSection } from "@/components/sections/CtfSection";
@@ -25,10 +26,11 @@ import { SiteFooter } from "@/components/sections/SiteFooter";
 
 import { SchemaMarkup, eventSchema, organizationWithSocial, websiteSchema } from "@/lib/schema";
 import { buildShellFs } from "@/lib/shell-fs";
-import { itensDoMenu, paginasDeEdicoes } from "@/lib/rotas";
+import { itensDoMenu, paginasDeEdicoes, rotaPublicada } from "@/lib/rotas";
+import { altDaFoto } from "@/lib/galeria";
 import { alvoCompra, ancoraViva, externo } from "@/lib/links";
 import { EVENTOS } from "@/lib/analytics";
-import { pageMetadata, site } from "@/lib/site";
+import { GALERIA_PATH, fotoPath, pageMetadata, site } from "@/lib/site";
 import {
   SECAO_VAZIA,
   destaqueDaImprensa,
@@ -42,6 +44,7 @@ import {
   getEdicoes,
   getEquipe,
   getFatos,
+  getFotos,
   getHero,
   getImprensa,
   getIngressos,
@@ -103,6 +106,8 @@ export default function Page() {
   const imprensa = getImprensa();
   const gruposPatrocinio = getPatrocinadoresPorCota();
   const equipe = getEquipe();
+  const fotos = getFotos();
+  const galeria = rotaPublicada(GALERIA_PATH) ? `${GALERIA_PATH}/` : undefined;
 
   const cheapest = lowestPrice(ingressos);
   const lote = ingressos[0];
@@ -145,12 +150,7 @@ export default function Page() {
       />
 
       <main id="conteudo" className="flex-1">
-        <Hero
-          hero={hero}
-          settings={settings}
-          ctaPrimario={compra}
-          ctaSecundarioHref={sections.agenda ? "#programacao" : undefined}
-        />
+        <Hero hero={hero} settings={settings} ctaPrimario={compra} ctaSecundarioHref={galeria} />
 
         {sections.ingressos ? <CountdownBar settings={settings} ingressos={ingressos} /> : null}
 
@@ -158,6 +158,18 @@ export default function Page() {
           <FactStrip
             facts={fatos.map((fato) => ({ value: fato.valor, label: fato.label }))}
             aria-label={FATOS_ARIA}
+          />
+        ) : null}
+
+        {/* Logo abaixo dos números: com o evento encerrado, a prova de que ele
+            aconteceu vem antes da explicação do que ele é. */}
+        {galeria ? (
+          <FotosSection
+            secao={secao("galeria-home")}
+            itens={fotos
+              .filter((foto) => foto.destaque)
+              .map((foto) => ({ foto, alt: altDaFoto(foto), href: fotoPath(foto.slug) }))}
+            href={galeria}
           />
         ) : null}
 

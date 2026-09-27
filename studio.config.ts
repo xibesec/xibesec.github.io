@@ -561,6 +561,50 @@ const config: StudioConfig = {
       },
     },
 
+    // ── Galeria de fotos da edição ───────────────────────────────────────
+    // Escrita por `yarn galeria`, que gera os arquivos e as dimensões. À mão só
+    // se mexe em `alt`, `destaque` e `capa`, que o script preserva ao rodar de novo.
+    galeria: {
+      schema: {
+        collection: "galeria",
+        label: "Galeria de fotos",
+        fields: [
+          // `id` e não `slug`: item de lista com `slug` confunde o watcher do studio.
+          { name: "id", type: "text", required: true, label: "Identificador" },
+          { name: "arquivo", type: "text", required: true, label: "Foto ampliada" },
+          { name: "miniatura", type: "text", required: true, label: "Miniatura" },
+          { name: "largura", type: "number", format: "integer", label: "Largura (px)" },
+          { name: "altura", type: "number", format: "integer", label: "Altura (px)" },
+          {
+            name: "capturadaEm",
+            type: "text",
+            label: "Horário da foto (ISO 8601 com fuso)",
+            description:
+              "Vazio quando o arquivo não trouxe horário, como foto reenviada por WhatsApp.",
+          },
+          {
+            name: "alt",
+            type: "text",
+            label: "Descrição da foto",
+            description: "O que se vê na imagem, para leitor de tela e buscador.",
+          },
+          {
+            name: "destaque",
+            type: "boolean",
+            label: "Destaque na home",
+            description: "Entra na faixa de fotos da página inicial.",
+          },
+          {
+            name: "capa",
+            type: "boolean",
+            label: "Capa da galeria",
+            description: "A foto da prévia quando o link da galeria é compartilhado. Uma só.",
+          },
+          { name: "order", type: "number", format: "integer", label: "Ordem" },
+        ],
+      },
+    },
+
     // ── CTF (singleton) ──────────────────────────────────────────────────
     ctf: {
       schema: {

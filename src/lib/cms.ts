@@ -12,6 +12,7 @@ import type {
   Duvida,
   Edicao,
   Fato,
+  Foto,
   Hero,
   IconeBeneficio,
   Ingresso,
@@ -362,6 +363,31 @@ export function getEdicoes(): Edicao[] {
 /** A edição de um ano, para a rota `/2023`. */
 export function getEdicao(ano: number): Edicao | undefined {
   return getEdicoes().find((edicao) => edicao.ano === ano);
+}
+
+/**
+ * Fotos da edição, na ordem do dia. Registro sem arquivo fica de fora: a grade
+ * reserva o espaço pela proporção, e sem dimensão a fileira não fecha.
+ *
+ * No conteúdo o campo é `id`: item de lista com `slug` faz o watcher do studio
+ * somar a lista nova à antiga a cada vez que o `yarn galeria` regrava o arquivo.
+ */
+export function getFotos(): Foto[] {
+  return rows("galeria")
+    .map((row) => ({
+      slug: str(row, "id"),
+      arquivo: str(row, "arquivo"),
+      miniatura: str(row, "miniatura"),
+      largura: num(row, "largura"),
+      altura: num(row, "altura"),
+      capturadaEm: str(row, "capturadaEm"),
+      alt: str(row, "alt"),
+      destaque: bool(row, "destaque"),
+      capa: bool(row, "capa"),
+      order: num(row, "order"),
+    }))
+    .filter((foto) => foto.slug && foto.arquivo && foto.largura > 0 && foto.altura > 0)
+    .sort(byOrder);
 }
 
 export function getCotas(): Cota[] {

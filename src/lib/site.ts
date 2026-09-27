@@ -97,6 +97,17 @@ export function edicaoPath(ano: number): string {
   return `${EDICOES_PATH}/${ano}`;
 }
 
+/** A galeria de fotos da edição. */
+export const GALERIA_PATH = "/galeria";
+
+/**
+ * Endereço de uma foto dentro da galeria. A âncora é o que o visor lê ao abrir a
+ * página: a faixa da home leva direto à foto clicada, sem JavaScript próprio.
+ */
+export function fotoPath(slug: string): string {
+  return `${GALERIA_PATH}/#${slug}`;
+}
+
 /** Caminho de asset servido de `public/`, com `basePath` aplicado. */
 export function asset(path: string): string {
   return `${basePath}${path.startsWith("/") ? path : `/${path}`}`;
@@ -128,12 +139,15 @@ export function pageMetadata({
   description,
   path,
   image,
+  imageAlt,
   markdown,
 }: {
   title: string;
   description: string;
   path: string;
+  /** JPEG em 1200×630, como a OG padrão: as dimensões declaradas são as dela. */
   image?: string;
+  imageAlt?: string;
   markdown?: string | null;
 }) {
   const url = absoluteUrl(path);
@@ -164,7 +178,7 @@ export function pageMetadata({
           type: site.ogImageType,
           width: site.ogImageWidth,
           height: site.ogImageHeight,
-          alt: site.ogImageAlt,
+          alt: image && imageAlt ? imageAlt : site.ogImageAlt,
         },
       ],
     },

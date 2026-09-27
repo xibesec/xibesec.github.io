@@ -1,7 +1,7 @@
 import "server-only";
 import type { Metadata } from "next";
 import { rotaPublicada, rotasDeEdicoes, rotasPublicadas } from "./rotas";
-import { TRILHA_LABEL } from "./content-types";
+import { TRILHA_LABEL, fotosPorHora } from "./content-types";
 import type { Edicao, Materia, Palestrante } from "./content-types";
 import {
   formatDate,
@@ -16,6 +16,7 @@ import {
   getEquipe,
   getFaq,
   getFatos,
+  getFotos,
   getHero,
   getImprensa,
   getIngressos,
@@ -32,6 +33,7 @@ import {
 } from "./cms";
 import { buildShellFs } from "./shell-fs";
 import {
+  GALERIA_PATH,
   PALESTRANTES_PATH,
   absoluteUrl,
   canonicalUrl,
@@ -492,6 +494,54 @@ function blocoTerminal(): string {
 }
 
 /**
+ * A galeria em texto: quantas fotos, de que horas, com que crédito, e os
+ * endereços das que a organização escolheu como destaque. Listar as centenas de
+ * arquivos não diria nada que a contagem por hora não diga, e incharia o
+ * `llms-full.txt`, que carrega este corpo inteiro.
+ */
+function blocoGaleria(): string {
+  const fotos = getFotos();
+  if (fotos.length === 0) return "";
+
+  const secao = getSecoes()["galeria"];
+  const settings = getSettings();
+  const destaques = fotos.filter((foto) => foto.destaque);
+
+  return bloco(
+    `## ${secao?.titulo || "Galeria"}`,
+    secao?.lede,
+    `Disponível em ${link(GALERIA_PATH, canonicalUrl(GALERIA_PATH))}.`,
+    fichaTecnica([
+      ["Data", settings.eventDisplayDate],
+      ["Local", `${settings.venueName}, ${site.city}, ${site.regionName}`],
+      ["Crédito", site.siteShortName],
+      [
+        "Arquivos",
+        "WebP em até 2048 px no lado maior, com crédito e endereço do site gravados em EXIF e XMP",
+      ],
+    ]),
+    "### Fotos por hora",
+    tabela(
+      ["Hora", "Fotos"],
+      fotosPorHora(fotos, settings.eventEndDate).map(({ hora, fotos: lista }) => [
+        hora === null ? "sem horário registrado" : `${String(hora).padStart(2, "0")}h`,
+        String(lista.length),
+      ]),
+    ),
+    destaques.length > 0 &&
+      bloco(
+        "### Destaques",
+        lista(
+          destaques.map((foto) =>
+            foto.alt ? `${foto.alt} ${absoluteUrl(foto.arquivo)}` : absoluteUrl(foto.arquivo),
+          ),
+        ),
+      ),
+    secao?.nota.replace("{link}", secao.notaLinkLabel),
+  );
+}
+
+/**
  * O mapa do site em Markdown. Cita rotas e arquivos por caminho, nunca pelo
  * documento montado: é o único bloco que fala de todos os outros.
  */
@@ -648,6 +698,15 @@ const DOCS: Doc[] = [
     secao: null,
     rota: "/terminal",
     corpo: blocoTerminal,
+  },
+  {
+    slug: "galeria",
+    titulo: "Galeria de fotos",
+    resumo: "As fotos da edição de 2026, contadas por hora do dia, com crédito e destaques.",
+    // A rota se publica pelo conteúdo, e o corpo vazio tira o documento do ar.
+    secao: null,
+    rota: GALERIA_PATH,
+    corpo: blocoGaleria,
   },
   {
     slug: "sitemap",
@@ -931,12 +990,23 @@ export function metadataDeRota({
   path,
   title,
   description,
+  image,
+  imageAlt,
 }: {
   path: string;
   title: string;
   description: string;
+  image?: string;
+  imageAlt?: string;
 }): Metadata {
-  const base = pageMetadata({ title, description, path, markdown: markdownDaRota(path) });
+  const base = pageMetadata({
+    title,
+    description,
+    path,
+    image,
+    imageAlt,
+    markdown: markdownDaRota(path),
+  });
   return rotaPublicada(path) ? base : { ...base, robots: { index: false, follow: false } };
 }
 
@@ -1122,6 +1192,14 @@ function perguntasCanonicas(): Array<[string, string]> {
     perguntas.push([
       "Quanto custa o ingresso do XibéSec 2026?",
       `Os ingressos do lote ${ingressos[0].lote} vão de ${barato} a ${caro}, com meia-entrada e ingresso social, parcelados em até ${Math.max(...ingressos.map((t) => t.parcelas))}x. As vendas seguem até ${formatDate(ingressos[0].validThrough)}, exclusivamente pelo Sympla: ${settings.ticketsUrl}`,
+    ]);
+  }
+
+  const fotos = getFotos();
+  if (fotos.length > 0) {
+    perguntas.push([
+      "Onde estão as fotos do XibéSec 2026?",
+      `A organização publicou as fotos da edição de ${settings.eventDisplayDate} em ${canonicalUrl(GALERIA_PATH)}, em ordem de horário. O crédito é do ${site.siteShortName}.`,
     ]);
   }
 

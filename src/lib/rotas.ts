@@ -1,8 +1,22 @@
 import "server-only";
-import { getEdicao, getEdicoes, getPalestrante, getPalestrantes, getSettings } from "./cms";
+import {
+  getEdicao,
+  getEdicoes,
+  getFotos,
+  getPalestrante,
+  getPalestrantes,
+  getSettings,
+} from "./cms";
 import { edicaoPublicavel } from "./content-types";
 import type { Edicao, NavItem, Palestrante, SectionKey } from "./content-types";
-import { EDICOES_PATH, PALESTRANTES_PATH, edicaoPath, palestrantePath, site } from "./site";
+import {
+  EDICOES_PATH,
+  GALERIA_PATH,
+  PALESTRANTES_PATH,
+  edicaoPath,
+  palestrantePath,
+  site,
+} from "./site";
 
 /**
  * Catálogo das rotas HTML do site. É a fonte única de `sitemap.xml`, da página
@@ -62,6 +76,17 @@ const ROTAS: Rota[] = [
     secao: "sobre",
     changeFrequency: "monthly",
     priority: 0.8,
+    rodape: false,
+  },
+  // Existe enquanto houver foto em `contents/galeria/`, sem seção da home que a
+  // governe: a faixa da página inicial é consequência da rota, não o contrário.
+  {
+    path: GALERIA_PATH,
+    rotulo: "Fotos",
+    secao: null,
+    publicaSe: () => getFotos().length > 0,
+    changeFrequency: "monthly",
+    priority: 0.7,
     rodape: false,
   },
   {

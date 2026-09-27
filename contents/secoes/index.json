@@ -5,6 +5,24 @@
     "eyebrowTom": "orange"
   },
   {
+    "chave": "galeria-home",
+    "eyebrow": "Como foi · 19.09.2026",
+    "eyebrowTom": "mint",
+    "titulo": "O dia do XibéSec 2026, em fotos.",
+    "lede": "As duas trilhas de palestras, os painéis, a premiação do encerramento e quem passou pelo Bristol Marambaia, em ordem de horário.",
+    "cta": "Ver todas as fotos"
+  },
+  {
+    "chave": "galeria",
+    "eyebrow": "Galeria · 19.09.2026",
+    "eyebrowTom": "mint",
+    "titulo": "O XibéSec 2026 em fotos.",
+    "lede": "Do credenciamento à foto coletiva do encerramento, em ordem de horário. Escolha uma hora do dia ou abra qualquer foto para ver ampliada e baixar.",
+    "nota": "Vai compartilhar alguma foto? Pedimos que marque o {link}.",
+    "notaLinkLabel": "@xibesec no Instagram",
+    "notaLinkUrl": "https://www.instagram.com/xibesec/"
+  },
+  {
     "chave": "programacao",
     "eyebrow": "Programação",
     "eyebrowTom": "orange",
