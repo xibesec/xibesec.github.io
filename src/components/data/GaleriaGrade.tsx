@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { asset } from "@/lib/site";
 import { cn } from "@/lib/utils";
-import { horarioDaFoto, type Foto } from "@/lib/content-types";
+import type { Foto } from "@/lib/content-types";
 
 export type GaleriaItem = {
   foto: Foto;
@@ -66,7 +66,6 @@ export function GaleriaGrade({
             <a
               href={href}
               data-foto={visor ? foto.slug : undefined}
-              data-horario={visor ? horarioDaFoto(foto) || undefined : undefined}
               className="group block focus-visible:outline-offset-[-3px]"
             >
               <Image

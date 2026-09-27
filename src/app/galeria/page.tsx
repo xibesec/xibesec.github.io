@@ -7,7 +7,7 @@ import { altDaFoto, capaDaGaleria, ogDaGaleria } from "@/lib/galeria";
 import { rotaPublicada } from "@/lib/rotas";
 import { galeriaSchema, generateBreadcrumbs } from "@/lib/schema";
 import { GALERIA_PATH, asset, canonicalUrl, site } from "@/lib/site";
-import { SECAO_VAZIA, fotosPorHora, getFotos, getSecoes, getSettings } from "@/lib/cms";
+import { SECAO_VAZIA, getFotos, getSecoes, getSettings } from "@/lib/cms";
 
 const HOME_LABEL = "Início";
 const TITULO = `Fotos do ${site.siteName}`;
@@ -37,10 +37,7 @@ export default function GaleriaPage() {
   const secao = getSecoes()["galeria"] ?? SECAO_VAZIA;
   const titulo = secao.titulo || TITULO;
 
-  const horas = fotosPorHora(fotos, getSettings().eventEndDate).map(({ hora, fotos: lista }) => ({
-    hora,
-    itens: lista.map((foto) => ({ foto, alt: altDaFoto(foto), href: asset(foto.arquivo) })),
-  }));
+  const itens = fotos.map((foto) => ({ foto, alt: altDaFoto(foto), href: asset(foto.arquivo) }));
 
   const schema = [
     galeriaSchema({ titulo, descricao: descricao(), fotos }),
@@ -52,7 +49,7 @@ export default function GaleriaPage() {
 
   return (
     <PaginaInterna schema={schema}>
-      <GaleriaSection secao={secao} horas={horas} />
+      <GaleriaSection secao={secao} itens={itens} />
     </PaginaInterna>
   );
 }

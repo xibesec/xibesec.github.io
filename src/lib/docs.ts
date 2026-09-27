@@ -1,7 +1,7 @@
 import "server-only";
 import type { Metadata } from "next";
 import { rotaPublicada, rotasDeEdicoes, rotasPublicadas } from "./rotas";
-import { TRILHA_LABEL, fotosPorHora } from "./content-types";
+import { TRILHA_LABEL } from "./content-types";
 import type { Edicao, Materia, Palestrante } from "./content-types";
 import {
   formatDate,
@@ -520,14 +520,6 @@ function blocoGaleria(): string {
         "JPEG em até 2048 px no lado maior, com crédito e endereço do site gravados em EXIF e XMP",
       ],
     ]),
-    "### Fotos por hora",
-    tabela(
-      ["Hora", "Fotos"],
-      fotosPorHora(fotos, settings.eventEndDate).map(({ hora, fotos: lista }) => [
-        hora === null ? "sem horário registrado" : `${String(hora).padStart(2, "0")}h`,
-        String(lista.length),
-      ]),
-    ),
     destaques.length > 0 &&
       bloco(
         "### Destaques",
@@ -702,7 +694,7 @@ const DOCS: Doc[] = [
   {
     slug: "galeria",
     titulo: "Galeria de fotos",
-    resumo: "As fotos da edição de 2026, contadas por hora do dia, com crédito e destaques.",
+    resumo: "As fotos da edição de 2026, com crédito e destaques.",
     // A rota se publica pelo conteúdo, e o corpo vazio tira o documento do ar.
     secao: null,
     rota: GALERIA_PATH,
@@ -1199,7 +1191,7 @@ function perguntasCanonicas(): Array<[string, string]> {
   if (fotos.length > 0) {
     perguntas.push([
       "Onde estão as fotos do XibéSec 2026?",
-      `A organização publicou as fotos da edição de ${settings.eventDisplayDate} em ${canonicalUrl(GALERIA_PATH)}, em ordem de horário. O crédito é do ${site.siteShortName}.`,
+      `A organização publicou as fotos da edição de ${settings.eventDisplayDate} em ${canonicalUrl(GALERIA_PATH)}. O crédito é do ${site.siteShortName}.`,
     ]);
   }
 

@@ -184,7 +184,7 @@ O `open <seção>` do shell agora cai na home quando a âncora não existe na p�
 
 ### A galeria em `/galeria`
 
-As fotos da edição de 2026, contadas pelas horas do dia. `contents/galeria/index.json` é **escrito pelo `yarn galeria`**, não à mão: o script lê as pastas entregues pela organização e grava as fotos em `public/images/galeria/<ano>/`: a ampliada em JPEG, que é a que se baixa e a que as redes aceitam no upload, e a miniatura em WebP. Com mozjpeg o JPEG sai do mesmo peso que o WebP teria.
+As fotos da edição de 2026, numa grade só, na ordem em que foram tiradas. `contents/galeria/index.json` é **escrito pelo `yarn galeria`**, não à mão: o script lê as pastas entregues pela organização e grava as fotos em `public/images/galeria/<ano>/`: a ampliada em JPEG, que é a que se baixa e a que as redes aceitam no upload, e a miniatura em WebP. Com mozjpeg o JPEG sai do mesmo peso que o WebP teria.
 
 ```bash
 yarn galeria <pasta> [<pasta> ...] [--forcar]
@@ -198,12 +198,12 @@ O que o script faz, e por quê:
 - **Grava crédito e site no arquivo**, em EXIF (ASCII, como manda o padrão) e XMP (com acento). O EXIF parte do zero: GPS, modelo e número de série da câmera não saem.
 - **Nome estável**: `xibesec-2026-<hhmmss>-<sha>` não muda quando entra foto nova, e endereço publicado não quebra. `alt`, `destaque` e `capa` escritos no JSON são preservados; sem `--forcar`, arquivo que já existe não é recodificado.
 - `IGNORAR`, no topo do script, lista por SHA-1 o que veio no pacote e não é foto do evento.
-- **Foto sem horário fica de fora.** A galeria é contada pelas horas do dia, e as que chegaram assim eram reenvios de WhatsApp em baixa resolução: a organização decidiu não publicar.
+- **Foto sem horário fica de fora.** A ordem da galeria é a da captura, e as que chegaram assim eram reenvios de WhatsApp em baixa resolução: a organização decidiu não publicar.
 
-Seis decisões do lado do site:
+Cinco decisões do lado do site:
 
 - **O campo é `id`, não `slug`.** O nextjs-studio indexa item de lista pelo campo `slug`, e o watcher do dev, ao recarregar o arquivo, remove só as entradas nomeadas pelo arquivo: cada rodada do script somaria a lista nova à antiga até reiniciar o `yarn dev`. O domínio continua chamando de `slug`, e a tradução mora em `getFotos()`.
-- **A hora do fim do evento não abre grupo.** `fotosPorHora()` recebe `eventEndDate` e junta a foto das 19h00 ao grupo das 18h: é a mesma cena do encerramento, e sozinha ela seria um grupo de uma foto. O visor continua mostrando o horário real.
+- **Nenhum horário na tela.** A página já foi dividida por hora do dia, com índice no topo e o horário no visor, e a organização pediu para tirar: a foto é do evento, não do minuto. O horário sobrevive só no `alt` de reserva (`altDaFoto()`), para quem não vê a foto.
 - **Nenhum texto cita o total de fotos.** O número muda a cada rodada do script, e a copy de `contents/secoes` não usa token de contagem; só o `numberOfItems` do JSON-LD o declara.
 - **A grade é justificada em CSS puro** (`GaleriaGrade`): proporção no `flex-grow`, teto de 1,35× na altura da fileira e `min-w-0`, sem o qual o flex transfere o teto pela proporção e trava uma largura mínima em cada foto.
 - **O estado do visor é o hash da URL** (`GaleriaVisor`, em `<dialog>` nativo). A faixa da home leva a `/galeria/#<id>` sem JavaScript próprio, o link de uma foto pode ser compartilhado e o voltar do celular fecha o visor. Sem JavaScript, cada miniatura é link para o arquivo ampliado. Trocar o hash devolve o foco ao `<body>`, e o visor o traz de volta ao diálogo a cada troca.
@@ -291,7 +291,7 @@ A home está composta e o build publica; ainda **não existem**:
 - `scripts/validate-content.ts` com Zod;
 - `app/programacao/[slug]`, a página de detalhe de cada atividade. Enquanto não existir, `AgendaCell` é renderizada **sem link para a atividade**: só o nome de quem palestra aponta para o perfil. Card que leva a 404 é pior que card sem link. Criando a página, devolver o `href` na seção e conferir sitemap e espelho em Markdown. A rota de palestrante já existe, e é o modelo a seguir;
 - números de público e álbuns de fotos das edições anteriores: `publico` e `albumUrl` seguem vazios em `contents/edicoes/`, e a ficha de cada edição declara a pendência;
-- logos da imprensa, de Chapéu de Palha e de Radio Point: `public/images/imprensa/` está vazio, e essas duas apoiadoras saem com o nome escrito na moldura. Faltam também os endereços de AWS User Group Belém, DevsNorte, GDG Belém, Norte4j, Radio Point, TI Pará e TV Liberal, que por isso renderizam sem link;
+- logos da imprensa e de Chapéu de Palha: `public/images/imprensa/` está vazio, e essa apoiadora sai com o nome escrito na moldura. Faltam também os endereços de AWS User Group Belém, DevsNorte, GDG Belém, Norte4j, Radio Point, TI Pará e TV Liberal, que por isso renderizam sem link;
 - perfis de rede dos palestrantes: `linkedin`, `github`, `twitter` e `site` estão vazios no frontmatter, e sem eles o `Person` do JSON-LD sai sem `sameAs`, que é o campo que amarra a pessoa à identidade dela fora do site.
 
 As demais coleções em `contents/` existem com o schema declarado e **conteúdo vazio, de propósito**. Não preencher sem pedido explícito.

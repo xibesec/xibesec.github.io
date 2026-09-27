@@ -250,47 +250,13 @@ export type Foto = {
   order: number;
 };
 
-export type HoraDaGaleria = {
-  /** Hora cheia no fuso do evento, ou `null` para as fotos sem horário. */
-  hora: number | null;
-  fotos: Foto[];
-};
-
 /**
- * A hora lida do próprio texto ISO, não por `Date`: o build roda em UTC no CI e
- * converter mudaria a hora de todas as fotos. O offset gravado já é o do evento.
+ * "14h17", lido do próprio texto ISO, não por `Date`: o build roda em UTC no CI
+ * e converter mudaria o horário de todas as fotos. O offset gravado já é o do evento.
  */
-export function horaDaFoto(foto: Foto): number | null {
-  const hora = /T(\d{2}):/.exec(foto.capturadaEm);
-  return hora ? Number(hora[1]) : null;
-}
-
-/** "14h17", lido do texto ISO pelo mesmo motivo de `horaDaFoto`. */
 export function horarioDaFoto(foto: Foto): string {
   const hora = /T(\d{2}):(\d{2})/.exec(foto.capturadaEm);
   return hora ? `${hora[1]}h${hora[2]}` : "";
-}
-
-/**
- * O dia contado em horas, que é como se lembra de um evento: "a foto das duas".
- *
- * A hora em que o evento termina não abre grupo próprio: o encerramento vai até
- * ela, e a foto tirada no minuto do fim é da mesma cena da hora anterior. Sem
- * isso, a última foto do dia ficaria sozinha num grupo de uma foto só.
- */
-export function fotosPorHora(fotos: Foto[], fimDoEvento = ""): HoraDaGaleria[] {
-  const fim = /T(\d{2}):00/.exec(fimDoEvento);
-  const ultimaHora = fim ? Number(fim[1]) - 1 : null;
-
-  const grupos = new Map<number | null, Foto[]>();
-  for (const foto of fotos) {
-    const lida = horaDaFoto(foto);
-    const hora = lida !== null && ultimaHora !== null && lida > ultimaHora ? ultimaHora : lida;
-    grupos.set(hora, [...(grupos.get(hora) ?? []), foto]);
-  }
-  return [...grupos.entries()]
-    .sort(([a], [b]) => (a === null ? 1 : b === null ? -1 : a - b))
-    .map(([hora, lista]) => ({ hora, fotos: lista }));
 }
 
 export type TerminalKind = "cmd" | "ok" | "warn" | "plain";

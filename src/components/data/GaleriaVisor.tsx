@@ -20,7 +20,6 @@ type Aberta = {
   slug: string;
   src: string;
   alt: string;
-  horario: string;
   posicao: number;
   total: number;
   anterior?: string;
@@ -56,7 +55,6 @@ function fotoAberta(slug: string): Aberta | null {
     slug,
     src: link.href,
     alt: link.querySelector("img")?.alt ?? "",
-    horario: link.dataset.horario ?? "",
     posicao: i + 1,
     total: links.length,
     anterior: links[i - 1]?.dataset.foto,
@@ -171,9 +169,6 @@ export function GaleriaVisor({ children, rotulos, className }: GaleriaVisorProps
                 <span className="text-mint">
                   {aberta.posicao} / {aberta.total}
                 </span>
-                {aberta.horario ? (
-                  <span className="text-cream-3 ml-4">{aberta.horario}</span>
-                ) : null}
               </p>
 
               <div className="flex items-center gap-5">
